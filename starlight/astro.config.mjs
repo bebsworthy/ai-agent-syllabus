@@ -59,6 +59,7 @@ export default defineConfig({
             { label: "M14 — What's Next", slug: 'tier-3/m14-whats-next' },
           ],
         },
+        { label: 'Changelog', slug: 'changelog' },
       ],
     }),
   ],
