@@ -3,7 +3,6 @@ title: "M14: What's Next — Evaluating the Evolving Landscape — Workshop Guid
 description: "Evaluate a new AI tool using the course frameworks and build your team's scoring scorecard."
 ---
 
-# M14: What's Next — Evaluating the Evolving Landscape — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M14 study guide read beforehand**
 

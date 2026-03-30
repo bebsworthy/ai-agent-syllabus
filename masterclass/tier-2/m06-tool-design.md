@@ -3,7 +3,6 @@ title: "M06: Tool Design — Building What Agents Can Actually Use"
 description: "How to design purpose-built MCP tools: consolidation, agent-efficient formats, and clear descriptions."
 ---
 
-# M06: Tool Design — Building What Agents Can Actually Use
 
 ## Overview
 

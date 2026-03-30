@@ -3,7 +3,6 @@ title: "M02: Prompt Engineering — From Vague Requests to Precise Instructions"
 description: "Zero-shot, few-shot, chain-of-thought, meta prompting, and RAG — plus model selection and effort levels."
 ---
 
-# M02: Prompt Engineering — From Vague Requests to Precise Instructions
 
 ## Overview
 

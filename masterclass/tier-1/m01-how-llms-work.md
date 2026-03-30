@@ -3,7 +3,6 @@ title: "M01: How LLMs Actually Work (and Why It Matters for Your Prompts)"
 description: "Transformer architecture, autoregression, hallucinations, and context windows — the mental model behind effective Claude Code use."
 ---
 
-# M01: How LLMs Actually Work (and Why It Matters for Your Prompts)
 
 **Tier 1 — Foundations | Audience: Everyone**
 

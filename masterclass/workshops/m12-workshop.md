@@ -3,7 +3,6 @@ title: "M12: CI/CD Integration and Headless Workflows — Workshop Guide"
 description: "Wire a GitHub Actions AI review step into your pipeline and package it as a reusable plugin."
 ---
 
-# M12: CI/CD Integration and Headless Workflows — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M12 study guide read beforehand**
 

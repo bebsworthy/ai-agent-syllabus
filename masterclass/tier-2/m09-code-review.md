@@ -3,7 +3,6 @@ title: "M09: AI-Assisted Code Review"
 description: "Why code review matters more with AI, the Writer/Reviewer pattern, and the design judgment vs. style distinction."
 ---
 
-# M09: AI-Assisted Code Review
 
 **Tier 2 — Mastery | Audience: Development teams reviewing AI-generated code**
 

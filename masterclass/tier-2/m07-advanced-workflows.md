@@ -3,7 +3,6 @@ title: "M07: Advanced Workflows — Skills, Subagents, and Hooks"
 description: "Skills, subagents, and hooks — the workflow composition stack for team-wide automation."
 ---
 
-# M07: Advanced Workflows — Skills, Subagents, and Hooks
 
 ## Overview
 

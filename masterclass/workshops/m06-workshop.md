@@ -3,7 +3,6 @@ title: "M06: Tool Design — Workshop Guide"
 description: "Build a custom TypeScript MCP server your team will actually use — from sketch to working deployment."
 ---
 
-# M06: Tool Design — Workshop Guide
 
 **Facilitated session | 60–75 min hands-on | Requires: M06 study guide read beforehand**
 

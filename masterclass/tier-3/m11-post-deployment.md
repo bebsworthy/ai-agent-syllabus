@@ -3,7 +3,6 @@ title: "M11: Post-Deployment — Monitoring AI-Generated Systems"
 description: "SRE fundamentals, AI-augmented incident response, and multi-agent monitoring patterns."
 ---
 
-# M11: Post-Deployment — Monitoring AI-Generated Systems
 
 **Tier 3 — Operations and Scale | Duration: 90 min (pre-work + workshop)**
 

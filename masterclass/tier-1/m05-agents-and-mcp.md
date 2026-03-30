@@ -3,7 +3,6 @@ title: "M05: Agents and MCP — What They Are, How They Reason, Why They Fail"
 description: "Agent architecture, MCP protocol, tool discovery, and why APIs don't make good MCP tools."
 ---
 
-# M05: Agents and MCP — What They Are, How They Reason, Why They Fail
 
 ## Overview
 

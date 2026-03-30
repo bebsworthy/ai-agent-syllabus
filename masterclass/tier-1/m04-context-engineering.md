@@ -3,7 +3,6 @@ title: "M04: Context Engineering — The Only Lever That Matters"
 description: "The four failure modes of large contexts and how to prevent them with CLAUDE.md and the research-plan-implement workflow."
 ---
 
-# M04: Context Engineering — The Only Lever That Matters
 
 ## Overview
 

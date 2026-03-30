@@ -3,7 +3,6 @@ title: "M11 Workshop: Post-Deployment — Monitoring AI-Generated Systems"
 description: "Connect Sentry MCP, build an incident investigation workflow, and practice AI-augmented root cause analysis."
 ---
 
-# M11 Workshop: Post-Deployment — Monitoring AI-Generated Systems
 
 **Facilitated session | 60–75 min | Requires: M11 study guide read beforehand**
 

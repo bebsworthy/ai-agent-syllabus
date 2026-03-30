@@ -3,7 +3,6 @@ title: "M08: Security in the Age of AI-Generated Code"
 description: "Prompt injection, OWASP Top Ten for LLM apps, context rot, and the three defense layers."
 ---
 
-# M08: Security in the Age of AI-Generated Code
 
 **Tier 2 — Mastery | Audience: Development teams shipping AI-generated code**
 

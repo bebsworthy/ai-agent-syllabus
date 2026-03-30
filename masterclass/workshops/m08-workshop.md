@@ -3,7 +3,6 @@ title: "M08: Security in the Age of AI-Generated Code — Workshop Guide"
 description: "Build a security-reviewer subagent and integrate pre-commit hooks that catch vulnerabilities before merge."
 ---
 
-# M08: Security in the Age of AI-Generated Code — Workshop Guide
 
 **Facilitated session | 60–75 min | Requires: M08 study guide read beforehand**
 

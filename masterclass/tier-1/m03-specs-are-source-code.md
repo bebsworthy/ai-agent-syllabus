@@ -3,7 +3,6 @@ title: "M03: Specifications Are the New Source Code"
 description: "Plan Mode, specification templates, and the paradigm shift from code-first to spec-first development."
 ---
 
-# M03: Specifications Are the New Source Code
 
 ## Overview
 

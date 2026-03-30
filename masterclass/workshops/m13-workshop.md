@@ -3,7 +3,6 @@ title: "M13: Team Adoption — Standards, Safety, and Scaling — Workshop Guide
 description: "Create a shared CLAUDE.md, configure .mcp.json, set up cost monitoring, and draft your team's adoption playbook."
 ---
 
-# M13: Team Adoption — Standards, Safety, and Scaling — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M13 study guide read beforehand**
 

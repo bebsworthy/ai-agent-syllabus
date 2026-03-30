@@ -3,7 +3,6 @@ title: "M07: Advanced Workflows — Workshop Guide"
 description: "Build a team skill, a custom subagent, and a hook that auto-runs on every pull request."
 ---
 
-# M07: Advanced Workflows — Workshop Guide
 
 **Facilitated session | 60–75 min hands-on | Requires: M07 study guide read beforehand**
 

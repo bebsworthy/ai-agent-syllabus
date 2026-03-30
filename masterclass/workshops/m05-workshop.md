@@ -3,7 +3,6 @@ title: "M05: Agents and MCP — Workshop Guide"
 description: "Connect 2-3 MCP servers relevant to your team and observe how agents discover and select tools."
 ---
 
-# M05: Agents and MCP — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M05 study guide read beforehand**
 

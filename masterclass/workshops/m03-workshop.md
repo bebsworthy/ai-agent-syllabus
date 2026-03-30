@@ -3,7 +3,6 @@ title: "M03: Specifications Are the New Source Code — Workshop Guide"
 description: "Write a real spec, run it through Plan Mode, and lock in requirements before a single line of code is written."
 ---
 
-# M03: Specifications Are the New Source Code — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M03 study guide read beforehand**
 

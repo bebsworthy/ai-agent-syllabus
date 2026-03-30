@@ -3,7 +3,6 @@ title: "M10: Agent Teams and Parallel Orchestration"
 description: "When Agent Teams add value versus simpler patterns, and token cost analysis for parallel orchestration."
 ---
 
-# M10: Agent Teams and Parallel Orchestration
 
 **Tier 2 — Mastery | Duration: 90 min (pre-work + workshop)**
 

@@ -3,7 +3,6 @@ title: "M12: CI/CD Integration and Headless Workflows"
 description: "Headless mode, pipeline patterns, batch operations, and plugin packaging for team distribution."
 ---
 
-# M12: CI/CD Integration and Headless Workflows
 
 ## Module Overview
 

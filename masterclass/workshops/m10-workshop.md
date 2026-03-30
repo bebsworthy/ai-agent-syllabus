@@ -3,7 +3,6 @@ title: "M10 Workshop: Agent Teams and Parallel Orchestration"
 description: "Enable experimental Agent Teams, run a real multi-component task, and develop your judgment on when to use them."
 ---
 
-# M10 Workshop: Agent Teams and Parallel Orchestration
 
 **Facilitated session | 60–75 min | Requires: M10 study guide read beforehand**
 

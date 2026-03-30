@@ -3,7 +3,6 @@ title: "M04: Context Engineering — Workshop Guide"
 description: "Build and commit your project CLAUDE.md, practice context hygiene commands, and establish the three-phase workflow."
 ---
 
-# M04: Context Engineering — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M04 study guide read beforehand**
 

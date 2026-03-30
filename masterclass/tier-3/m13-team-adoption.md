@@ -3,7 +3,6 @@ title: "M13: Team Adoption — Standards, Safety, and Scaling"
 description: "Team adoption patterns, permission modes, cost management, team dynamics, and the 'developer owns all code' principle."
 ---
 
-# M13: Team Adoption — Standards, Safety, and Scaling
 
 ## Module Overview
 

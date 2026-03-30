@@ -3,7 +3,6 @@ title: "M01 Workshop: How LLMs Actually Work"
 description: "Hands-on: install Claude Code, explore a real codebase, and build the habit of reviewing before executing."
 ---
 
-# M01 Workshop: How LLMs Actually Work
 
 **Facilitated session | 45–60 min | Requires: M01 study guide read beforehand**
 

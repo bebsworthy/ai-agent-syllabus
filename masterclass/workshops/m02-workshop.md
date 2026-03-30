@@ -3,7 +3,6 @@ title: "M02: Prompt Engineering — Workshop Guide"
 description: "Side-by-side prompt comparison, model selection practice, and building your personal prompting cheat sheet."
 ---
 
-# M02: Prompt Engineering — Workshop Guide
 
 **Facilitated session | 45–60 min | Requires: M02 study guide read beforehand**
 

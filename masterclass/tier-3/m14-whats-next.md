@@ -3,7 +3,6 @@ title: "M14: What's Next — Evaluating the Evolving Landscape"
 description: "A transferable evaluation framework for AI tools and the evolving landscape of software development roles."
 ---
 
-# M14: What's Next — Evaluating the Evolving Landscape
 
 ## Module Overview
 

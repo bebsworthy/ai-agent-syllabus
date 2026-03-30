@@ -3,7 +3,6 @@ title: "M09: AI-Assisted Code Review — Workshop Guide"
 description: "Build a /review skill with a structured checklist and practice the Writer/Reviewer pattern on a real PR."
 ---
 
-# M09: AI-Assisted Code Review — Workshop Guide
 
 **Facilitated session | 60–75 min | Requires: M09 study guide read beforehand**
 
