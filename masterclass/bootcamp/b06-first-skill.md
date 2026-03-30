@@ -22,7 +22,7 @@ mkdir -p .claude/skills/[your-skill-name]
 
 Create `.claude/skills/[your-skill-name]/SKILL.md`:
 
-```yaml
+```md
 ---
 name: your-skill-name
 description: >
@@ -70,7 +70,7 @@ description: >
 **Pattern A** (what you just built): Pure markdown instructions. Good for most tasks.
 
 **Pattern B**: Add a script for deterministic processing:
-````yaml
+````md
 ---
 name: validate-api
 description: Validate API endpoint against OpenAPI spec
