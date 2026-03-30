@@ -70,7 +70,7 @@ description: >
 **Pattern A** (what you just built): Pure markdown instructions. Good for most tasks.
 
 **Pattern B**: Add a script for deterministic processing:
-```yaml
+````yaml
 ---
 name: validate-api
 description: Validate API endpoint against OpenAPI spec
@@ -80,7 +80,7 @@ Run this validation script and report results:
 ```bash
 npx @stoplight/spectral-cli lint openapi.yaml
 ```
-```
+````
 
 **Pattern C**: Reference MCP tools or subagents for multi-service workflows.
 
