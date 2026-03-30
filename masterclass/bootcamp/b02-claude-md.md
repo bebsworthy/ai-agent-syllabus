@@ -1,16 +1,22 @@
 ---
-title: "02: Your CLAUDE.md — Onboarding Your AI"
-description: "Create the single file that makes Claude understand your project's conventions, patterns, and constraints."
+title: "02: CLAUDE.md — Teaching Claude Your Codebase"
+description: "Write the single highest-leverage file in your project — the one Claude reads on every single request."
 sidebar:
   label: "02: CLAUDE.md"
   order: 2
 ---
 
-**30 minutes | You need: Claude Code running in your project**
+**25 minutes | You need: Claude Code running in your project**
 
-## Setup
+## How CLAUDE.md Works
 
-Open Claude Code in your project root. Have your project's conventions in mind (or open a recent PR to remind yourself).
+CLAUDE.md is injected into Claude's context on **every single request**. It's not optional reading — it's always there, always consuming tokens, always influencing behavior. This makes it:
+
+- **The highest-leverage file you'll write** — a good CLAUDE.md transforms every interaction
+- **An always-on cost** — every line consumes context on every turn. Keep it under ~200 lines / 2,000 tokens
+- **Compaction-proof** — when Claude compresses conversation history to reclaim space, CLAUDE.md survives intact
+
+If your project has two error handling patterns (old and new), Claude will mix them. If your team uses a specific test framework but there's a stale config for another one, Claude will guess. CLAUDE.md resolves ambiguity with authority.
 
 ## Do This
 
@@ -20,58 +26,88 @@ Open Claude Code in your project root. Have your project's conventions in mind (
 /init
 ```
 
-Claude analyzes your codebase — file structure, languages, frameworks, patterns — and generates a starter CLAUDE.md. It won't be perfect, but it's a baseline.
+Claude analyzes your codebase and generates a first draft. It won't be perfect.
 
-### 2. Review and refine
+### 2. Refine with purpose
 
-Open the generated `CLAUDE.md`. Add at least 5 items from this checklist:
+Open the generated `CLAUDE.md`. The goal isn't a comprehensive wiki — it's **the minimum instructions that produce maximum behavior change**. Focus on:
 
-- [ ] Tech stack and frameworks (exact versions if they matter)
-- [ ] Coding conventions (naming, file structure, import ordering)
-- [ ] Testing requirements (framework, run command, coverage expectations)
-- [ ] Architecture decisions (e.g., "repository pattern for data access")
-- [ ] Things NOT to do (e.g., "never modify migration files directly")
-- [ ] Build/run/lint commands
-- [ ] Error handling pattern (pick one, be explicit)
-- [ ] Recent changes (last 2-3 weeks)
+**What Claude gets wrong without guidance:**
+- Which test framework and how to run tests (`npm test`, `pytest`, etc.)
+- Build commands and how to verify things work
+- Naming conventions (camelCase vs snake_case, file naming patterns)
+- The architectural pattern you actually use (not the one in the old docs)
+- Things that will break if Claude does them (e.g., "never modify migration files directly")
+
+**Before/after example:**
+
+Without CLAUDE.md, you ask Claude to write a test:
+> Claude generates a Jest test with `describe/it` blocks, `expect()` assertions, and creates `__tests__/` directory.
+
+With this in CLAUDE.md:
+```text
+## Testing
+- Framework: Vitest (NOT Jest)
+- Tests live next to source files: `foo.ts` → `foo.test.ts`
+- Use `test()` not `it()`, `assert` from vitest not `expect`
+- Run: `pnpm test`
+```
+
+Now Claude gets it right the first time, every time.
 
 ### 3. Test it
 
-Ask Claude a question where the CLAUDE.md should influence the answer:
+Ask Claude something where CLAUDE.md should change the answer:
 
 ```text
 Write a new test for [module]. Follow our testing conventions.
 ```
 
-Does it use the right framework? The right patterns? If not, refine the CLAUDE.md and try again.
+Does it use the right framework? Right patterns? Right location? If not, refine and retry.
 
 ### 4. Understand the hierarchy
 
-Claude reads CLAUDE.md files from multiple locations, merged in order:
+Claude merges CLAUDE.md files from multiple locations:
 
 | Location | Scope | Shared? |
 |----------|-------|---------|
-| `~/.claude/CLAUDE.md` | Global — all your projects | No |
+| `~/.claude/CLAUDE.md` | Global — all your projects | No (personal) |
 | `project-root/CLAUDE.md` | Project-wide — team conventions | Yes, commit to git |
 | `project-root/.claude/CLAUDE.md` | Project-specific, personal | No (gitignored) |
 | Any subdirectory `CLAUDE.md` | Active when working in that directory | Yes |
 
-### 5. Commit it
+### 5. Path-specific rules
+
+For conventions that only apply to certain files, use `.claude/rules/` with glob patterns:
+
+```text
+# .claude/rules/api-routes.md
+---
+globs: src/api/**/*.ts
+---
+All API routes must validate input with zod schemas.
+Return standardized error responses: { error: string, code: number }.
+Never throw raw exceptions — always catch and wrap.
+```
+
+This only loads when Claude is working on files matching the glob — zero context cost otherwise.
+
+### 6. Commit it
 
 ```bash
 git add CLAUDE.md
 git commit -m "Add CLAUDE.md with project conventions"
 ```
 
-Your CLAUDE.md is now a shared team asset.
+Your CLAUDE.md is now a shared team asset. Every team member's Claude sessions benefit.
 
 :::note[Why this matters]{icon="information"}
-Without CLAUDE.md, Claude sees your codebase but has no authoritative guidance on conventions. If your project has two error handling patterns (old and new), Claude will mix them. CLAUDE.md resolves the ambiguity. Keep it under ~200 lines / 2,000 tokens — it loads on every request.
+CLAUDE.md is the only file guaranteed to be in every request's context. A well-written 150-line CLAUDE.md eliminates more repeat corrections than any other single action. But every unnecessary line costs you context space on every turn — treat it like production code, not documentation.
 :::
 
 ## Artifact
 
-A committed `CLAUDE.md` in your project repo that the whole team benefits from.
+A committed `CLAUDE.md` in your project repo. Optionally, path-specific rules in `.claude/rules/`.
 
 ## Go Deeper
 

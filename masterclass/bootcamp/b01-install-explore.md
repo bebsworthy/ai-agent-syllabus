@@ -1,88 +1,104 @@
 ---
-title: "01: Install and Explore"
-description: "Install Claude Code, run your first interaction on a real codebase, and learn the survival shortcuts."
+title: "01: Install & First Contact"
+description: "Install Claude Code, understand the agentic loop, and do real work on your codebase in 20 minutes."
 sidebar:
-  label: "01: Install & Explore"
+  label: "01: Install & First Contact"
   order: 1
 ---
 
 **20 minutes | You need: a real project, admin access, internet**
 
-## Setup
+## How Claude Thinks
 
-Open a terminal in your project's root directory.
+Before you type anything, understand the engine. Claude Code is an **agentic loop**: you give a prompt, Claude decides which tools to use (read files, search code, run commands, edit files), executes them, reads the results, and decides next steps. It repeats until the task is done or it needs your input.
 
-## Do This
+There is no pre-indexing, no background embedding, no project database. Claude reads your codebase on-demand using filesystem tools (Glob for finding files, Grep for searching content, Read for reading them). This means:
+- First prompt in a new session is slower (Claude is mapping your project)
+- Claude only knows what it has read — it can miss things in files it hasn't opened
+- Your first exploratory question builds a mental map that improves everything after
 
-### 1. Install Claude Code
+This matters because **context is finite**. Every file Claude reads, every tool output, every message — it all consumes tokens from a shared window. You'll learn to manage this in Module 4. For now, just know: Claude is not omniscient, it's an agent that reads and acts.
 
-```bash
-# macOS
-brew install claude-code
+## Install
 
-# Linux
-curl -sSL install.claude.ai/linux | bash
+| Platform | Command |
+|----------|---------|
+| macOS | `brew install claude-code` |
+| Linux | `curl -sSL install.claude.ai/linux \| bash` |
+| Windows | `winget install Anthropic.ClaudeCode` |
+| npm fallback | `npm install -g @anthropic-ai/claude-code` |
+| **VS Code** | Install the **Claude Code** extension from the marketplace — same capabilities, GUI interface |
 
-# Windows
-winget install Anthropic.ClaudeCode
+Verify: `claude --version`
 
-# Verify
-claude --version
-```
-
-If your corporate machine blocks these, try the npm fallback: `npm install -g @anthropic-ai/claude-code`
-
-### 2. Launch and authenticate
+## Launch
 
 ```bash
 cd your-project
 claude
 ```
 
-A browser window opens for one-time authentication. Credentials are stored locally in `~/.claude/`.
+Browser opens for one-time auth. Credentials stored in `~/.claude/`.
 
-### 3. Explore your project
+## Do This
 
-Ask Claude:
-
-```text
-What does this project do? Describe the architecture, main modules, and how data flows.
-```
-
-Review the output. Did it get the structure right? What did it miss?
-
-### 4. Find and explain a function
+### 1. Explore your project
 
 ```text
-Find the function that handles [something specific in your project] and explain what it does.
+What does this project do? Describe the architecture, main entry points, and how data flows through it.
 ```
 
-### 5. Make your first edit
+Review the output. Notice how Claude uses tools — it's reading files, searching for patterns, building understanding. Did it get the structure right?
+
+### 2. Find and fix something real
+
+Don't add a comment. Do real work:
 
 ```text
-Add a JSDoc comment to [that function] explaining its purpose and parameters.
+Find a potential bug, code smell, or missing error handler in [specific module]. Explain the issue and fix it.
 ```
 
-Review the proposed change. Approve it. You just made your first AI-assisted edit.
+If you don't have a known issue, try:
 
-### 6. Learn the survival shortcuts
+```text
+Run the tests and fix any failures. If all tests pass, find an untested edge case and add a test for it.
+```
+
+Watch the agentic loop in action: Claude reads code, reasons about it, makes changes, runs tests, reads results, iterates.
+
+### 3. Learn the controls
 
 Try each of these now:
 
 | Shortcut | What it does |
 |---|---|
 | `Esc` | Stop Claude mid-generation (keeps context) |
-| `Esc` `Esc` | Rewind to a previous checkpoint |
-| `Shift+Tab` | Cycle: Normal → Plan Mode → Auto-Accept |
-| `!command` | Run a shell command (e.g., `!git status`) |
+| `Esc` `Esc` | Rewind to a previous checkpoint (undo changes) |
+| `Shift+Tab` | Cycle permission modes: Normal → Plan Mode → Auto-Accept |
+| `!command` | Run a shell command inline (e.g., `!git status`) |
+| `/context` | See how your context window is being used |
+
+### Permission modes matter
+
+`Shift+Tab` cycles through three modes that control how much autonomy Claude has:
+
+- **Normal** — Claude asks permission for edits and commands (start here)
+- **Plan Mode** — Claude can only read and plan, not edit (Module 3)
+- **Auto-Accept** — Claude executes without asking (use once you trust the plan)
+
+### Power moves
+
+- `claude --continue` or `claude -c` — resume your most recent session
+- `claude --resume` — pick from a list of previous sessions
+- `Esc Esc` — checkpoint rewind. Claude creates restore points before edits. Double-escape lets you undo back to any checkpoint. This is your safety net.
 
 :::note[Why this matters]{icon="rocket"}
-Claude reads your codebase on-demand using filesystem tools (Glob, Grep, Read). It does not pre-index anything. The first exploratory question lets Claude build a map of your project that improves all subsequent answers.
+Unlike tools that work from embeddings or indexes, Claude reads your actual code each time. The tradeoff: no stale cache, but you pay for it in context tokens. Understanding this loop — prompt → tool use → result → reasoning → next action — is the foundation everything else builds on.
 :::
 
 ## Artifact
 
-Claude Code installed, authenticated, and working on your real project. A verified first edit in your git history.
+Claude Code installed, authenticated, and working on your real project. A real fix or improvement (not a comment) in your git history.
 
 ## Go Deeper
 

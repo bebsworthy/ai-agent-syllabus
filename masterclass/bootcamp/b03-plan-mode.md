@@ -1,22 +1,24 @@
 ---
-title: "03: Plan Before You Build"
-description: "Use Plan Mode to catch mistakes at the spec level (minutes to fix) instead of the code level (hours to fix)."
+title: "03: Plan Mode & Thinking Controls"
+description: "Use Plan Mode to catch mistakes at the spec level, and thinking controls to dial up reasoning when you need it."
 sidebar:
-  label: "03: Plan Mode"
+  label: "03: Plan Mode & Thinking"
   order: 3
 ---
 
-**30 minutes | You need: a real multi-file task from your backlog**
+**25 minutes | You need: a real multi-file task from your backlog**
 
-## Setup
+## How Planning Works
 
-Pick a real task — something that touches multiple files. Not a one-liner. Examples: add a feature, refactor a module, implement an API endpoint.
+Most AI coding failures aren't bad code — they're solving the wrong problem. Plan Mode forces Claude into read-only: it can explore your codebase and reason about approach, but it **cannot edit files or run commands**. This means you review the strategy before any code is written.
+
+The workflow: **Plan → Review → Execute**. Mistakes caught at the spec level cost minutes. Mistakes caught in code cost hours.
 
 ## Do This
 
 ### 1. See what vague gets you
 
-Enter Plan Mode: press `Shift+Tab` (or type `/plan`).
+Enter Plan Mode: press `Shift+Tab` until you see "Plan Mode" (or type `/plan`).
 
 Give Claude a vague one-liner:
 
@@ -24,62 +26,81 @@ Give Claude a vague one-liner:
 Users should be able to edit their profiles.
 ```
 
-Review the plan. Notice the assumptions, the ambiguity, the missing details.
+Review the plan. Count the assumptions. What did Claude decide for you that it shouldn't have?
 
-### 2. Write a clear spec
+### 2. Write a real spec
 
-Now write a proper spec for the same feature:
+Now give Claude something it can't misinterpret:
 
 ```text
 Add profile editing to the user settings page.
 
 Requirements:
-- PUT /api/users/:id endpoint with validation
+- PUT /api/users/:id endpoint with zod validation
 - Only authenticated users can edit their own profile
 - Editable fields: display name, bio, avatar URL
 - Validate: name max 100 chars, bio max 500 chars, avatar must be valid URL
-- Return 400 for validation errors, 403 for unauthorized access
-- Update the existing UserSettings React component to include an edit form
+- Return 400 for validation errors, 403 for unauthorized
+- Update the existing UserSettings component to include an edit form
 
-Acceptance criteria:
+Done when:
 - Existing tests still pass
-- New endpoint has at least 3 test cases (happy path, validation error, auth error)
-- Frontend form has client-side validation matching the API rules
+- New endpoint has tests for happy path, validation error, and auth error
+- Frontend form has client-side validation matching API rules
 ```
 
-Enter Plan Mode again with this spec. Compare the plan quality.
+Compare the two plans. The second one leaves almost nothing to interpretation.
 
-### 3. Refine
+### 3. Challenge the plan
 
-Challenge one assumption:
+Pick something the plan assumes:
 
 ```text
 What about race conditions if two tabs are open? How should we handle concurrent edits?
 ```
 
-Use `Ctrl+G` to open the plan in your text editor for direct editing.
+Use `Ctrl+G` to open the plan in your editor for direct editing if you want to restructure it.
 
 ### 4. Execute
 
-Once the plan looks solid, exit Plan Mode (`Shift+Tab`) and tell Claude to implement:
+Once satisfied, exit Plan Mode (`Shift+Tab`) and:
 
 ```text
 This plan looks good. Execute it.
 ```
 
-Review the diff before approving.
+Or go straight to Auto-Accept mode (`Shift+Tab` again) if you trust the plan fully. The pipeline: **Plan Mode → Normal → Auto-Accept** — increasing autonomy as your confidence grows.
 
-### 5. Know when to skip it
+### 5. Thinking controls
 
-Plan Mode is for multi-file features, unfamiliar codebases, and architectural changes. Skip it for single-file, well-scoped changes you can describe in one sentence.
+Claude has adjustable reasoning depth — use it:
+
+| Control | What it does | When to use |
+|---------|-------------|-------------|
+| `Alt+T` | Toggle extended thinking on/off | Complex debugging, architecture decisions |
+| `/effort high` | More reasoning per turn | Hard problems, subtle bugs |
+| `/effort low` | Less reasoning, faster responses | Simple edits, formatting, quick questions |
+| "think hard" or "ultrathink" in prompt | Max reasoning for one turn | Genuinely hard problems |
+
+**Default to normal effort.** Only dial up for problems where Claude's first attempt isn't good enough. Thinking costs tokens and time.
+
+### 6. Know when to skip Plan Mode
+
+Plan Mode is for:
+- Multi-file features
+- Unfamiliar codebases
+- Architectural changes
+- Anything where "doing it wrong" costs more than 10 minutes to undo
+
+Skip it for single-file, well-scoped changes you can describe in one sentence.
 
 :::note[Why this matters]{icon="approve-check-circle"}
-The most common failure mode with AI coding isn't bad code — it's solving the wrong problem. Plan Mode catches mistakes at the spec level (minutes to fix) instead of the code level (hours to fix). Clear spec → 1 round of review (~1 hour). Vague spec → 3 rounds of revision (~8 hours).
+Clear spec → 1 round of review. Vague spec → 3 rounds of back-and-forth. Plan Mode is not overhead — it's the fastest path to correct code. And thinking controls let you match Claude's reasoning depth to the problem's actual difficulty, instead of paying max cost for simple tasks.
 :::
 
 ## Artifact
 
-A completed Plan Mode workflow on a real task — planned, reviewed, implemented, and diffed.
+A completed Plan Mode workflow on a real task — planned, reviewed, executed, and diffed. Familiarity with thinking controls.
 
 ## Go Deeper
 
