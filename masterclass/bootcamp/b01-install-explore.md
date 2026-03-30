@@ -15,7 +15,7 @@ Before you type anything, understand the engine. Claude Code is an **agentic loo
 There is no pre-indexing, no background embedding, no project database. Claude reads your codebase on-demand using filesystem tools (Glob for finding files, Grep for searching content, Read for reading them). This means:
 - First prompt in a new session is slower (Claude is mapping your project)
 - Claude only knows what it has read — it can miss things in files it hasn't opened
-- Your first exploratory question builds a mental map that improves everything after
+- Your first exploratory question builds context that improves everything after
 
 This matters because **context is finite**. Every file Claude reads, every tool output, every message — it all consumes tokens from a shared window. You'll learn to manage this in Module 4. For now, just know: Claude is not omniscient, it's an agent that reads and acts.
 
@@ -23,11 +23,11 @@ This matters because **context is finite**. Every file Claude reads, every tool 
 
 | Platform | Command |
 |----------|---------|
-| macOS | `brew install claude-code` |
-| Linux | `curl -sSL install.claude.ai/linux \| bash` |
-| Windows | `winget install Anthropic.ClaudeCode` |
-| npm fallback | `npm install -g @anthropic-ai/claude-code` |
-| **VS Code** | Install the **Claude Code** extension from the marketplace — same capabilities, GUI interface |
+| Linux | `curl -fsSL https://claude.ai/install.sh \| bash` |
+| Windows | `irm https://claude.ai/install.ps1 \| iex` |
+| Homebrew | `brew install --cask claude-code` |
+| winget | `winget install Anthropic.ClaudeCode` |
+| VS Code | `code --install-extension anthropic.claude-code` |
 
 Verify: `claude --version`
 
@@ -70,13 +70,19 @@ Watch the agentic loop in action: Claude reads code, reasons about it, makes cha
 
 Try each of these now:
 
-| Shortcut | What it does |
+| Command | What it does |
 |---|---|
+| `Shift+Tab` | Cycle permission modes: Normal → Plan Mode → Auto-Accept |
+| `Ctrl+O` | Toggle verbose/transcript output |
+| `Ctrl+R` | Reverse search conversation history |
+| `Ctrl+G` | Open prompt in external editor |
+| `\` + `Enter` or `Ctrl+J` | Insert a newline |
 | `Esc` | Stop Claude mid-generation (keeps context) |
 | `Esc` `Esc` | Rewind to a previous checkpoint (undo changes) |
-| `Shift+Tab` | Cycle permission modes: Normal → Plan Mode → Auto-Accept |
-| `!command` | Run a shell command inline (e.g., `!git status`) |
-| `/context` | See how your context window is being used |
+| `#` | Create a memory (persistent context across sessions) |
+| `!command` | Run a shell command inline — output goes into context so Claude can see it |
+| `@file` | Add a file or folder to context with autocomplete |
+| `/command` | Slash commands (e.g. `/vibe`, `/context`, `/help`) |
 
 ### Permission modes matter
 
@@ -98,7 +104,7 @@ Unlike tools that work from embeddings or indexes, Claude reads your actual code
 
 ## Artifact
 
-Claude Code installed, authenticated, and working on your real project. A real fix or improvement (not a comment) in your git history.
+Claude Code installed, authenticated, and working on your real project. A real fix or improvement (not a comment) — on a branch, with the diff reviewed before committing.
 
 ## Go Deeper
 
