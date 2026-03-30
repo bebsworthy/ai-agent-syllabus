@@ -107,6 +107,10 @@ For each scenario below, decide for yourself which model and effort level you wo
 The goal here is not to memorize a lookup table but to internalize the pattern: match model power to task complexity. When in doubt, start with Sonnet + medium effort.
 :::
 
+**Scenario 4: OpusPlan Mode**
+
+Try launching a session with `claude --model opusplan` and give it a moderately complex task. Observe: does Claude use Opus during the planning phase and then switch to Sonnet for implementation? This hybrid mode gives you deep reasoning where it matters without paying Opus prices for routine code generation.
+
 ---
 
 ## Part 3: Iterative Prompt Refinement

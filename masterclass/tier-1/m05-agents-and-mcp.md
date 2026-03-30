@@ -209,6 +209,12 @@ MCP connections can be configured at three levels:
 
 **Management**: Use `/mcp connect` and `/mcp disconnect` to manage.
 
+### Tool Search: Managing MCP Context Cost
+
+Each MCP server's tool descriptions consume context tokens — with many servers active, this can become significant. **Tool Search** (automatic on Sonnet 4+ and Opus 4+) solves this by lazy-loading MCP tools only when needed, reducing context usage by up to 95%.
+
+How it works: Claude sees only tool names and brief descriptions initially. When a tool is relevant to the current task, the full schema is fetched on demand. This means you can connect many MCP servers without bloating your context window.
+
 ---
 
 ### Local vs. Remote MCP: Choosing Transport for Your Team

@@ -99,7 +99,20 @@ The four failure modes assume accidental degradation. As of 2024–2025, intenti
 
 ### CLAUDE.md: The Single Source of Truth
 
-CLAUDE.md is a file at the project root that encodes the project's conventions, patterns, and constraints. It's not README—it's not user-facing. It's a briefing for Claude.
+CLAUDE.md is a file that encodes the project's conventions, patterns, and constraints. It's not README — it's not user-facing. It's a briefing for Claude.
+
+#### CLAUDE.md Hierarchy
+
+Claude reads CLAUDE.md files from multiple locations, merged in order of specificity:
+
+| Location | Scope | Shared via Git? |
+|----------|-------|----------------|
+| `~/.claude/CLAUDE.md` | Global — applies to all your projects | No |
+| `project-root/CLAUDE.md` | Project-wide — shared with the team | Yes |
+| `project-root/.claude/CLAUDE.md` | Project-specific, not committed | No (gitignored) |
+| Any subdirectory `CLAUDE.md` | Active when Claude is working in that directory | Yes |
+
+More specific files take precedence. Use the project root file for shared team conventions and `~/.claude/CLAUDE.md` for personal preferences (editor style, preferred languages, etc.).
 
 A typical CLAUDE.md includes:
 
@@ -227,10 +240,95 @@ This is the context-management equivalent of lazy loading in software design.
 
 ---
 
+### Research Grounding — Facts Before Code
+
+The most expensive failure mode in AI-assisted development isn't bad code — it's code that solves the wrong problem or ignores existing patterns. Grounding means ensuring Claude has accurate, relevant information before it starts writing. Anthropic's official best practices are explicit: separate research and planning from implementation.
+
+#### Claude Code's Research Toolkit
+
+Claude Code does **not** pre-index your codebase or use vector embeddings. Instead, it uses filesystem tools to explore code on-demand — "agentic search":
+
+| Tool | What It Does | Token Cost |
+|------|-------------|-----------|
+| **Glob** | Pattern-match file paths (e.g., `**/*.ts`) — returns paths only | Very low |
+| **Grep** | Search file contents by regex — returns matching lines with context | Low |
+| **LS** | List directory contents | Very low |
+| **Read** | Load full file content into context | Medium–High |
+| **WebSearch** | Search the web — returns page titles and URLs | Low |
+| **WebFetch** | Fetch a specific URL and answer a question about its content | Medium |
+
+The key insight: **Glob and Grep are cheap; Read is expensive.** Claude should narrow the search space with Glob/Grep before reading full files.
+
+#### The Explore Agent
+
+Claude Code has a built-in **Explore** subagent type optimized for codebase research. It has access to Glob, Grep, LS, Read, WebFetch, and WebSearch — but **no** Write, Edit, or Bash. This makes it fast, safe, and context-isolated.
+
+Claude uses the Explore agent automatically for open-ended codebase questions, or you can invoke it explicitly:
+
+```
+"Use the Explore agent to find all API endpoints and their handlers"
+
+"Have an Explore agent map how the authentication flow works,
+from login to session management"
+```
+
+The Explore agent runs in its own context window — it might read 50 files internally, but your main session only receives a concise summary.
+
+#### External Research: WebSearch + WebFetch
+
+Claude Code uses two web tools that work as a pair:
+
+- **WebSearch** accepts a search query → returns relevant URLs and titles (lightweight)
+- **WebFetch** accepts a URL + a question → returns the answer extracted from that page (heavier)
+
+This two-step design keeps things lean: search first, fetch only what you need:
+
+> *"Search for how Stripe handles webhook signature verification in Node.js, then fetch the official Stripe docs page and summarize the recommended approach."*
+
+#### Encoding Research Rules in CLAUDE.md
+
+For libraries and frameworks your team uses regularly, encode research habits directly in CLAUDE.md:
+
+```markdown
+## Research Rules
+- Before implementing any Stripe integration, fetch the latest Stripe API docs
+- Before writing database migrations, read the existing schema in prisma/schema.prisma
+- Before modifying authentication, use a subagent to map the full auth flow first
+- Always check for existing utilities in src/lib/utils/ before writing new helpers
+```
+
+This ensures Claude researches before coding on every session, not just when you remember to ask.
+
+#### Parallel Research with Subagents
+
+For complex features, spawn multiple research agents in parallel:
+
+> *"Before implementing the notification system, use three subagents in parallel:*
+> *1. One to research how our existing event bus works*
+> *2. One to find all places in the codebase that currently send emails*
+> *3. One to search the web for best practices on notification queuing with Redis and Bull"*
+
+Each agent works in its own context, reads dozens of files or web pages, and reports back a summary. Your main session stays clean for the actual implementation.
+
+#### Research Anti-Patterns
+
+| Anti-Pattern | Problem | Fix |
+|---|---|---|
+| Skipping research, jumping to code | Claude builds from assumptions, not facts | Always explore in Plan Mode first |
+| Asking Claude to "investigate" without scoping | Claude reads hundreds of files, fills the context | Scope narrowly or delegate to a subagent |
+| Not checking for existing utilities | Claude duplicates logic already in the codebase | Add "check for existing patterns first" to CLAUDE.md |
+| Trusting Claude's knowledge of external APIs | Claude's training data may be outdated | Always fetch current documentation with WebFetch |
+| Doing all research in the main session | Exploration consumes context needed for implementation | Delegate heavy research to subagents |
+
+---
+
 ### Context Window and Token Management
 
-Claude Sonnet/Opus: 1M tokens (~750K words, ~100–150K lines of code)
-Claude Haiku 4.5: 200K tokens
+#### The 1M Context Window
+
+Opus 4.6 and Sonnet 4.6 support a 1 million token context window (GA as of March 2026, no pricing premium). On Max, Team, and Enterprise plans, Opus is automatically upgraded to 1M. Select the `[1m]` model variant in the `/model` picker. Haiku 4.5 has a 200K token window.
+
+Even with 1M tokens, context management still matters. More tokens doesn't automatically mean better output — focus and relevance still affect quality (see Context Rot above).
 
 **Token accounting** (approximate):
 - CLAUDE.md: 500–2,000 tokens (depending on detail)
@@ -238,16 +336,82 @@ Claude Haiku 4.5: 200K tokens
 - A conversation with 10 exchanges: 2,000–5,000 tokens
 - A large codebase (50K lines): 350,000–500,000 tokens (language-dependent)
 
-**Context monitoring**: `/context` shows a breakdown:
+**Context monitoring**: `/context` shows a detailed breakdown of where your tokens are going:
+
 ```
-Context Usage:
-- CLAUDE.md: 1,200 tokens
-- Conversation history: 3,500 tokens
-- Loaded files: 45,000 tokens
-- Total: 49,700 / 1,000,000 tokens
+claude-opus-4-6
+76k/200k tokens (38%)
+  System prompt:       2.7k tokens (1.3%)
+  System tools:       16.8k tokens (8.4%)
+  Custom agents:       1.3k tokens (0.7%)
+  Memory files:        7.4k tokens (3.7%)
+  Skills:              1.0k tokens (0.5%)
+  Messages:            9.6k tokens (4.8%)
+  Free space:        118.0k (58.9%)
+  Autocompact buffer: 33.0k tokens (16.5%)
 ```
 
-**Auto-compaction**: Auto-compaction typically triggers between 75–92% of the context window (the exact threshold varies by model and conversation structure). You can tune this with `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` to compact earlier. Monitor `/context` output rather than relying on a fixed threshold.
+Notice that system prompts, tools, MCP servers, agents, and memory files all consume tokens *before you type anything*. The "Messages" line is your conversation history — watch it grow. The autocompact buffer is reserved for the summarization process itself.
+
+#### Auto-Compaction
+
+When context approaches the limit (~83.5% of the window), Claude automatically compacts by summarizing the conversation. This is lossy — tool outputs get cleared first, then the full conversation gets condensed. You can tune when this triggers:
+
+```bash
+# Trigger compaction later (more context, less buffer)
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=90
+
+# Trigger compaction earlier (more aggressive, keeps more working space)
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70
+```
+
+Don't wait for auto-compaction. Compact manually at logical breakpoints when the context is clean — the summary will be higher quality.
+
+#### Subagent Context Isolation
+
+When Claude researches a codebase, it reads dozens of files — all of which consume your context. Subagents run in their own separate context window and report back only a summary:
+
+**Without subagents:**
+```
+Parent context: [user prompt] + [50 file reads] + [actual work]
+└── context window nearly exhausted ──┘
+```
+
+**With subagents:**
+```
+Parent context: [user prompt] + [agent result: 200 words] + [actual work]
+└── context window mostly available ──┘
+
+Child context: [task prompt] + [50 file reads] + [summary]
+└── separate context, discarded after ──┘
+```
+
+Best for: code reviews, codebase exploration, documentation research, test verification — any self-contained task requiring lots of file reads.
+
+#### Three Signs Your Context Is Polluted
+
+1. Claude **repeats information** it already gave you
+2. Claude **mixes up files or modules** from different parts of the conversation
+3. Claude **applies conventions from a previous task** that don't apply to the current one
+
+When you see these signs, it's usually time for `/clear` and a fresh start rather than fighting the degradation.
+
+#### Horizontal Scaling: Multiple Sessions
+
+For complex work, run multiple Claude Code sessions in parallel, each with its own context budget:
+
+```bash
+# Terminal 1: refactoring auth
+claude "Refactor src/auth/ to use JWT tokens"
+
+# Terminal 2: writing tests
+claude "Write unit tests for src/api/users.ts"
+
+# Terminal 3: documentation
+claude "Generate JSDoc documentation for src/lib/"
+```
+
+Three parallel sessions give you an effective 600k+ tokens of total context without any single session degrading.
 
 ---
 

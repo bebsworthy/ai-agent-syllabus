@@ -83,7 +83,15 @@ Choose 1–2 tools from the registry that are relevant to your work:
    ```
    If auth is required, complete the OAuth flow before continuing.
 
-3. **Verify** — run `/mcp` in Claude Code and confirm the tool appears in the list.
+3. **Choose the right config scope** for where to store the connection:
+
+   | Scope | File | When to Use |
+   |-------|------|-------------|
+   | Global | `~/.claude.json` | Personal tools used across all projects |
+   | Project (shared) | `.mcp.json` in project root | Team tools — commit to Git |
+   | Project (local) | `.claude/settings.local.json` | Personal credentials — gitignored |
+
+4. **Verify** — run `/mcp` in Claude Code and confirm the tool appears in the list.
 
 4. **Test the connection** — open Claude Code and ask:
    > "List my GitHub repositories."

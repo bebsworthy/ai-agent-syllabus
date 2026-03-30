@@ -160,7 +160,14 @@ Start supervised. Expand autonomy only after teammates have proven reliable on t
 
 **The 7x figure is a ceiling, not a constant.** Real-world multipliers typically fall between 2–5x, depending on task interdependency, team size, model choice (Sonnet vs. Opus), and how much context is shared across teammates. Validate actual costs with a small pilot before committing to a full team.
 
-**Team size matters.** Coordination overhead plateaus around 4 agents — beyond that, coordination costs begin to exceed the parallelism gains. For tasks requiring more than 5 specialized roles, use hierarchical nesting: spawn smaller sub-teams with lead agents coordinating between them. A single agent with well-designed tools may be more cost-effective than an oversized team.
+**Team sizing guidelines:**
+- Start with **3–5 teammates** for most workflows
+- Assign **5–6 tasks per teammate** to keep everyone productive without excessive context switching
+- Three focused teammates often outperform five scattered ones
+- Coordination overhead plateaus around 4 agents — beyond that, coordination costs begin to exceed the parallelism gains
+- For tasks requiring more than 5 specialized roles, use hierarchical nesting: spawn smaller sub-teams with lead agents coordinating between them
+
+Use `Shift+Down` to cycle through teammates in the terminal and inspect their progress.
 
 **ROI threshold:** Teams pay off when parallelism saves more time than the token cost.
 
@@ -240,6 +247,9 @@ Teams are justified when: (Time saved in hours) × (cost per hour) > (Token mult
   | Microsoft Agent Framework | Enterprise runtime, multi-language, managed deployment | Early-stage (GA pending Q1 2026) | Emerging |
   | OpenAI Agents SDK | Handoff pattern for sequential expertise delegation | Complementary to parallel patterns, not a replacement | Production (March 2025) |
   | AutoGen | Historical multi-agent framework | **Maintenance mode — not recommended for new projects** | Deprecated |
+  | Multiclaude | Team review workflows, long prompts then walk away | Claude-specific; less flexible than native teams | Community |
+  | Gas Town | Many agents in parallel for solo devs | More complex setup | Community |
+  | OpenClaw/OpenCode | Mixed-model teams (GPT + Gemini + Claude in same team) | Vendor-agnostic but higher coordination overhead | Community |
 
 - **MAST (Multi-Agent Systems Failure Taxonomy):** ArXiv 2601.13671 (March 2025)
 - **Towards a Science of Scaling Agent Systems:** ArXiv 2512.08296 (December 2025)

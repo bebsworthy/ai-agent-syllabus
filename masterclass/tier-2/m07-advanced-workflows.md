@@ -134,10 +134,34 @@ description: One-line purpose      # Shown in /skill list
 disable-model-invocation: false    # false = Claude can refine skill, true = use as-is
 allowed-tools: [tool1, tool2]      # Restrict which tools this skill can call
 disabled: false                    # Optional: disable the skill
+user-invocable: true               # false = hides from / menu; background knowledge only
+argument-hint: "[component-name]"  # Autocomplete hint shown after /name
 ---
 
 # Your markdown content here
 Instructions, templates, examples
+```
+
+#### Progressive Disclosure
+
+Skills follow a three-stage loading model that keeps context lean:
+
+1. **Metadata** (name + description): Always in context (~100 tokens). Claude decides whether to load the skill based on this alone.
+2. **SKILL.md body**: Loaded only when the skill is triggered.
+3. **Supporting files** (templates, examples, scripts): Loaded only when referenced in the SKILL.md.
+
+#### Writing Good Descriptions
+
+The `description` field is the most important line in your skill — Claude uses it to decide whether to auto-invoke the skill. Write it like a natural-language request:
+
+```yaml
+# Bad — too abstract
+description: Audit software artefacts for quality compliance
+
+# Good — matches natural requests
+description: >
+  Review code for bugs, security issues, and style violations.
+  Use when user asks to "review", "check", or "audit" code.
 ```
 
 ### Choosing the Right Abstraction
@@ -198,6 +222,19 @@ Return a structured report:
 
 Summon a subagent in Claude Code with `@security-reviewer review this PR`.
 
+#### Subagent Frontmatter Reference
+
+| Field | Purpose |
+|-------|---------|
+| `model` | Override the session model (e.g., use `haiku` for cheap agents, `opus` for deep reasoning) |
+| `tools` | Allowlist of tools the agent can use |
+| `disallowedTools` | Tools to explicitly deny |
+| `background: true` | Always runs as a background task (returns result asynchronously) |
+| `effort` | Override effort level: `low`, `medium`, `high`, `max` |
+| `isolation: worktree` | Runs in a temporary git worktree (safe for file modifications without conflicts) |
+
+**Design principle:** Subagents cannot spawn other subagents via bash. Use the `Agent` tool for nesting.
+
 ### Hooks: Deterministic Lifecycle Scripts
 
 Hooks run at specific lifecycle points. The four most commonly used events (out of 22+ documented) are:
@@ -209,7 +246,27 @@ Hooks run at specific lifecycle points. The four most commonly used events (out 
 | **Notification** | Before displaying result to user | Custom notifications |
 | **Stop** | When session ends | Cleanup, metrics, final checks |
 
-PreToolUse and PostToolUse cover the majority of practical automation needs. For the full list of hook events (including `SessionStart`, `SubagentStart`, `ConfigChange`, and others), see the [Claude Code Hooks documentation](https://code.claude.com/docs/en/hooks-guide).
+PreToolUse and PostToolUse cover the majority of practical automation needs. The full list of available hook events:
+
+| Event | When It Fires |
+|-------|---------------|
+| `PreToolUse` | Before any tool executes |
+| `PostToolUse` | After a tool completes |
+| `UserPromptSubmit` | When the user sends a prompt |
+| `Notification` | Before displaying a result to the user |
+| `Stop` | When a session ends |
+| `SessionStart` | When a new session begins |
+| `SessionEnd` | When a session is closed |
+| `PreCompact` | Before context compaction runs |
+| `SubagentStart` | When a subagent is spawned |
+| `SubagentStop` | When a subagent completes |
+| `TeammateIdle` | When a teammate in an Agent Team finishes its task |
+| `TaskCompleted` | When a shared task list item is marked done |
+| `PermissionRequest` | When Claude requests permission for an action |
+| `ConfigChange` | When settings are modified |
+| `Setup` | During initial project setup |
+
+See the [Claude Code Hooks documentation](https://code.claude.com/docs/en/hooks-guide) for payload details and examples.
 
 Hooks live in `.claude/hooks/` as shell scripts. They receive a JSON payload on **stdin** (not environment variables) and signal outcomes via exit codes:
 
