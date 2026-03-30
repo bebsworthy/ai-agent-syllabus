@@ -5,11 +5,11 @@ template: splash
 hero:
   tagline: Operationalizing Claude Code for Professional Teams
   actions:
-    - text: Start Tier 1
-      link: /tier-1/m01-how-llms-work/
+    - text: Quick Start (4 hours)
+      link: /bootcamp/b01-install-explore/
       icon: right-arrow
       variant: primary
-    - text: View curriculum
+    - text: Full Playbook (19 hours)
       link: /tier-1/
       icon: open-book
       variant: secondary
@@ -17,7 +17,22 @@ hero:
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-## Three tiers, one goal
+## Two paths
+
+<CardGrid>
+  <Card title="Claude Code in a Day" icon="rocket">
+    **For busy professionals.** 8 hands-on modules, ~4 hours. No theory — just your codebase and results. Install, configure, and build workflows in a single session.
+
+    [Start the bootcamp →](/bootcamp/b01-install-explore/)
+  </Card>
+  <Card title="Full Playbook" icon="open-book">
+    **For deep understanding.** 14 modules across three tiers, ~19 hours. Theory + practice. Covers security, team adoption, CI/CD, and the mental models behind effective AI-assisted development.
+
+    [View curriculum →](/tier-1/)
+  </Card>
+</CardGrid>
+
+## Full playbook: three tiers
 
 <CardGrid>
   <Card title="Tier 1: Foundations" icon="document">

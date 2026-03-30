@@ -7,6 +7,16 @@ All notable changes to the playbook curriculum are documented here.
 
 ---
 
+## 2026-03-30 — Claude Code in a Day (Bootcamp Course)
+
+Added a new hands-on bootcamp course for busy professionals who want to get productive with Claude Code in a single session (~4.5 hours). 8 modules, no separate theory — everything learned through exercises on your own codebase.
+
+**Modules:** Install and Explore, Your CLAUDE.md, Plan Before You Build, Context is Everything, Daily Workflows, Build Your First Skill, Connect Your Tools (MCP), Hooks and Putting It All Together.
+
+Each module produces a concrete artifact and links to the relevant full playbook module for deeper understanding.
+
+---
+
 ## 2026-03-30 — Syllabus Coverage Review
 
 Reviewed the draft Claude Code training plan (17 modules across 2 phases) against all 14 playbook modules. Closed 14 structural gaps and 8 enrichment items to ensure comprehensive coverage of practical Claude Code usage.
