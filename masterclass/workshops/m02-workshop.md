@@ -1,89 +1,88 @@
 ---
-title: "M02: Prompt Engineering — Workshop Guide"
+title: "M02: Prompt Engineering — Workshop"
 description: "Side-by-side prompt comparison, model selection practice, and building your personal prompting cheat sheet."
 ---
 
 
-**Facilitated session | 45–60 min | Requires: M02 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M02 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Facilitator note**
+This workshop makes the six prompting techniques, Devin's four principles, model selection, and effort levels tangible by showing their direct impact on output quality. By the end, you'll have a personal prompting cheat sheet and firsthand experience with the 80/20 principle in practice.
 
-Participants should have completed the M02 study guide before this session. They'll need to understand the six named prompting techniques, Devin's four principles, model selection, and effort levels. This workshop makes those concepts tangible by showing their direct impact on output quality. By the end, everyone has a personal prompting cheat sheet and has experienced the 80/20 principle firsthand.
+**What you'll do**
 
-**Session Overview**
+- [ ] Run a side-by-side prompt comparison (bad vs. good) to see the quality difference directly
+- [ ] Work through model and effort selection scenarios
+- [ ] Build and refine a prompt through iterative rounds
+- [ ] Create a reusable prompt template for a recurring task in your codebase
 
-| Segment | Activity | Format | Duration |
-|---------|----------|--------|----------|
-| 1 | Side-by-side prompt comparison (bad vs. good) | Live demo + discussion | 15 min |
-| 2 | Model and effort selection scenarios | Group problem-solving | 10 min |
-| 3 | Live prompting exercise (iterative refinement) | Hands-on coding | 20 min |
-| 4 | Hands-on: Build a reusable prompt template | Individual/pair work | 50 min |
-| — | Debrief | Group discussion | 5 min |
-
-**Prerequisites for participants**
+**Prerequisites**
 
 - M02 study guide completed (theory + readings)
 - Claude Code open with a real codebase (1K–50K lines, any language)
-- Familiarity with a moderately-complex task from your codebase (e.g., adding a feature, refactoring a module)
+- A moderately-complex task in mind from your codebase (e.g., adding a feature, refactoring a module)
 - Access to `/effort` command and model selection in Claude Code
 - A willingness to experiment and compare outputs side-by-side
 
 ---
 
-## Segment 1: Side-by-Side Prompt Comparison (15 min)
+## Part 1: Side-by-Side Prompt Comparison
 
-**Objective**: Show the direct impact of prompt quality on output.
+**Objective**: See the direct impact of prompt quality on output.
 
-**Setup**:
-
-Choose a real, moderately-complex task from the codebase. Examples:
+Choose a real, moderately-complex task from your codebase. Examples:
 - "Add rate limiting to the API"
 - "Refactor the authentication module"
 - "Find and fix memory leaks in the data pipeline"
 - "Add comprehensive error handling to the payment processing"
 
-**Activity**:
+**Step 1 — Bad Prompt**
 
-1. **Bad Prompt** (5 min)
-   ```
-   "Improve the authentication code."
-   ```
-   - Run this in Claude Code
-   - Observe: Vague suggestions, possible hallucinations, unclear scope
+Run this in Claude Code (substituting your own task):
 
-2. **Good Prompt** (5 min)
-   ```
-   "Improve the authentication code by implementing rate limiting.
+```
+"Improve the authentication code."
+```
 
-   Here's the current implementation:
-   [paste the actual code]
+Observe the output: vague suggestions, possible hallucinations, unclear scope.
 
-   Specific improvements:
-   1. Limit login attempts to 5 per IP per minute
-   2. Return a 429 status with a clear error message
-   3. Log all failed attempts to the audit log
-   4. Start with modifying the `POST /auth/login` endpoint
+**Step 2 — Good Prompt**
 
-   Show me the updated code and explain what changed."
-   ```
-   - Run this in Claude Code
-   - Observe: Specific, actionable suggestions; Claude understands the scope
+Now run a version with full context and specific requirements:
 
-3. **Comparison** (5 min)
-   - Discuss: What made the good prompt better? (Specificity, examples, clear requirements, starting point)
-   - Lesson: The same task, with 10 seconds of extra framing, produces vastly better results
+```
+"Improve the authentication code by implementing rate limiting.
+
+Here's the current implementation:
+[paste the actual code]
+
+Specific improvements:
+1. Limit login attempts to 5 per IP per minute
+2. Return a 429 status with a clear error message
+3. Log all failed attempts to the audit log
+4. Start with modifying the `POST /auth/login` endpoint
+
+Show me the updated code and explain what changed."
+```
+
+Observe the output: specific, actionable suggestions; Claude understands the scope.
+
+**Step 3 — Compare**
+
+Reflect on what made the good prompt better: specificity, examples, clear requirements, a defined starting point. The same task, with 10 seconds of extra framing, produces vastly better results.
+
+:::tip[Hint]
+If your outputs look similar between the two prompts, try making the "bad" prompt even more vague and the "good" prompt even more specific — the contrast tends to be more dramatic on tasks that have multiple plausible interpretations.
+:::
 
 ---
 
-## Segment 2: Model and Effort Selection (10 min)
+## Part 2: Model and Effort Selection
 
-**Facilitate decision-making**:
-
-Present three realistic scenarios. For each, ask the group: "Which model? Which effort?"
+For each scenario below, decide for yourself which model and effort level you would use, then check the answer.
 
 **Scenario 1: Quick Code Search**
 - "Find all places where we call the deprecated `getUser()` function."
@@ -97,126 +96,141 @@ Present three realistic scenarios. For each, ask the group: "Which model? Which 
 - "Our API is leaking ~50MB per hour. The leak is in one of these three components [describe]. Trace the issue and propose a fix."
 - Answer: Opus + high effort (complex reasoning, worth 5x cost)
 
-**Cost awareness** (2 min):
+**Cost awareness**
 
 - Sonnet: ~$0.0001 per line of code generated (very cheap)
 - Opus: ~$0.0005 per line (5x more, still under a penny per realistic line)
 - A full day of Opus usage (even 2M tokens) = ~$30 in compute
 - Conclusion: Use the right tool for the job. Opus on a hard problem is cheaper than Sonnet struggling for hours.
 
+:::note
+The goal here is not to memorize a lookup table but to internalize the pattern: match model power to task complexity. When in doubt, start with Sonnet + medium effort.
+:::
+
 ---
 
-## Segment 3: Live Prompting Exercise (20 min)
+## Part 3: Iterative Prompt Refinement
 
-**Objective**: Build and refine a prompt in real-time.
+**Objective**: Build and refine a prompt through several passes on a real task.
 
-**Setup**: Pick a real, moderately-complex task from the team's codebase.
+Pick a real, moderately-complex task from your codebase. Then work through the following rounds.
 
-**Facilitation**:
+**Round 1 — Write a Zero-Shot Prompt**
 
-1. **Write a Zero-Shot Prompt** (3 min)
-   - Group contributes ideas: "What's the task we want?"
-   - Facilitator writes a simple version in Claude Code
-   - Run it. Observe the output. Discuss: Did it work? What's missing?
+Write a simple, one-sentence version of your task and run it. Observe: is the output generic? Does it miss requirements or ignore your code style?
 
-2. **Refine with Devin's Principles** (5 min)
-   - Apply principle 1: Specify the approach (not the outcome)
-     - "Don't just 'improve error handling'—implement try-catch blocks, validate inputs, log to the audit system."
-   - Apply principle 2: Indicate starting points
-     - "Start by modifying the `handleRequest()` function."
-   - Apply principle 3: Defensive prompting
-     - "Check that all numeric inputs are positive. If validation fails, return a specific error message, not a generic 500."
-   - Rerun the prompt. Better?
+**Round 2 — Apply Devin's Principles**
 
-3. **Add Context (RAG)** (5 min)
-   - Copy the actual code into the prompt
-   - Copy example error messages or patterns from the codebase
-   - Rerun. Even better?
+Rewrite the prompt applying the four principles:
 
-4. **Adjust Effort** (2 min)
-   - If the output is good, try `/effort low` (see if it's faster)
-   - If it's mediocre, try `/effort high` (see the difference)
-   - Note the time and cost trade-off
+- Specify the approach, not just the outcome: "Don't just 'improve error handling' — implement try-catch blocks, validate inputs, log to the audit system."
+- Indicate a starting point: "Start by modifying the `handleRequest()` function."
+- Use defensive prompting: "Check that all numeric inputs are positive. If validation fails, return a specific error message, not a generic 500."
 
-5. **Review and Feedback** (5 min)
-   - Claude produces the initial implementation
-   - Group reviews: "Does this match our requirements? Are there edge cases? Is it consistent with our code style?"
-   - Feed back: "This is good but could be safer. Add validation for null input."
-   - Claude refines.
+Rerun. Is it better?
+
+**Round 3 — Add Context (RAG)**
+
+- Paste the actual code into the prompt
+- Paste example error messages or patterns from your codebase
+- Rerun. Even better?
+
+**Round 4 — Adjust Effort**
+
+- If the output is already good, try `/effort low` to see if you can get similar quality faster
+- If the output is mediocre, try `/effort high` to see the difference
+- Note the time and quality trade-off
+
+**Round 5 — Feedback Loop**
+
+Review what Claude produced. Ask yourself: does this match requirements? Are there edge cases? Is it consistent with your code style? Feed a correction back:
+
+```
+"This is good but could be safer. Add validation for null input."
+```
+
+Let Claude refine. This is the normal working rhythm.
+
+:::tip[Hint]
+It is normal to need 3–5 rounds before a prompt reliably produces what you want. Each round costs very little — the time investment in prompt refinement nearly always beats reworking bad output.
+:::
 
 ---
 
 ## Hands-on Exercise: Build a Reusable Prompt Template
 
-**Objective**: Build a reusable prompt for a recurring task.
+**Objective**: Build a reusable prompt for a recurring task in your codebase.
 
-**Setup** (5 min):
-
-Pick a realistic task that the team does repeatedly. Examples:
+Pick a realistic task you do repeatedly. Examples:
 - "Add a new API endpoint"
 - "Create a new React component"
 - "Write a database migration"
 - "Add comprehensive tests"
 
-**Steps** (50 min):
+**Round 1: Zero-Shot** (5 min)
 
-1. **Round 1: Zero-Shot** (5 min)
-   - Write a one-sentence prompt: "Add a new API endpoint for user profiles."
-   - Let Claude produce output
-   - Observe: Generic? Missing requirements? Not following your code style?
+Write a one-sentence prompt: "Add a new API endpoint for user profiles."
 
-2. **Round 2: Add Context and Specificity** (10 min)
-   - Rewrite with Devin's four principles:
-     - "Add a new API endpoint for `GET /users/:id/profile`.
-     - Returns user name, email, role, and creation date (query from the `users` table).
-     - Add it to the `users.routes.ts` file.
-     - Follow our error handling pattern: return 400 for invalid IDs, 404 if user not found, 200 with JSON if success.
-     - Copy the payload format from the existing `GET /users/:id` endpoint.
-     - Use our standard rate limiting middleware."
-   - Let Claude produce output again
-   - Review: Better aligned with your requirements?
+Let Claude produce output. Observe: Generic? Missing requirements? Not following your code style?
 
-3. **Round 3: Feedback Loop** (10 min)
-   - Review Claude's code
-   - Ask clarifying questions: "Did you include validation? Does this handle concurrent requests? Is this consistent with our logging?"
-   - Feed back Claude's answers into the next prompt
-   - Refine once more
-   - Outcome: A prompt that produces exactly what you need
+**Round 2: Add Context and Specificity** (10 min)
 
-4. **Round 4: Build a Template** (10 min)
-   - Document the final prompt as a reusable template in your team's documentation
-   - Example template:
-     ```
-     "Add a new API endpoint for [ENDPOINT].
-     - Route: [METHOD /path/:params]
-     - Returns: [describe response payload]
-     - Error cases: [describe 400, 404, 500 scenarios]
-     - Validation: [describe input validation]
-     - Reference implementation: [existing similar endpoint]
-     - Middleware: [rate limiting, auth, etc.]"
-     ```
-   - Use this template for future tasks
+Rewrite with Devin's four principles:
 
-5. **Debrief** (5 min)
-   - "You just created a prompting template that will save hours of work. Every future endpoint request can follow this pattern."
-   - "The effort upfront (being specific, providing context) multiplies across uses."
-   - "This is prompt engineering: turning vague requests into precise instructions that Claude can reliably execute."
+```
+"Add a new API endpoint for `GET /users/:id/profile`.
+- Returns user name, email, role, and creation date (query from the `users` table).
+- Add it to the `users.routes.ts` file.
+- Follow our error handling pattern: return 400 for invalid IDs, 404 if user not found, 200 with JSON if success.
+- Copy the payload format from the existing `GET /users/:id` endpoint.
+- Use our standard rate limiting middleware."
+```
+
+Let Claude produce output again. Review: better aligned with your requirements?
+
+**Round 3: Feedback Loop** (10 min)
+
+Review Claude's code. Ask clarifying questions: "Did you include validation? Does this handle concurrent requests? Is this consistent with our logging?"
+
+Feed Claude's answers into the next prompt and refine once more. The outcome should be a prompt that produces exactly what you need.
+
+**Round 4: Build the Template** (10 min)
+
+Document the final prompt as a reusable template you can reach for next time. Example structure:
+
+```
+"Add a new API endpoint for [ENDPOINT].
+- Route: [METHOD /path/:params]
+- Returns: [describe response payload]
+- Error cases: [describe 400, 404, 500 scenarios]
+- Validation: [describe input validation]
+- Reference implementation: [existing similar endpoint]
+- Middleware: [rate limiting, auth, etc.]"
+```
+
+:::tip[Hint]
+Save this template somewhere you'll actually use it — a team wiki, a notes file, or a snippets library in your editor. The value of a template compounds every time you reach for it instead of starting from scratch.
+:::
+
+**Reflect**
+
+You just created a prompting template that will save hours of work. Every future request of this type can follow this pattern. The effort upfront — being specific, providing context — multiplies across every future use. This is prompt engineering in practice: turning vague requests into precise instructions that Claude can reliably execute.
 
 ---
 
-## Debrief Questions
+## Reflection Questions
 
-Ask the group these reflection questions before closing:
+Work through these before moving on. Honest answers here will shape how you apply these skills next week.
 
-1. **"Which was more impactful: the prompting technique (being specific, providing context) or the effort level?"** — Look for insights about the trade-off between prompt quality and compute. Both matter, but prompt quality is the foundation.
+1. **Which was more impactful: the prompting technique (being specific, providing context) or the effort level?** Look for the trade-off between prompt quality and compute. Both matter, but prompt quality is the foundation.
 
-2. **"What was the most surprising difference you saw between a bad prompt and a good one?"** — Capture the moment of realization about how much specificity matters.
+2. **What was the most surprising difference you saw between the bad prompt and the good one?** Note the specific moment where specificity changed the output.
 
-3. **"If you had to pick one 'Devin principle' to focus on for the next week, which would it be and why?"** — Connect the workshop to their immediate work.
+3. **If you had to focus on one of Devin's principles for the next week, which would it be and why?** Connect this to your immediate work.
 
-4. **"How will you use the template you just built?"** — Make it real: where will they apply this template first?
+4. **How will you use the template you just built?** Be concrete: which task will you use it on first?
 
-5. **"What's one prompt anti-pattern you've used in the past that you now realize was holding you back?"** — Encourage self-reflection on bad habits they can break.
+5. **What's one prompt anti-pattern you've been using that you now realize was holding you back?** Name the habit so you can break it.
 
 ---
 
@@ -231,19 +245,14 @@ Ask the group these reflection questions before closing:
 **"Opus is too expensive for daily work, but Sonnet sometimes struggles"**
 — This is the right tension. Rule of thumb: start with Sonnet + `/effort medium`. If it fails, try Sonnet + `/effort high` (still cheaper than Opus). Only jump to Opus for genuinely hard problems (complex reasoning, tricky debugging).
 
-**"My team keeps writing vague prompts even after seeing the good vs. bad comparison"**
-— Put the template on the team wiki. Make specificity the default. When someone writes a vague prompt, reply: "Can you specify [concrete details]?" It becomes a habit.
-
 **"I don't know if my prompt template is good until Claude tries to use it"**
 — True. Use Plan Mode: give the spec to Claude, let it plan, review the plan. If the plan matches your intent, the template is good. If not, refine and try again. This is the M03 workflow.
 
 ---
 
-## What to Commit Before Leaving
+## What to Have Before Moving On
 
-Each participant should have:
-
-- [ ] A reusable prompt template (documented or in team notes)
+- [ ] A reusable prompt template (documented or saved in your notes)
 - [ ] Confidence in model selection (Haiku vs. Sonnet vs. Opus)
 - [ ] Muscle memory for the `/effort` command and when to use it
 - [ ] One concrete task template ready to use tomorrow (e.g., "Add new API endpoint," "Refactor module," etc.)

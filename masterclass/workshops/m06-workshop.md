@@ -4,32 +4,28 @@ description: "Build a custom TypeScript MCP server your team will actually use �
 ---
 
 
-**Facilitated session | 60–75 min hands-on | Requires: M06 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M06 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Facilitator note**
-This workshop builds on the three design principles and methodology from the study guide. Participants will move from theory to implementation: they'll build a real MCP server together, test it with Claude Code, and learn to iterate based on agent behavior. Allocate 60-75 minutes for hands-on coding and testing.
+This workshop builds on the three design principles and methodology from the study guide. You'll move from theory to implementation: building a real MCP server, testing it with Claude Code, and iterating based on agent behavior.
 
-**Prerequisites for participants**
+**Prerequisites**
 - M06 study guide and pre-work theory completed
 - Node.js 18+ installed and verified (`node --version`)
 - TypeScript familiarity (async/await, interfaces, basic classes)
 - A code editor (VS Code recommended)
 - Ability to run CLI commands (bash or zsh)
 
-**Session timing**
-
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Project setup and server structure | 5 min |
-| 2 | Tool definitions (3 tools) | 15 min |
-| 3 | Tool implementation and logic | 25 min |
-| 4 | Testing with Claude Code | 10 min |
-| 5 | Iteration and refinement | 5 min |
-| — | Debrief and Q&A | 10 min |
+**What you'll do**
+- Set up the project and server structure
+- Define three typed tools with clear descriptions
+- Implement tool logic with mock data
+- Test your server with Claude Code
+- Iterate and refine based on agent behavior
+- Build your own tool set in the hands-on exercise
 
 ---
 
@@ -55,7 +51,9 @@ npm install --save-dev typescript ts-node @types/node
 npx tsc --init
 ```
 
-**Facilitator tip:** While npm install runs, have participants share: "What tool in your own work could benefit from agent-friendly consolidation?" This preps them for the exercise portion.
+:::tip[Hint]
+While `npm install` runs, think about a tool in your own work that could benefit from agent-friendly consolidation. You'll apply this thinking in the hands-on exercise.
+:::
 
 ---
 
@@ -188,7 +186,9 @@ const tools: Tool[] = [
 ];
 ```
 
-**Teaching moment:** Point out the description field in each tool. Ask: "Why is the description important? What would happen if we just said 'list deployments' vs. the full explanation with examples?" The answer: agents reason about when to use tools based on these descriptions.
+:::note
+Pay close attention to the `description` field in each tool. Agents decide when and how to call a tool based entirely on its description. "List deployments" gives an agent almost nothing to work with; the full explanation with examples tells the agent exactly when to reach for this tool.
+:::
 
 ---
 
@@ -339,7 +339,9 @@ Then, in Claude Code, ask:
 - Are the CSV and JSON outputs readable?
 - Did the agent understand what each tool does?
 
-**Facilitator guidance:** Have participants share observations. If Claude struggled to call the tools, it's likely a description clarity issue (covered in Step 6).
+:::tip[Hint]
+If Claude doesn't call your tools at all, or calls the wrong one, the most likely cause is an unclear description. Move on to Step 6 and iterate on the description text before investigating anything else.
+:::
 
 ---
 
@@ -357,7 +359,7 @@ If the agent misunderstood a tool:
 
 ---
 
-## Hands-on Exercise: Build Your Own Tool (Async, 30-45 minutes)
+## Hands-on Exercise: Build Your Own Tool (30–45 minutes)
 
 Choose one of these scenarios:
 
@@ -390,12 +392,14 @@ Design and implement:
 
 ---
 
-## Debrief Questions
+## Reflection Questions
 
-1. **"When you were designing your tool descriptions, what changed your thinking about how agents use tools?"** Look for: clarity of purpose, when to consolidate, output format decisions.
-2. **"Which of your three tools did Claude call most effectively, and why?"** Look for: connection between description quality and agent behavior.
-3. **"If you were to expose these tools on your team, what would the biggest risk be?"** Look for: security (dry_run pattern), verbosity, misuse.
-4. **"How would you handle a tool that's almost always called incorrectly?"** Look for: iterative refinement, description rewriting, testing with real tasks.
+After completing the workshop, consider these questions to consolidate your learning:
+
+1. When you were designing your tool descriptions, what changed your thinking about how agents use tools? Consider: clarity of purpose, when to consolidate, output format decisions.
+2. Which of your three tools did Claude call most effectively, and why? Consider the connection between description quality and agent behavior.
+3. If you were to expose these tools to your team, what would the biggest risk be? Consider: security (dry_run pattern), verbosity, misuse.
+4. How would you handle a tool that's almost always called incorrectly? Consider: iterative refinement, description rewriting, testing with real tasks.
 
 ---
 
@@ -421,9 +425,9 @@ Design and implement:
 
 ---
 
-## What to Commit Before Leaving
+## Completion Checklist
 
-Each participant should have:
+Before moving on, verify you have:
 
 - [ ] A working `src/index.ts` that compiles with `npx tsc`
 - [ ] Server running and responding to tool calls

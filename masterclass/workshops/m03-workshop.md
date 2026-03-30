@@ -1,30 +1,25 @@
 ---
-title: "M03: Specifications Are the New Source Code — Workshop Guide"
+title: "M03: Specifications Are the New Source Code — Workshop"
 description: "Write a real spec, run it through Plan Mode, and lock in requirements before a single line of code is written."
 ---
 
 
-**Facilitated session | 45–60 min | Requires: M03 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M03 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Facilitator note**
+This workshop makes the spec-first workflow tangible. You will see the difference between a vague spec and a clear spec, experience Plan Mode's four-step workflow firsthand, and finish with a specification you have written, planned, refined, and implemented. By the end, you will have muscle memory for writing specifications that Claude can execute reliably.
 
-Participants should have completed the M03 study guide, which covers the paradigm shift (specs as durable artifacts), the specification template, and Plan Mode mechanics. This workshop makes the workflow tangible by showing the difference between a vague spec and a clear spec, and by letting participants experience Plan Mode's four-step workflow firsthand. By the end, everyone has written a specification, generated a plan, refined it, and seen implementation follow the spec exactly. For product owners, this workshop is where clarity becomes a concrete practice.
+**What you'll do**
 
-**Session Overview**
+- [ ] Compare a vague spec vs. a clear spec in Plan Mode
+- [ ] Practice the four-step Plan Mode workflow on a real task
+- [ ] Write a specification using the template
+- [ ] Run an end-to-end Plan Mode workflow on a realistic feature
 
-| Segment | Activity | Format | Duration |
-|---------|----------|--------|----------|
-| 1 | Vague spec vs. clear spec (side-by-side comparison) | Live demo + discussion | 10 min |
-| 2 | Plan Mode deep dive (four-step workflow) | Hands-on practice | 15 min |
-| 3 | Spec writing exercise (template walkthrough) | Group activity | 20 min |
-| 4 | End-to-end Plan Mode workflow (realistic task) | Hands-on implementation | 50 min |
-| — | Debrief | Group reflection | 5 min |
-
-**Prerequisites for participants**
+**Prerequisites**
 
 - M03 study guide completed (theory + readings)
 - Claude Code open with access to a real codebase or demo project
@@ -35,216 +30,208 @@ Participants should have completed the M03 study guide, which covers the paradig
 
 ---
 
-## Segment 1: Vague Spec vs. Clear Spec (10 min)
+## Part 1: Vague Spec vs. Clear Spec
 
-**Objective**: Show the difference between implementation chaos and smooth execution.
+**Objective**: See the difference between implementation chaos and smooth execution.
 
-**Setup**:
+Choose a real feature request from your backlog. If none is available, use this example: "Add user profile editing."
 
-Choose a real feature request from the backlog. If none is available, use this example: "Add user profile editing."
+### Step 1 — Vague Spec
 
-**Activity**:
+Enter Plan Mode and ask Claude to plan this:
 
-1. **Vague Spec** (2 min)
-   - "Users should be able to edit their profiles."
-   - Ask Claude to implement this in Plan Mode
-   - Review the plan: Is it ambiguous? Does Claude make assumptions about what fields are editable? Error handling? Validation?
-   - Lesson: Vague specs produce vague plans
+> "Users should be able to edit their profiles."
 
-2. **Clear Spec** (5 min)
-   - Rewrite the same feature with precision:
-     ```
-     "Users can edit their profile fields: name, bio, profile picture URL, and notifications preferences.
+Review the plan. Is it ambiguous? Does Claude make assumptions about which fields are editable, how error handling works, what validation is required?
 
-     Requirements:
-     - Endpoint: PUT /users/:id/profile
-     - Auth: User can only edit their own profile (token-based)
-     - Validation:
-       - Name: 1–100 characters, required
-       - Bio: 0–500 characters, optional
-       - Profile picture: Valid HTTPS URL or null
-       - Notification prefs: boolean flags (email_weekly, sms_alerts, marketing)
-     - Response: Updated user object + 200 OK
-     - Error cases:
-       - 400 if validation fails (include which field and why)
-       - 401 if not authenticated
-       - 403 if user tries to edit someone else's profile
-       - 404 if user doesn't exist
-     - Idempotency: Calling the same request twice must produce the same result
-     - Audit logging: Log all edits to the audit_log table"
-     ```
-   - Ask Claude to plan this
-   - Review: Is the plan detailed and confident? Does it match your intent?
-   - Lesson: Specific specs produce specific, reliable plans
+**Lesson**: Vague specs produce vague plans.
 
-3. **Comparison** (3 min)
-   - "The second spec took 30 seconds longer to write but will save 2 hours of revision and rework. This is the ROI of specification clarity."
+### Step 2 — Clear Spec
+
+Rewrite the same feature with precision and ask Claude to plan it again:
+
+```
+"Users can edit their profile fields: name, bio, profile picture URL, and notifications preferences.
+
+Requirements:
+- Endpoint: PUT /users/:id/profile
+- Auth: User can only edit their own profile (token-based)
+- Validation:
+  - Name: 1–100 characters, required
+  - Bio: 0–500 characters, optional
+  - Profile picture: Valid HTTPS URL or null
+  - Notification prefs: boolean flags (email_weekly, sms_alerts, marketing)
+- Response: Updated user object + 200 OK
+- Error cases:
+  - 400 if validation fails (include which field and why)
+  - 401 if not authenticated
+  - 403 if user tries to edit someone else's profile
+  - 404 if user doesn't exist
+- Idempotency: Calling the same request twice must produce the same result
+- Audit logging: Log all edits to the audit_log table"
+```
+
+Review the plan. Is it detailed and confident? Does it match your intent?
+
+**Lesson**: Specific specs produce specific, reliable plans.
+
+### Step 3 — Compare
+
+The second spec took about 30 seconds longer to write but will save 2 hours of revision and rework. This is the ROI of specification clarity.
 
 ---
 
-## Segment 2: Plan Mode Deep Dive (15 min)
+## Part 2: Plan Mode Deep Dive
 
-**Objective**: Hands-on comfort with the four-step workflow.
+**Objective**: Build hands-on comfort with the four-step workflow.
 
-**Setup**: Pick a moderately-complex task from your team's backlog.
+Pick a moderately-complex task from your backlog.
 
-**Facilitation**:
+1. **Enter Plan Mode**
+   - Press Shift+Tab or type `/plan`
+   - Prompt Claude: "[Task description] — please show me your plan before implementing."
 
-1. **Enter Plan Mode** (2 min)
-   - Shift+Tab or `/plan`
-   - Ask Claude: "[Task description]—please show me your plan before implementing."
+2. **Review Claude's Plan**
+   - Claude will outline its approach, architecture, data models, edge cases, and error codes
+   - Read through it carefully before proceeding
 
-2. **Claude Generates Plan** (3 min)
-   - Claude outlines approach, architecture, data models, edge cases, error codes
-   - Participants review silently
+3. **Pause and Question**
+   - Interrupt with specific concerns: "I notice you didn't mention [security concern / edge case]. How would you handle that?"
+   - Continue with follow-ups: "What about [another edge case]?"
+   - Each question makes the plan more complete
 
-3. **Pause and Question** (5 min)
-   - Interrupt: "I notice you didn't mention [security concern / edge case]. How would you handle that?"
-   - Claude responds
-   - Continue: "What about [another edge case]?"
-   - Outcome: Plan becomes more complete
+4. **Request Refinement**
+   - Ask Claude to adjust: "Let's change the error response format. Instead of a generic message, include which validation rule failed."
+   - If relevant: "Does this break backward compatibility?"
+   - Iterate until the plan is solid
 
-4. **Request Refinement** (3 min)
-   - "Let's adjust the error response format. Instead of a generic message, include which validation rule failed."
-   - Claude updates the plan
-   - "Does this break backward compatibility?" (If relevant)
-   - Iterate until plan is solid
-
-5. **Green Light** (2 min)
-   - "This plan looks good. Let's execute it."
-   - Shift+Tab again to exit Plan Mode
+5. **Green Light**
+   - When satisfied, say: "This plan looks good. Let's execute it."
+   - Press Shift+Tab again to exit Plan Mode
    - Claude implements following the spec exactly
+
+:::tip[Hint]
+Aim for at least three rounds of questions before greenlighting. If you can't think of edge cases to probe, ask about: authentication, validation, null values, empty lists, concurrent requests, and what happens if the database is unavailable.
+:::
 
 **Key insight**: By the time Claude implements, all ambiguity has been removed. Implementation is straightforward.
 
 ---
 
-## Segment 3: Spec Writing Exercise (20 min)
+## Part 3: Spec Writing Exercise
 
 **Objective**: Write a specification that Claude can execute reliably.
 
-**Setup**: Identify a real feature from the backlog. Target: "moderately complex" (not trivial, not a week of work).
+Identify a real feature from your backlog. Target something "moderately complex" — not trivial, but not a week of work.
 
-**Facilitation**:
+1. **Brainstorm Requirements**
+   - Write down: what should this feature do? Include user stories, requirements, edge cases, and constraints. Start with a raw list.
 
-1. **Brainstorm Requirements** (5 min)
-   - Group discusses: "What should this feature do?"
-   - Facilitator captures on whiteboard/doc: user stories, requirements, edge cases, constraints
-   - Outcome: A raw list of thoughts
+2. **Structure into a Spec**
+   - Reorganize your notes into the template:
+     - **What**: Goal and scope
+     - **Why**: Motivation
+     - **How**: Functional requirements, edge cases, constraints, acceptance criteria
+     - **Where**: Integration points
+     - **When**: Dependencies
+     - **References**: Links to relevant docs
+   - Review: "Does this cover everything? Are there ambiguities?"
+   - Refine until you can answer yes to: "If I gave this to Claude, would it implement correctly?"
 
-2. **Structure into a Spec** (10 min)
-   - Facilitator reorganizes into the template:
-     - What: Goal and scope
-     - Why: Motivation
-     - How: Functional requirements, edge cases, constraints, acceptance criteria
-     - Where: Integration points
-     - When: Dependencies
-     - References: Links to relevant docs
-   - Group reviews: "Does this cover everything? Are there ambiguities?"
-   - Refine: "If we gave this to Claude, would it implement correctly?"
-
-3. **Test with Plan Mode** (5 min)
+3. **Test with Plan Mode**
    - Give the spec to Claude in Plan Mode
-   - Review the plan: Does it match your intent?
-   - If not, refine the spec
-   - Outcome: A spec that produces a reliable plan
+   - Review the plan: does it match your intent?
+   - If not, identify what was unclear in the spec and refine it
+   - Outcome: a spec that produces a reliable plan
+
+:::note
+The spec is the forcing function. If Claude's plan is vague or makes unexpected assumptions, that is feedback that your spec needs more precision — not that Claude is wrong. Iterate on the spec first.
+:::
 
 ---
 
-## Hands-on Exercise: End-to-End Plan Mode Workflow
+## Part 4: End-to-End Plan Mode Workflow
 
 **Objective**: Experience the full workflow on a realistic task.
 
-**Setup** (5 min):
+Identify a real feature, bug fix, or refactoring task you need to complete. Target something that would represent 2–4 hours of traditional engineering work. Examples:
 
-Identify a real feature, bug fix, or refactoring task the team needs. Target: 2–4 hours of traditional engineering work. Examples:
 - "Add OAuth2 login to the dashboard"
 - "Implement API rate limiting"
 - "Refactor the payment module to support subscriptions"
 - "Add comprehensive logging to the critical path"
 
-**Steps** (50 min):
+### Steps
 
-1. **Write Initial Spec** (10 min)
-   - Facilitator and group collaboratively write a specification using the template:
-     - What: One sentence + scope
-     - Why: Motivation and user benefit
-     - How: Functional requirements, edge cases, validation, error handling, constraints
-     - Where: Integration points, data flows
-     - When: Dependencies
-     - References: Links to relevant docs or prior art
-   - Type it into Claude Code
+1. **Write Initial Spec** — Type a specification into Claude Code using the template:
+   - **What**: One sentence + scope
+   - **Why**: Motivation and user benefit
+   - **How**: Functional requirements, edge cases, validation, error handling, constraints
+   - **Where**: Integration points, data flows
+   - **When**: Dependencies
+   - **References**: Links to relevant docs or prior art
 
-2. **Request Plan** (5 min)
-   - Enter Plan Mode: Shift+Tab
-   - Prompt: "Here's the specification for [feature]. Please plan the implementation. Include architecture, file structure, data models, API endpoints, validation rules, error codes, and security considerations."
-   - Claude generates the plan
+2. **Request Plan** — Enter Plan Mode (Shift+Tab), then prompt:
+   > "Here's the specification for [feature]. Please plan the implementation. Include architecture, file structure, data models, API endpoints, validation rules, error codes, and security considerations."
 
-3. **Review Plan** (10 min)
-   - Group reads through Claude's plan
-   - Discuss: "Does this match the spec? Did Claude make good assumptions? Are there gaps?"
-   - Write down questions and concerns
+3. **Review Plan** — Read through Claude's plan carefully. Ask yourself: does this match the spec? Did Claude make reasonable assumptions? Are there gaps?
 
-4. **Refine Plan** (15 min)
-   - Ask clarifying questions: "How do you handle [edge case]?" "Is this consistent with [existing pattern]?" "What about [security concern]?"
-   - Request adjustments: "Can you adjust the error response format to include..." "I notice you didn't mention [constraint], can you address it?"
-   - Claude updates the plan with each question
-   - Continue until the plan is solid and matches the spec
+4. **Refine Plan** — Ask clarifying questions and request adjustments until the plan is solid:
+   - "How do you handle [edge case]?"
+   - "Is this consistent with [existing pattern]?"
+   - "What about [security concern]?"
+   - "Can you adjust the error response format to include...?"
+   - "I notice you didn't mention [constraint] — can you address it?"
 
-5. **Green Light and Implement** (10 min)
-   - Say: "This plan looks good. Let's execute it." (or Shift+Tab to exit Plan Mode)
-   - Claude implements the plan
-   - Watch as the implementation follows the spec—almost no surprises
-   - Outcome: The feature, built to spec, in <15 min of actual implementation time
+5. **Green Light and Implement** — Say: "This plan looks good. Let's execute it." (or press Shift+Tab to exit Plan Mode). Watch as Claude implements to spec with almost no surprises.
 
-6. **Debrief** (5 min)
-   - "Notice how long implementation took once the plan was solid? That's the ROI of specification clarity. The upfront investment in a clear spec pays off by eliminating revision cycles."
+6. **Reflect** — Notice how fast implementation was once the plan was solid. The upfront investment in a clear spec eliminates revision cycles.
+
+:::tip[Hint]
+If Claude's implementation drifts from the plan, exit Plan Mode (Shift+Tab) and give direct feedback: "The plan said X, but you implemented Y. Can you fix it?" Claude will correct it.
+:::
 
 ---
 
-## Debrief Questions
+## Reflection Questions
 
-Ask the group these reflection questions before closing:
+Work through these after completing the exercise:
 
-1. **"How much of the total time did we spend on the plan vs. the implementation?"** — Most teams spend 70% on planning and only 30% on code. This is the shift from code-first to spec-first thinking.
+1. **How much of your total time went to planning vs. implementation?** — Most people spend roughly 70% planning and 30% writing code. This is the spec-first shift in practice.
 
-2. **"What ambiguities did we catch in the plan that would have caused rework if we'd jumped straight to coding?"** — Look for edge cases, error handling, integration gotchas that became obvious only in the planning phase.
+2. **What ambiguities did you catch in the plan that would have caused rework if you had jumped straight to coding?** — Look for edge cases, error handling, and integration issues that only became visible in the planning phase.
 
-3. **"If we had skipped the plan and just asked Claude to 'implement the feature,' what would have gone wrong?"** — This makes the case for Plan Mode concretely. Usually: missing validation, wrong error codes, no logging, inconsistent with existing patterns.
+3. **If you had skipped the plan and asked Claude to "implement the feature" directly, what would have gone wrong?** — Common answers: missing validation, wrong error codes, no logging, inconsistency with existing patterns.
 
-4. **"How would you explain the specification template to a product owner who's never seen it before?"** — Tests whether they've internalized the Why (clarity, durability, alignment).
+4. **How would you explain the specification template to a product owner who has never seen it?** — This tests whether you have internalized the why: clarity, durability, alignment.
 
-5. **"What's one thing you'd change about the plan if you could go back?"** — Encourages critical thinking about the planning process itself.
+5. **What is one thing you would change about your plan if you could go back?** — Use this to sharpen your spec-writing instincts for next time.
 
 ---
 
 ## Common Issues
 
 **"The plan looks good, but the implementation doesn't match it"**
-— Exit Plan Mode (Shift+Tab) and review the code. Usually Claude drifted or made assumptions. Provide feedback: "The plan said X, but you implemented Y. Can you fix it?" Claude will correct it.
+— Exit Plan Mode (Shift+Tab) and review the code. Claude may have drifted or made assumptions. Provide feedback: "The plan said X, but you implemented Y. Can you fix it?" Claude will correct it.
 
 **"I don't know what edge cases to ask about"**
-— Ask questions about the things that usually break: authentication, validation, error handling, null values, empty lists, concurrent requests, what if the database is down? These are the eight most common edge cases.
+— Ask about the things that usually break: authentication, validation, error handling, null values, empty lists, concurrent requests, and what happens if the database is down. These cover the most common failure modes.
 
 **"My spec is too vague and Claude's plan reflects that"**
-— This is the teaching moment. Refine the spec together. Claude's vague plan is feedback that your spec isn't clear enough. Iterate. The spec should be clear enough that Claude's plan is specific.
+— Refine the spec. Claude's vague plan is direct feedback that your spec isn't clear enough. Iterate. The spec should be specific enough that Claude's plan is also specific.
 
 **"Plan Mode is taking too long"**
-— It shouldn't. If the plan is taking >5 min, you're either asking for too much or Claude is generating a book instead of a concise plan. Ask Claude to be more concise: "Please provide a shorter plan: just the key files, endpoints, and error cases."
+— If the plan is taking more than 5 minutes, you may be asking for too much at once, or Claude is generating an overly long response. Ask Claude to be more concise: "Please provide a shorter plan: just the key files, endpoints, and error cases."
 
-**"We finished the plan but now I'm not sure we should implement it"**
-— Perfect. That's the point. The plan is a forcing function that reveals whether the idea is actually good. If the plan looks problematic, don't implement it yet. Refine the spec and the plan again.
+**"I finished the plan but now I'm not sure I should implement it"**
+— That is the point. The plan is a forcing function that reveals whether the idea is actually sound. If the plan looks problematic, don't implement it yet. Refine the spec and re-plan.
 
 ---
 
-## What to Commit Before Leaving
+## Checklist: What to Have When You Finish
 
-Each participant should have:
-
-- [ ] A completed specification template (in team docs or wiki)
+- [ ] A completed specification template (saved in your team docs or wiki)
 - [ ] A Plan Mode plan that was refined with at least 3 feedback rounds
 - [ ] An implementation that follows the plan
 - [ ] Muscle memory for the Shift+Tab command and the four-step workflow
-- [ ] Confidence that specs are worth the upfront effort
-
----
+- [ ] Confidence that the upfront effort of writing a clear spec is worth it

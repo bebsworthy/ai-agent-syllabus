@@ -4,33 +4,27 @@ description: "Build a team skill, a custom subagent, and a hook that auto-runs o
 ---
 
 
-**Facilitated session | 60–75 min hands-on | Requires: M07 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M07 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Facilitator note**
-This workshop builds on the composition stack and skill patterns from the study guide. Participants will move from understanding the layers (CLAUDE.md, Skills, Subagents, Hooks) to implementing a complete feature development workflow. They'll create reusable skills that persist in the repo, test subagents in isolation, and wire hooks into their development cycle. Allocate 60-75 minutes for hands-on work and iteration.
-
-**Prerequisites for participants**
+**Prerequisites**
 - M07 study guide and pre-work theory completed
-- Access to a team Git repository (or a test repo they control)
+- Access to a team Git repository (or a test repo you control)
 - Familiarity with YAML frontmatter
 - Basic shell scripting knowledge (bash)
 - Git basics (add, commit, push)
 
-**Session timing**
+**What you'll do**
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Create first skill (Pure Markdown) | 10 min |
-| 2 | Create subagent (Code Quality) | 15 min |
-| 3 | Create PostToolUse hook | 15 min |
-| 4 | Create feature workflow skill | 10 min |
-| 5 | Test integration | 5 min |
-| 6 | Commit to repository | 5 min |
-| — | Debrief and Q&A | 10 min |
+- [ ] Create your first skill (Pure Markdown)
+- [ ] Create a subagent for code quality review
+- [ ] Create a PostToolUse hook for auto-linting
+- [ ] Create a feature development workflow skill
+- [ ] Test the full integration
+- [ ] Commit everything to your repository
 
 ---
 
@@ -44,7 +38,7 @@ Your team needs a repeatable workflow: developers write code, subagents review i
 
 ---
 
-## Step 1: Create Your First Skill — Pure Markdown (10 minutes)
+## Step 1: Create Your First Skill — Pure Markdown
 
 Create `.claude/skills/new-component.md` in your repository:
 
@@ -139,11 +133,13 @@ describe('Button', () => {
 
 Now run: `/new-component` in Claude Code. It will generate boilerplate.
 
-**Facilitator tip:** Ask participants: "Where did this skill definition come from? Is it in your repo or somewhere else?" The answer: it's in `.claude/skills/`, so it's repo-local and committed. Every team member gets it when they clone.
+:::note
+The skill definition lives in `.claude/skills/`, which means it is repo-local and committed to version control. Every team member gets the same skill automatically when they clone the repo.
+:::
 
 ---
 
-## Step 2: Create a Subagent for Code Quality (15 minutes)
+## Step 2: Create a Subagent for Code Quality
 
 Create `.claude/agents/code-quality.md`:
 
@@ -196,11 +192,13 @@ Return structured feedback:
 Test it by calling `@code-quality` in a Claude Code session:
 > "@code-quality review src/components/Button.tsx"
 
-**Key learning:** A subagent is an independent session with its own tools and instructions. It doesn't inherit your main session's context—it's specialized. This isolation makes it useful for consistent, role-focused work.
+:::note
+A subagent is an independent session with its own tools and instructions. It does not inherit your main session's context — it is specialized. This isolation makes it useful for consistent, role-focused work.
+:::
 
 ---
 
-## Step 3: Create a PostToolUse Hook (15 minutes)
+## Step 3: Create a PostToolUse Hook
 
 Create `.claude/hooks/post_tool_use.sh`:
 
@@ -238,11 +236,17 @@ chmod +x .claude/hooks/post_tool_use.sh
 
 Now whenever Claude Code writes a TypeScript file, it auto-lints.
 
-**Teaching moment:** Hooks are deterministic and run automatically at lifecycle points. This one runs after tool execution (`PostToolUse`). It validates and auto-formats output without requiring human intervention. This is how you enforce team standards without friction.
+:::note
+Hooks are deterministic and run automatically at lifecycle points. This one runs after tool execution (`PostToolUse`). It validates and auto-formats output without requiring human intervention — a low-friction way to enforce team standards.
+:::
+
+:::tip[Hint]
+If your hook does not appear to run, confirm the file is executable (`chmod +x .claude/hooks/post_tool_use.sh`) and that the filename exactly matches the lifecycle event name. Add `echo "Hook executed"` as a first line to verify it is being called.
+:::
 
 ---
 
-## Step 4: Create a Feature Development Skill (10 minutes)
+## Step 4: Create a Feature Development Skill
 
 Create `.claude/skills/new-feature.md`:
 
@@ -291,7 +295,7 @@ When creating a new feature:
 
 ---
 
-## Step 5: Test Integration (5 minutes)
+## Step 5: Test Integration
 
 In Claude Code, try the full workflow:
 
@@ -316,7 +320,7 @@ Feature ready for PR
 
 ---
 
-## Step 6: Commit to Repository (5 minutes)
+## Step 6: Commit to Repository
 
 ```bash
 cd /path/to/repo
@@ -327,11 +331,13 @@ git push origin main
 
 Now every team member cloning the repo gets these skills and hooks automatically.
 
-**Facilitator note:** This is the key moment. By committing these to the repo, you've encoded team practices into tooling. New hires get the same workflow. Knowledge doesn't stay in one person's head—it's in the CLAUDE ecosystem.
+:::note
+By committing these files to the repo, you have encoded team practices directly into tooling. New hires get the same workflow on day one, and knowledge is no longer siloed in any one person's head.
+:::
 
 ---
 
-## Hands-on Exercise: Custom Skill + Hook (Async, 30-45 minutes)
+## Hands-on Exercise: Custom Skill + Hook (30–45 minutes)
 
 ### Choose One Scenario
 
@@ -353,7 +359,7 @@ Create a `/new-endpoint` skill that:
 2. Creates route, validation, tests
 3. Includes a hook that validates OpenAPI/Swagger compliance
 
-### What to Submit
+### What to Produce
 
 1. **Skills:** All `.yml` files in `.claude/skills/`
 2. **Subagents:** All `.md` files in `.claude/agents/`
@@ -366,12 +372,14 @@ Create a `/new-endpoint` skill that:
 
 ---
 
-## Debrief Questions
+## Reflection Questions
 
-1. **"When you created the skill definition, what was the hardest part?"** Look for: clarity of instructions, knowing what checklist to include, when to call subagents.
-2. **"How would you describe the difference between a skill and a subagent?"** Look for: skills are instructions + templates; subagents are independent sessions with specialized roles.
-3. **"If the hook didn't run, how would you debug it?"** Look for: checking `.chmod +x`, verifying hook location, understanding hook lifecycle events.
-4. **"What's the biggest risk if you commit a buggy skill to the repo?"** Look for: awareness that everyone gets it; need to test before committing; easy to rollback.
+Use these questions to consolidate what you have learned before moving on:
+
+1. When you created the skill definition, what was the hardest part? Consider: clarity of instructions, what to include in the checklist, when to delegate to a subagent.
+2. How would you describe the difference between a skill and a subagent? Skills are instructions and templates; subagents are independent sessions with specialized roles and their own tool access.
+3. If the hook did not run, how would you debug it? Consider: `chmod +x`, verifying the file location, and confirming the filename matches the lifecycle event name.
+4. What is the biggest risk of committing a buggy skill to the repo? Everyone who clones the repo gets it immediately — test thoroughly before committing, and use git to roll back if needed.
 
 ---
 
@@ -399,9 +407,9 @@ Create a `/new-endpoint` skill that:
 
 ---
 
-## What to Commit Before Leaving
+## Workshop Completion Checklist
 
-Each participant should have:
+Before moving on, confirm you have:
 
 - [ ] At least one skill defined in `.claude/skills/` (YAML frontmatter + markdown content)
 - [ ] At least one subagent defined in `.claude/agents/`

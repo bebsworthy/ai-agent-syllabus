@@ -4,43 +4,34 @@ description: "Wire a GitHub Actions AI review step into your pipeline and packag
 ---
 
 
-**Facilitated session | 45–60 min | Requires: M12 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M12 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Prerequisites for participants**
+**Prerequisites**
 - M12 study guide read (theory + readings)
 - Claude Code installed and working
 - Access to a Git repository (real project or test repo)
 - Basic CI/CD experience (GitHub Actions, GitLab CI, or similar)
 - Familiarity with bash and `xargs` (or willingness to learn)
 
-**What this session does**
-The theory covers headless modes, batch operations, and CI/CD integration patterns. This workshop makes them tangible. Participants will design a real PR review automation, write GitHub Actions YAML, use xargs for parallel processing, and test everything on sample code. By the end, everyone has executed Claude Code in plan mode and understands how parallelization scales.
-
-**Facilitator preparation**
-- Have a GitHub Actions workflow YAML file ready to walk through
-- Test `xargs` command on your own machine beforehand
-- Prepare 3-5 sample files with realistic security/complexity issues
-- Have your own CI/CD repository to demo if someone's setup takes time
+**What you'll do**
+The theory covers headless modes, batch operations, and CI/CD integration patterns. This workshop makes them tangible. You will design a real PR review automation, write GitHub Actions YAML, use xargs for parallel processing, and test everything on sample code. By the end, you will have executed Claude Code in plan mode and understand how parallelization scales.
 
 ---
 
-## Session Plan
+## What You'll Do
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Exercise 1: Design PR review automation | 15 min |
-| 2 | Exercise 2: Write GitHub Actions YAML | 20 min |
-| 3 | Exercise 3: Batch operations with xargs | 15 min |
-| — | Hands-on: Build and test CI/CD pipeline | 30–45 min |
-| — | Debrief | 5 min |
+- [ ] Design a PR review automation for a specific category of issues
+- [ ] Write a GitHub Actions YAML workflow that runs Claude Code in CI/CD
+- [ ] Use `xargs` to run Claude Code in parallel across multiple files
+- [ ] Build and test a local CI/CD pipeline with plan-mode output
 
 ---
 
-## Exercise 1: Design Your First PR Review Automation (15 min)
+## Exercise 1: Design Your First PR Review Automation
 
 **Goal:** Map what review checks make sense to automate.
 
@@ -67,13 +58,15 @@ The theory covers headless modes, batch operations, and CI/CD integration patter
    Output: structured list of findings, each with severity and suggested fix.
    ```
 
-4. Share with the group. Refine together.
+4. Write down your prompt and refine it before moving on.
 
-**Facilitator note:** Push participants to be specific. Generic prompts like "find bugs" are too vague. "Find SQL injection in Python database queries" is actionable.
+:::tip[Hint]
+Be specific in your prompt. Generic prompts like "find bugs" are too vague and produce noisy output. "Find SQL injection in Python database queries" is actionable and yields focused results.
+:::
 
 ---
 
-## Exercise 2: Set Up a GitHub Actions Workflow (20 min)
+## Exercise 2: Set Up a GitHub Actions Workflow
 
 **Goal:** Write a real YAML file that runs Claude Code in CI/CD.
 
@@ -128,13 +121,15 @@ Walk through each step:
 - **Run AI Review:** Execute Claude with a prompt
 - **Comment on PR:** Post results back to GitHub
 
-Discuss: Where would you adjust the prompt for your team? What else would you add?
+Consider: where would you adjust the prompt for your team? What else would you add?
 
-**Facilitator note:** Highlight the `-p` flag in the "Run AI Review" step. This is **plan mode**—Claude analyzes but doesn't modify. Safe for CI/CD by design.
+:::note
+Notice the `-p` flag in the "Run AI Review" step. This is **plan mode** — Claude analyzes but does not modify files. This makes it safe for CI/CD by design.
+:::
 
 ---
 
-## Exercise 3: Batch Operations with xargs (15 min)
+## Exercise 3: Batch Operations with xargs
 
 **Goal:** See parallelization in action.
 
@@ -164,17 +159,19 @@ find . -name "*.py" | xargs -P 4 -I {} \
   claude code -p "Scan {} for deprecated library usage. Output: JSON."
 ```
 
-**Facilitator note:** Walk through the xargs flags:
-- `find . -name "*.py"`: Find all .py files
-- `|`: Pipe output to the next command
-- `xargs -P 4 -I {}`: Take input, run 4 tasks in parallel, substitute filename as `{}`
-- `claude code -p ...`: Run Claude in plan mode for each file
+:::note
+Here is what each part of the xargs command does:
+- `find . -name "*.py"` — find all `.py` files
+- `|` — pipe output to the next command
+- `xargs -P 4 -I {}` — take input, run 4 tasks in parallel, substitute filename as `{}`
+- `claude code -p ...` — run Claude in plan mode for each file
+:::
 
 ---
 
-## Hands-on Exercise: Build and Test a CI/CD Pipeline (30–45 min)
+## Hands-on Exercise: Build and Test a CI/CD Pipeline
 
-### Part 1: Create a Test Repository (10 min)
+### Part 1: Create a Test Repository
 
 You'll create a minimal repo with sample code to practice CI/CD automation.
 
@@ -209,7 +206,7 @@ You'll create a minimal repo with sample code to practice CI/CD automation.
    git commit -m "Initial commit"
    ```
 
-### Part 2: Run Claude Code in Plan Mode (15 min)
+### Part 2: Run Claude Code in Plan Mode
 
 **In plan mode (`-p`), Claude Code doesn't modify files; it just analyzes and reports.**
 
@@ -226,7 +223,7 @@ You'll create a minimal repo with sample code to practice CI/CD automation.
 
 3. Examine the output. This is what you'd see in a CI/CD log or GitHub comment.
 
-### Part 3: Simulate Batch Processing (15 min)
+### Part 3: Simulate Batch Processing
 
 1. Create 3-5 files with different issues (SQL injection risk, missing validation, etc.)
 
@@ -255,42 +252,40 @@ If you have access to GitHub:
 
 ---
 
-## Debrief Questions
+## Reflection Questions
 
-Ask the group:
+Work through these on your own to solidify your understanding:
 
-1. **"When you designed your PR review automation in Exercise 1, what category felt most realistic to automate? Why that one?"** — Look for: teams recognizing the difference between mechanical checks (deprecation, security patterns) vs. judgment calls (architecture, design).
+1. **When you designed your PR review automation in Exercise 1, what category felt most realistic to automate? Why that one?** Consider: the difference between mechanical checks (deprecation, security patterns) vs. judgment calls (architecture, design).
 
-2. **"In the GitHub Actions YAML, what would break if someone deleted a file mentioned in `changed_files.txt` before Claude Code ran?"** — Look for: understanding that CI/CD is fragile; edge cases matter.
+2. **In the GitHub Actions YAML, what would break if someone deleted a file mentioned in `changed_files.txt` before Claude Code ran?** Consider: CI/CD is fragile; edge cases matter.
 
-3. **"You ran 8 parallel tasks with xargs. What would happen if you ran 100 tasks in parallel instead?"** — Look for: recognizing resource limits, rate limiting, cost management.
+3. **You ran 8 parallel tasks with xargs. What would happen if you ran 100 tasks in parallel instead?** Consider: resource limits, rate limiting, and cost management.
 
-4. **"Which of your team's review comments from the last 20 PRs should NOT be automated by Claude Code?"** — Look for: discernment about when AI adds value vs. noise.
+4. **Which of your team's review comments from the last 20 PRs should NOT be automated by Claude Code?** Consider: when AI adds value vs. noise.
 
-5. **"If Claude's output is wrong in a PR review, who's responsible?"** — Look for: clarity that automation is a tool; humans are still accountable.
+5. **If Claude's output is wrong in a PR review, who's responsible?** Consider: automation is a tool; humans remain accountable.
 
 ---
 
 ## Common Issues
 
-**"Claude Code installation fails in CI/CD"** — Most common: missing CLAUDE_API_KEY secret in GitHub. Solution: go to repo Settings > Secrets and add the key. Or use a different installation method (e.g., pre-built Docker image).
+**"Claude Code installation fails in CI/CD"** — Most common cause: missing `CLAUDE_API_KEY` secret in GitHub. Go to repo Settings > Secrets and add the key. Or use a different installation method (e.g., pre-built Docker image).
 
-**"The xargs command finds files but Claude Code times out"** — xargs is parallelizing too aggressively and hitting rate limits. Solution: reduce `-P` from 8 to 4 or 2. Or add `sleep` between batches: `xargs -P 4 -I {} sh -c 'claude code -p "..." && sleep 1'`.
+**"The xargs command finds files but Claude Code times out"** — xargs is parallelizing too aggressively and hitting rate limits. Reduce `-P` from 8 to 4 or 2. Or add `sleep` between batches: `xargs -P 4 -I {} sh -c 'claude code -p "..." && sleep 1'`.
 
-**"GitHub Actions YAML has indentation errors"** — YAML is whitespace-sensitive. Solution: use an online YAML validator (yamllint.com) before committing. Or use a GitHub Actions editor in the web UI, which validates as you type.
+**"GitHub Actions YAML has indentation errors"** — YAML is whitespace-sensitive. Use an online YAML validator (yamllint.com) before committing. Or use the GitHub Actions editor in the web UI, which validates as you type.
 
-**"The AI review output is too noisy—many false positives"** — The prompt is too generic. Solution: make it more specific. Instead of "check for security issues" (yields 50 false positives), try "check for SQL injection in database queries only" (yields 2-3 real issues).
+**"The AI review output is too noisy—many false positives"** — The prompt is too generic. Make it more specific. Instead of "check for security issues" (yields 50 false positives), try "check for SQL injection in database queries only" (yields 2-3 real issues).
 
-**"Plan mode (-p) doesn't work; Claude still tries to modify files"** — User may be confusing `-p` with something else, or using an older version. Solution: verify `claude --version` is recent. Confirm the `-p` flag is actually in the command. Use `claude code -p "[prompt]"`, not `claude -p code "[prompt]"`.
+**"Plan mode (-p) doesn't work; Claude still tries to modify files"** — You may be using an older version or have the flag in the wrong position. Verify `claude --version` is recent. Confirm the `-p` flag is in the command: use `claude code -p "[prompt]"`, not `claude -p code "[prompt]"`.
 
 ---
 
-## What to Commit Before Leaving
-
-Each participant should have:
+## What to Have Before You Finish
 
 - [ ] At least one GitHub Actions YAML file (even if not pushed)
-- [ ] A working example of `xargs` with Claude Code on their machine
+- [ ] A working example of `xargs` with Claude Code on your machine
 - [ ] Plan mode output (JSON or report) from a real or test file
-- [ ] A documented list of 3-5 review categories they'd automate
+- [ ] A documented list of 3-5 review categories you'd automate
 - [ ] Understanding of when to use `/batch` vs. `xargs` vs. a webhook

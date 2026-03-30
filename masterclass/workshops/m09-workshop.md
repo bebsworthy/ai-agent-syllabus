@@ -4,13 +4,13 @@ description: "Build a /review skill with a structured checklist and practice the
 ---
 
 
-**Facilitated session | 60–75 min | Requires: M09 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M09 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Prerequisites for participants**
+**Prerequisites**
 - M09 study guide read (theory + AutoCommenter research)
 - M08 completion (security review patterns)
 - 1-2 weeks Claude Code usage
@@ -18,32 +18,21 @@ description: "Build a /review skill with a structured checklist and practice the
 - Familiarity with your team's code style guide
 - A Git repository where you can commit `.claude/` files
 
-**What this session does**
-The theory explains what automated review catches and misses. This session makes it operational. Participants will build a `/review` skill with structured checklist, a code-reviewer subagent, and practice the Writer/Reviewer pattern. By the end, everyone has a team-aligned code review workflow and has experienced how fresh perspective catches things the writer missed.
-
-**Facilitator preparation**
-- Have a code example ready to review (use the provided payment-processor.ts or bring your team's code)
-- Test the skill format in your Claude Code instance
-- Prepare feedback on what the `@code-reviewer` subagent should focus on for your team
-- Have a team code style guide or ARCHITECTURE.md available as reference
+**What you'll build**
+The theory explains what automated review catches and misses. This workshop makes it operational. You will build a `/review` skill with a structured checklist, a `code-reviewer` subagent, and practice the Writer/Reviewer pattern. By the end, you'll have a team-aligned code review workflow and direct experience of how a fresh perspective catches things the original writer missed.
 
 ---
 
-## Session Plan
+## What You'll Do
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Review philosophy overview | 5 min |
-| 2 | Build /review skill and code-reviewer subagent | 15 min |
-| 3 | Implement Writer/Reviewer pattern | 10 min |
-| 4 | Hands-on: Review real code, fix, re-review | 20 min |
-| 5 | Debrief | 5 min |
+- Build the `/review` skill with a structured checklist
+- Create the `code-reviewer` subagent
+- Implement the Writer/Reviewer pattern skill
+- Review intentionally flawed code, fix it, and re-review until approved
 
 ---
 
-## Segment 1 — Review Philosophy Overview (5 min)
-
-### Context
+## Part 1 — Review Philosophy
 
 The pre-work covered two critical insights:
 1. **Style is automatable** — linters handle naming, formatting, obvious bugs
@@ -51,13 +40,13 @@ The pre-work covered two critical insights:
 
 The Google AutoCommenter study proved this: automated systems catch style issues perfectly but miss subtle design problems.
 
-### Key Insight
-
-*"When Claude generates code, you can't see its reasoning. The reviewer's job is to verify that the design makes sense for your system, not just that the code works. This is why code review matters more with AI, not less."*
+:::note
+When Claude generates code, you can't see its reasoning. The reviewer's job is to verify that the design makes sense for your system, not just that the code works. This is why code review matters more with AI, not less.
+:::
 
 ---
 
-## Segment 2 — Build /review Skill and Code-Reviewer Subagent (15 min)
+## Part 2 — Build the /review Skill and Code-Reviewer Subagent
 
 ### Step 1: Create /review Skill with Checklist
 
@@ -194,13 +183,13 @@ tools:
 ---
 ```
 
-### Facilitator note
-
-*"Notice that the code-reviewer subagent has no write_file permissions. Reviewers should only read, understand, and judge. They don't write the fix—that's the developer's job. This keeps bias out of the review."*
+:::note
+The `code-reviewer` subagent has no `write_file` permissions by design. Reviewers only read, understand, and judge — they don't write the fix. That's your job as the developer. This separation keeps bias out of the review and gives you genuine fresh perspective.
+:::
 
 ---
 
-## Segment 3 — Implement Writer/Reviewer Pattern (10 min)
+## Part 3 — Implement the Writer/Reviewer Pattern
 
 ### Create Feature-with-Review Skill
 
@@ -288,17 +277,17 @@ User: Commits and merges.
 **The writer and reviewer are different actors.** This prevents bias and ensures fresh perspective.
 ````
 
-### Facilitator note
-
-*"This skill documents the workflow. Print it, post it on your wall, or pin it in Slack. It's your team's process now."*
+:::tip[Hint]
+Keep this skill somewhere easy to reference — pin it in your team's Slack, add a bookmark, or print it. It documents your team's process in a repeatable, shareable format.
+:::
 
 ---
 
-## Segment 4 — Hands-on: Review Real Code, Fix, Re-review (20 min)
+## Part 4 — Hands-on: Review Real Code, Fix, Re-review
 
-### Step 1: Review Poorly-Written Feature (7 min)
+### Step 1: Review Poorly-Written Code
 
-Create `src/payment-processor.ts` with intentional issues:
+Create `src/payment-processor.ts` with the following intentional issues:
 
 ```typescript
 // Intentional issues for review practice
@@ -381,9 +370,13 @@ Run the review:
 - Approval: NO - Fix blockers and consider warnings before merge
 ```
 
-### Step 2: Fix the Code (8 min)
+:::tip[Hint]
+Your reviewer's exact output may vary slightly, but it should identify the same categories of issues. If it misses the hardcoded secret or the missing edge cases, check that your `code-reviewer.md` instructions were saved correctly and that the `/review` checklist skill is available.
+:::
 
-Participants fix the issues:
+### Step 2: Fix the Code
+
+Address all blockers and warnings found in the review:
 
 ```typescript
 import { validatePaymentInput } from './validation';
@@ -493,7 +486,7 @@ describe('PaymentProcessor', () => {
 });
 ```
 
-### Step 3: Re-review (5 min)
+### Step 3: Re-review
 
 ```
 @code-reviewer re-review src/payment-processor.ts
@@ -531,56 +524,56 @@ describe('PaymentProcessor', () => {
 
 ---
 
-## Segment 5 — Debrief (5 min)
+## Reflection
 
-Ask participants:
+Take a moment to consider these questions before moving on — they'll reinforce what you just experienced:
 
-1. **"What did the reviewer catch that you might have missed as the writer?"** — Look for: design coupling, edge cases, error handling assumptions
-2. **"Why was the second review faster than the first?"** — The fixes were surgical; no design changes; reviewer confirmed alignment
-3. **"How does this process scale to your team?"** — Code review becomes a checklist. Blockers have to be fixed. Fresh perspective is built in.
-4. **"What's one thing you'd add to the /review checklist for your team's codebase?"**
+1. **What did the reviewer catch that you might have missed as the writer?** Look for: design coupling, edge cases, error handling assumptions.
+2. **Why was the second review faster than the first?** The fixes were surgical; no design changes; the reviewer confirmed alignment rather than finding new issues.
+3. **How does this process scale to your team?** Code review becomes a checklist. Blockers must be fixed. Fresh perspective is built in.
+4. **What's one thing you'd add to the `/review` checklist for your team's specific codebase?**
 
-Close with:
-
-> *"You've just experienced what the Google AutoCommenter research proved: style is automatable (linters handle that), but design judgment is human. This workflow—write, review with fresh eyes, iterate—is how you ship AI-generated code you're confident in. The subagent can't replace you. But it can replace your bias."*
+:::note
+You've just experienced what the Google AutoCommenter research proved: style is automatable (linters handle that), but design judgment is human. This workflow — write, review with fresh eyes, iterate — is how you ship AI-generated code you're confident in. The subagent can't replace you, but it can replace your bias.
+:::
 
 ---
 
 ## Troubleshooting
 
-**Reviewer subagent is too critical/lenient:**
+**Reviewer subagent is too critical or too lenient:**
 - Adjust instructions in `.claude/agents/code-reviewer.md`
 - Add examples of what "good design" looks like for your team
-- Reference your ARCHITECTURE.md file
+- Reference your `ARCHITECTURE.md` file
 
 **Review takes too long:**
-- Use linters for style (ESLint, Prettier) before review
-- Focus review on design, correctness, security (not formatting)
-- Create `/review` mini version for quick pass, full version for deep dive
+- Use linters for style (ESLint, Prettier) before running the review
+- Focus review on design, correctness, security — not formatting
+- Create a `/review` mini version for a quick pass and the full version for a deep dive
 
-**Team ignores review findings:**
+**Review findings are being ignored:**
 - Make review a blocker for PR merge (CI/CD integration)
-- Discuss findings in PR comments (why this matters)
-- Regular training: "Why code review prevents production incidents"
+- Surface findings in PR comments with context for why each issue matters
+- Connect findings to past production incidents where applicable
 
 **Reviewer misses obvious issues:**
-- Re-check: is the issue truly obvious, or domain-specific?
+- Re-check: is the issue truly obvious, or domain-specific knowledge the reviewer lacks?
 - Add to reviewer subagent instructions: "Check for [specific issue type]"
-- Pair with SAST tools to catch patterns reviewer misses
+- Pair with SAST tools to catch patterns the reviewer misses
 
 ---
 
-## What to Commit Before Leaving
+## Completion Checklist
 
-Each participant should have:
+Before moving on, verify you have:
 
-- [ ] `.claude/skills/review.md` committed to repo
-- [ ] `.claude/agents/code-reviewer.md` committed to repo
-- [ ] `.claude/skills/feature-with-review.md` committed to repo
+- [ ] `.claude/skills/review.md` committed to your repo
+- [ ] `.claude/agents/code-reviewer.md` committed to your repo
+- [ ] `.claude/skills/feature-with-review.md` committed to your repo
 - [ ] Tested the workflow on at least one feature
-- [ ] Verified fixes pass the code-reviewer subagent
-- [ ] Understand the difference between automated style and human design judgment
-- [ ] Committed to using Writer/Reviewer pattern for next 2-3 features
+- [ ] Verified fixes pass the `code-reviewer` subagent
+- [ ] Can explain the difference between automated style checking and human design judgment
+- [ ] Plan to use the Writer/Reviewer pattern for your next 2-3 features
 
 ---
 
@@ -594,4 +587,4 @@ Each participant should have:
 
 ---
 
-*End of workshop. Review checklist: blockers = 0, warnings resolved, code approved. Ready to ship.*
+*Workshop complete. Verify your checklist: blockers = 0, warnings resolved, code approved. Ready to ship.*

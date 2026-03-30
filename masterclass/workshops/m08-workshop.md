@@ -4,13 +4,13 @@ description: "Build a security-reviewer subagent and integrate pre-commit hooks 
 ---
 
 
-**Facilitated session | 60–75 min | Requires: M08 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M08 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Prerequisites for participants**
+**Prerequisites**
 - M08 study guide read (theory + pre-work)
 - M07 completion (subagents and hooks)
 - Understanding of common web vulnerabilities (SQL injection, XSS, CSRF)
@@ -18,30 +18,22 @@ description: "Build a security-reviewer subagent and integrate pre-commit hooks 
 - Access to a Git repository with pre-commit hooks enabled
 - Admin access to install/modify hook scripts
 
-**What this session does**
-The theory explains the threat model. This session makes it operational. Participants will build a security-reviewer subagent, integrate it into pre-commit hooks, and deliberately introduce vulnerabilities to test their safeguards. By the end, everyone has a working security review workflow and has experienced how degraded context leads to vulnerable code.
-
-**Facilitator preparation**
-- Have a test repository with `.claude/` directory structure ready to demo
-- Test the bash scripts on your machine ahead of time
-- Prepare intentional vulnerabilities to review (or use the provided examples)
-- Have SonarQube or Semgrep installed for the SAST demo
+**What this workshop does**
+The theory explains the threat model. This workshop makes it operational. You will build a security-reviewer subagent, integrate it into pre-commit hooks, and deliberately introduce vulnerabilities to test your safeguards. By the end, you will have a working security review workflow and first-hand experience of how degraded context leads to vulnerable code.
 
 ---
 
-## Session Plan
+## What You'll Do
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Security threat model overview | 5 min |
-| 2 | Build security-reviewer subagent | 10 min |
-| 3 | Create pre-commit and post-tool hooks | 15 min |
-| 4 | Hands-on: Introduce + catch vulnerabilities | 20 min |
-| 5 | Debrief | 5 min |
+- [ ] Review the security threat model
+- [ ] Build a security-reviewer subagent
+- [ ] Create pre-commit and post-tool hooks
+- [ ] Introduce intentional vulnerabilities and catch them with your new tooling
+- [ ] Fix the vulnerabilities and verify the reviewer approves the result
 
 ---
 
-## Segment 1 — Security Threat Model Overview (5 min)
+## Part 1 — Security Threat Model Overview
 
 ### Context
 
@@ -56,7 +48,7 @@ The module pre-work covered three specific threats:
 
 ---
 
-## Segment 2 — Build Security-Reviewer Subagent (10 min)
+## Part 2 — Build Security-Reviewer Subagent
 
 ### Step 1: Create the subagent file
 
@@ -103,16 +95,13 @@ tools:
 ---
 ```
 
-### Facilitator note
-
-Walk through this with participants:
-- The `instructions` field is what makes this a specialist
-- The `tools` list restricts what the subagent can do (read and search only, no writing)
-- The structured format ensures reviews are machine-parseable
+:::note
+The `instructions` field is what makes this a specialist. The `tools` list restricts what the subagent can do — read and search only, no writing. The structured output format ensures findings are machine-parseable.
+:::
 
 ---
 
-## Segment 3 — Create Pre-commit and Post-tool Hooks (15 min)
+## Part 3 — Create Pre-commit and Post-tool Hooks
 
 ### Step 1: Pre-tool Hook (SAST)
 
@@ -248,15 +237,15 @@ Make it executable:
 chmod +x .claude/hooks/check_dependencies.sh
 ```
 
-### Facilitator note
-
-*"These three hooks form your defense layers: SAST (pre_tool_use), AI-based review (post_tool_use), and supply chain (check_dependencies). No single layer catches everything, but together they're hard to bypass."*
+:::note
+These three hooks form your defense layers: SAST (`pre_tool_use`), AI-based review (`post_tool_use`), and supply chain (`check_dependencies`). No single layer catches everything, but together they are difficult to bypass.
+:::
 
 ---
 
-## Segment 4 — Hands-on: Introduce + Catch Vulnerabilities (20 min)
+## Part 4 — Hands-on: Introduce + Catch Vulnerabilities
 
-### Step 1: Create Vulnerable Code (5 min)
+### Step 1: Create Vulnerable Code
 
 Create `src/vulnerable.js` with intentional vulnerabilities:
 
@@ -303,7 +292,7 @@ app.post('/register', (req, res) => {
 });
 ```
 
-### Step 2: Trigger Security Review (5 min)
+### Step 2: Trigger Security Review
 
 In Claude Code:
 
@@ -344,9 +333,13 @@ In Claude Code:
 **Fix: Add CSRF middleware: app.use(csrf()); Check req.csrfToken() in handler.**
 ```
 
-### Step 3: Fix the Code (10 min)
+:::tip[Hint]
+If your security reviewer returns fewer findings than expected, try prompting it with more context: the tech stack, whether this is a public API, and what data it handles. The more context the subagent has, the more precise its findings will be.
+:::
 
-Participants (or facilitator) fix the vulnerabilities. Example fixes:
+### Step 3: Fix the Code
+
+Fix the vulnerabilities identified by the reviewer. Example fixes:
 
 ```javascript
 import express from 'express';
@@ -422,16 +415,14 @@ app.post('/register', async (req, res) => {
 
 ---
 
-## Segment 5 — Debrief (5 min)
+## Reflection
 
-Ask participants:
+Before moving on, take a few minutes to think through these questions on your own:
 
-1. **"What did the security-reviewer catch that the SAST hook missed?"** — Look for: design issues, semantic vulnerabilities, context-dependent problems
-2. **"What would have happened if this code shipped without review?"** — Walk through the blast radius of each vulnerability
-3. **"How does this workflow change when you're working in a long session and context degrades?"** — The pre-commit hooks keep firing, but Claude might not have the security guidance in context anymore
-4. **"What one thing would you add to your team's security process based on what you just saw?"**
-
-Close with:
+1. **What did the security-reviewer catch that the SAST hook missed?** Look for design issues, semantic vulnerabilities, and context-dependent problems.
+2. **What would have happened if this code shipped without review?** Think through the blast radius of each vulnerability.
+3. **How does this workflow change when you're working in a long session and context degrades?** The pre-commit hooks keep firing, but Claude might not have the security guidance in context anymore.
+4. **What one thing would you add to your team's security process based on what you just saw?**
 
 > *"Everything we just did — the static checks, the AI-based review, the human verification — is defense in depth. Security isn't one tool. It's layers. And now you own all three."*
 
@@ -459,9 +450,9 @@ Close with:
 
 ---
 
-## What to Commit Before Leaving
+## Completion Checklist
 
-Each participant should have:
+Before moving on, confirm you have:
 
 - [ ] `.claude/agents/security-reviewer.md` committed to repo
 - [ ] `.claude/hooks/pre_tool_use.sh`, `post_tool_use.sh`, `check_dependencies.sh` committed and executable

@@ -4,50 +4,41 @@ description: "Connect Sentry MCP, build an incident investigation workflow, and 
 ---
 
 
-**Facilitated session | 60–75 min | Requires: M11 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M11 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Prerequisites for participants**
+**Prerequisites**
 - M11 study guide completed (theory + readings)
 - Completed Tier 1 and Tier 2 modules
 - Familiar with Claude Code, prompts, and MCP integrations
-- Access to logs and monitoring tools for their own system, or willingness to work with simulated scenario
-- Understanding of their team's current incident response workflow
+- Access to logs and monitoring tools for your own system, or willingness to work with the simulated scenario below
+- Understanding of your team's current incident response workflow
 
-**What this session does**
-The theory explains the mechanism and why AI accelerates incident response. This workshop makes it tangible through hands-on incident investigation. Participants will map their current workflow, assess observability gaps, design AI-augmented investigation prompts, and run a simulated incident to see how Claude Code speeds up diagnosis. By the end, everyone has templates they can reuse and knows exactly where AI adds the most value in their incident pipeline.
-
-**Facilitator preparation**
-- Prepare a simulated incident scenario (or have access to real logs/metrics from a recent incident)
-- Have mock data ready: Git commits, error logs with timestamps, metrics snapshot
-- Pre-test the incident scenario with Claude Code to verify it works
-- Have your own incident postmortem ready to share (real or anonymized)
-- Prepare a rubric for "good investigation prompt" (specificity, tool usage, output format)
+**What this workshop does**
+The theory explains the mechanism and why AI accelerates incident response. This workshop makes it tangible through hands-on incident investigation. You will map your current workflow, assess observability gaps, design AI-augmented investigation prompts, and run a simulated incident to see how Claude Code speeds up diagnosis. By the end, you will have templates you can reuse and a clear picture of where AI adds the most value in your incident pipeline.
 
 ---
 
-## Session Plan
+## What You'll Do
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Map current incident workflow | 10 min |
-| 2 | Observability audit of your system | 15 min |
-| 3 | Design AI investigation prompts | 15 min |
-| 4 | Simulate an incident and investigate | 20 min |
-| — | Debrief | 5 min |
+- Map your current incident response workflow and identify bottlenecks
+- Audit your system's observability maturity
+- Design AI investigation prompts for a realistic error scenario
+- Simulate an incident and investigate it with Claude Code
+- Reflect on gaps and next steps
 
 ---
 
-## Segment 1 — Map Your Current Incident Workflow (10 min)
+## Part 1 — Map Your Current Incident Workflow
 
 **Goal:** Understand what you're starting from, before AI enters the picture.
 
 ### Steps
 
-1. **On a whiteboard or document, sketch your current incident response process:**
+1. **In a document or notes app, sketch your current incident response process:**
    - How do alerts reach you? (PagerDuty? Email? Slack?)
    - What tools do you open first? (Datadog? Grafana? CloudWatch?)
    - In what order do you investigate? (Metrics → Logs → Git? Or different?)
@@ -61,15 +52,13 @@ The theory explains the mechanism and why AI accelerates incident response. This
    - "I have to manually check Git history, deployment logs, and metrics separately"
    - "I often miss context (don't remember what was deployed 2 hours ago)"
 
-3. **Share with the group.** Look for common patterns. Does everyone get stuck at the same point?
-
-### Facilitator note
-
-Write down the bottlenecks on a flip chart. These are your targets for AI automation. You want to measure whether Claude Code actually eliminates them.
+:::tip[Hint]
+Write your bottlenecks down explicitly — these are your targets for AI automation. By the end of Part 4, you'll be able to assess whether Claude Code actually eliminates them.
+:::
 
 ---
 
-## Segment 2 — Observability Audit (15 min)
+## Part 2 — Observability Audit
 
 **Goal:** Assess your current observability maturity. You can't automate investigation if you can't observe the system.
 
@@ -78,14 +67,14 @@ Write down the bottlenecks on a flip chart. These are your targets for AI automa
 - **Metrics:** Can you answer "Is the system healthy right now?" with one dashboard? (Yes = Strong, Sometimes = Partial, Rarely = Weak)
 - **Logs:** Can you quickly find logs for a specific request or user? (Do you have request ID tracing? User ID indexing?)
 - **Traces:** Can you see a request's path through all services? (Distributed tracing set up?)
-- **Context:** If I see an error, can I understand why it happened? (Are there log messages with enough context, or just stack traces?)
+- **Context:** If you see an error, can you understand why it happened? (Are there log messages with enough context, or just stack traces?)
 - **Deployment visibility:** Can you see what was deployed and when?
 - **Change tracking:** Can you correlate deployment timing with error spikes?
 
 ### Rating Scale
 
 - **Strong:** Yes, easily. Takes < 1 minute to get the answer.
-- **Partial:** Sometimes, with effort. Takes 5-10 minutes; may need multiple tools.
+- **Partial:** Sometimes, with effort. Takes 5–10 minutes; may need multiple tools.
 - **Weak:** Rarely. Takes 30+ minutes or requires significant manual investigation.
 
 ### Expected Output
@@ -106,7 +95,7 @@ Weak areas are opportunities for AI to add the most value—but also indicate pl
 
 ---
 
-## Segment 3 — Design AI Investigation Prompts (15 min)
+## Part 3 — Design AI Investigation Prompts
 
 **Goal:** Design prompts that Claude Code can execute to investigate incidents.
 
@@ -122,9 +111,9 @@ Your API service suddenly has a 10x spike in error rate. It was 0.1% at 2:40 PM.
 4. **Is this affecting all users or a specific subset?** (Check logs by user ID, geographic patterns, client version)
 5. **What's the relationship between the change and the error?** (Correlate timing)
 
-### In Small Groups: Design One Investigation Prompt
+### Design One Investigation Prompt
 
-Each group picks one of these five questions and designs a prompt for Claude Code that:
+Pick one of these five questions and design a prompt for Claude Code that:
 
 **Must include:**
 - Which MCP tools to use (Datadog? Splunk? Git?)
@@ -155,18 +144,22 @@ Use these tools to find what changed:
 Highlight which change most likely correlates with the error spike.
 ```
 
-### Share Designs
+### Evaluate Your Prompt
 
-Each group presents their prompt. Discuss:
+Before moving on, check your prompt against these criteria:
 - Is it specific enough for Claude to act on?
 - Does it ask for the right output format?
 - Would this actually help diagnose the problem?
 
+:::tip[Hint]
+If your prompt feels too open-ended, add a concrete output format requirement and a sentence capping the scope ("Limit output to the 10 most recent entries"). Specificity is what separates a useful investigation prompt from a vague one.
+:::
+
 ---
 
-## Segment 4 — Simulate an Incident and Investigate with Claude Code (20 min)
+## Part 4 — Simulate an Incident and Investigate with Claude Code
 
-This is the hands-on moment. You'll see Claude Code do the investigation.
+This is the hands-on exercise. You'll run a real Claude Code session against mock incident data.
 
 ### Scenario Setup
 
@@ -177,7 +170,7 @@ You deploy a new feature to your API. 15 minutes later, error rate spikes from 0
 - Feature flag: `enableUserCache` flipped ON (2:31 PM)
 - Error: "Connection refused: Redis at 127.0.0.1:6379"
 
-### Mock Data (Facilitator Provides)
+### Mock Data
 
 **Git log:**
 ```
@@ -241,14 +234,17 @@ Tell me: What changed? What's failing? What should I do?
    - Propose a root cause ("The caching layer is trying to connect to Redis, but Redis is not running")
    - Suggest immediate remediation ("Disable enableUserCache flag" or "Restart Redis")
 
-4. **You:**
-   - Watch the investigation unfold
-   - Note where Claude asks good questions vs. where you'd need to guide it
-   - Provide information as Claude requests
+4. **Your role during the session:**
+   - Note where Claude asks good questions vs. where you needed to guide it
+   - Provide information as Claude requests it
    - Decide whether the diagnosis is correct
    - Plan your fix based on Claude's findings
 
 5. **Time it:** How many minutes from alert to diagnosis?
+
+:::tip[Hint]
+Paste the mock data directly into the chat if Claude lacks MCP access to live tools. The investigation logic works the same — Claude will still correlate the Git timing, flag toggle, and error pattern to reach a diagnosis.
+:::
 
 ### Expected Outcome
 
@@ -257,40 +253,16 @@ Claude should diagnose:
 - **Evidence:** "Error logs show connection refused; timing correlates with flag toggle."
 - **Remediation:** "Option A: Disable flag. Option B: Ensure Redis is running. Option C: Add fallback to non-cached queries."
 
-### Debrief (During Segment 5)
+### Reflect
 
+After the session, consider:
 - How much faster was this than your typical investigation?
 - What did Claude miss?
 - What would you change about the prompts or tools?
 
 ---
 
-## Debrief (5 min)
-
-Ask the group these four to five questions:
-
-1. **"What was the biggest time-saver in Claude's investigation vs. your manual process?"**
-   - Look for: "It checked Git + metrics + logs in parallel," "It asked the right follow-up questions," "It correlated timing automatically"
-
-2. **"Where did Claude struggle or need human guidance?"**
-   - Look for: "Didn't understand our alerting tool," "Missed a subtle pattern in logs," "Couldn't access our internal dashboards"
-
-3. **"If Claude had the right MCP tools connected, what else could it automate?"**
-   - Look for: "Checking PagerDuty history," "Querying our database for correlated errors," "Checking feature flag history"
-
-4. **"What would you need to trust Claude's diagnosis enough to act on it immediately?"**
-   - Look for: "Confidence score," "Cross-check with second source," "Explanation of reasoning," "Human approval step"
-
-5. **"How would this change your on-call experience?"**
-   - Look for: "Less context-switching between tools," "Faster diagnosis," "Less reliance on tribal knowledge," "Easier for junior engineers"
-
-Close with:
-
-> *"You've now seen AI accelerate the investigation phase of incident response. AI won't replace your judgment—you still decide what to do. But it can compress 65 minutes of investigation into 10, if you give it the right tools and context. Your next step is to build the MCP connectors to your real monitoring tools and test this on a real incident."*
-
----
-
-## Hands-on Exercise: Investigate a Real Incident (Async, 30-45 min)
+## Hands-on Exercise: Investigate a Real Incident (30–45 min)
 
 ### Challenge: Post-Mortem Analysis
 
@@ -345,15 +317,15 @@ Please investigate as if this were happening now. Tell me:
 ### Expected Finding
 
 Most teams find:
-- Claude can diagnose 70-80% of incidents correctly given the data
-- Time to diagnosis drops from 30-60 min to 5-15 min with Claude
+- Claude can diagnose 70–80% of incidents correctly given the data
+- Time to diagnosis drops from 30–60 min to 5–15 min with Claude
 - Gaps are usually: "Claude didn't have access to our dashboard," "Couldn't query our log aggregation tool," "Didn't know about that one quirk of our system"
 
 These gaps are exactly where MCP tools come in.
 
 ---
 
-## Common Issues Section
+## Common Issues
 
 **Claude can't access our monitoring tools**
 - MCP tools aren't connected yet; this is expected in early stages
@@ -363,7 +335,7 @@ These gaps are exactly where MCP tools come in.
 
 **Claude's diagnosis is wrong**
 - This usually means insufficient context (missing logs, metrics, or Git history)
-- Try /effort high to give Claude more reasoning tokens
+- Try `/effort high` to give Claude more reasoning tokens
 - Add more context to CLAUDE.md (known quirks, common issues, architecture)
 - Have a human verification step before acting on diagnosis
 
@@ -377,11 +349,15 @@ These gaps are exactly where MCP tools come in.
 - Provide more specific prompts; narrow the scope
 - Verify your logs are indexed and searchable (weak observability = slow investigation)
 
-**Team is worried about trusting AI diagnosis**
+**Concerned about trusting AI diagnosis**
 - Completely valid; implement a verification step
-- Use Claude to narrow search space; have human confirm root cause
+- Use Claude to narrow the search space; have a human confirm root cause
 - Over time, build confidence as Claude proves accurate
 - Use incident postmortems to improve future prompts
+
+:::note
+AI won't replace your judgment — you still decide what to do. But it can compress 65 minutes of investigation into 10, if you give it the right tools and context. Your next step is to build the MCP connectors to your real monitoring tools and test this on a real incident.
+:::
 
 ---
 

@@ -4,44 +4,35 @@ description: "Enable experimental Agent Teams, run a real multi-component task, 
 ---
 
 
-**Facilitated session | 60–75 min | Requires: M10 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M10 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Prerequisites for participants**
+**Prerequisites**
 - M10 study guide completed (theory + readings)
 - Claude Code v2.1.32+ installed
-- A real multi-component project, or willingness to work with a provided example
+- A real multi-component project, or willingness to work with the provided example
 - Understanding of subagents and single-session workflows (M09 completion recommended)
 - Ability to enable experimental features in Claude Code
 
-**What this session does**
-The theory explains the mechanism and cost-benefit analysis. This workshop makes it tangible. Participants will design a multi-component task, enable Agent Teams, run a real coordinated workflow, and analyze whether parallelism actually saves time given the 7x token multiplier. By the end, everyone has made an informed decision about when to use teams vs. /batch vs. single session.
-
-**Facilitator preparation**
-- Have a multi-component project ready to demo (or use the provided User Profile Management example)
-- Pre-enable Agent Teams on your machine to verify settings syntax
-- Have a cost calculator ready (or the token calculator from the study guide)
-- Prepare a "deliberately bad task breakdown" to show when teams fail (sequential dependencies)
+**What this workshop does**
+The theory explains the mechanism and cost-benefit analysis. This workshop makes it tangible. You will design a multi-component task, enable Agent Teams, run a real coordinated workflow, and analyze whether parallelism actually saves time given the 7x token multiplier. By the end, you will have made an informed decision about when to use teams vs. /batch vs. single session.
 
 ---
 
-## Session Plan
+## What You'll Do
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Enable Agent Teams feature | 5 min |
-| 2 | Design a multi-component task | 10 min |
-| 3 | Create a team orchestration skill | 15 min |
-| 4 | Run a real Agent Teams task | 15 min |
-| 5 | Cost analysis and comparison | 10 min |
-| — | Debrief | 5 min |
+- Enable the Agent Teams experimental feature
+- Design a multi-component task with clear ownership boundaries
+- Create a team orchestration skill
+- Run a real Agent Teams task and observe how coordination works
+- Perform a cost analysis and compare approaches
 
 ---
 
-## Segment 1 — Enable Agent Teams Feature (5 min)
+## Part 1 — Enable Agent Teams Feature
 
 Agent Teams is experimental in v2.1.32+. Enable it in Claude Code settings.
 
@@ -56,7 +47,7 @@ nano ~/.claude/settings.json
 # Or use your editor of choice
 ```
 
-**Add this block (or update if exists):**
+**Add this block (or update if it already exists):**
 
 ```json
 {
@@ -77,17 +68,19 @@ claude --version
 # Output should be >= 2.1.32
 ```
 
-### Facilitator note
+:::note
+Agent Teams are a tool, not a default. They cost 7x more tokens. You use them only when parallelism actually saves significant time. The rest of this workshop helps you develop that judgment.
+:::
 
-While participants edit settings, don't rush. Use the time: *"In the next 60 minutes, you'll see why Agent Teams are a tool, not a default. They cost 7x more tokens. We use them only when parallelism actually saves significant time. Let's find out when that's true."*
-
-If someone's settings syntax fails, continue with your demo. They can troubleshoot during the break.
+:::caution
+If your settings JSON has a syntax error, Claude Code may fail to start. Validate your JSON before saving — you can use `python3 -m json.tool ~/.claude/settings.json` to check for errors.
+:::
 
 ---
 
-## Segment 2 — Design a Multi-Component Task (10 min)
+## Part 2 — Design a Multi-Component Task
 
-We'll build a "User Management Feature" with 4 parallel components. This is the critical thinking part: *which* tasks can truly run in parallel?
+You'll build a "User Management Feature" with 4 parallel components. The critical thinking here is identifying *which* tasks can truly run in parallel.
 
 ### Feature Spec
 
@@ -137,15 +130,19 @@ Tasks:
     estimated_time: "20 min"
 ```
 
-### Key Questions to Ask the Group
+### Questions to Work Through
 
-1. **Are these truly independent?** (Answer: types, api, and frontend have dependencies. But docs and qa can start as soon as their dependencies finish.)
-2. **What if teammates both edit `src/types/user.ts`?** (Answer: They can't. This is why clear file ownership matters.)
-3. **Could we parallelize more?** (Answer: Yes—if types and api had zero dependencies, all 5 could start simultaneously. But that's unrealistic; api depends on types.)
+1. **Are these truly independent?** Types, api, and frontend have dependencies. But docs and qa can start as soon as their dependencies finish.
+2. **What if two teammates both need to edit `src/types/user.ts`?** They can't — this is why clear file ownership matters. Each task should own distinct files.
+3. **Could you parallelize more?** Yes — if types and api had zero dependencies, all 5 could start simultaneously. But that's unrealistic; api depends on types.
+
+:::tip[Hint]
+Before starting any team task, draw the dependency graph (DAG) on paper. If you can't draw it clearly, the task isn't ready for parallelism.
+:::
 
 ---
 
-## Segment 3 — Create a Team Orchestration Skill (15 min)
+## Part 3 — Create a Team Orchestration Skill
 
 This skill is the contract between you and Claude. It defines how to structure a multi-component feature for teams.
 
@@ -257,15 +254,15 @@ This feature costs ~7x tokens compared to a single session. It's justified when:
 - Team is large (multiple people waiting on one person's work)
 `````
 
-### Facilitator note
-
-While participants create the skill, ask: *"Why would we write this as a skill instead of just typing a prompt every time?"* (Answer: Reusability, consistency, and Claude can reference the structure immediately.)
+:::tip[Hint]
+Writing this as a skill (rather than re-typing the prompt every time) gives you reusability and consistency. Claude can also reference the structure immediately when you invoke `/team-feature`.
+:::
 
 ---
 
-## Segment 4 — Run a Real Agent Teams Task (15 min)
+## Part 4 — Run a Real Agent Teams Task
 
-Now the moment of truth: does Agent Teams actually work as promised?
+Now the moment of truth: does Agent Teams actually work as described?
 
 ### Create a Simplified Team Task
 
@@ -293,23 +290,27 @@ Ready?
 5. Coordinate work (teammates message lead with progress)
 6. Report completion
 
-### What to Observe (Facilitator Notes)
+### What to Observe
 
-- **Does the lead coordinate effectively?** (Watch for proactive messaging vs. waiting for reports)
-- **Do teammates message each other or only the lead?** (They should go through lead)
-- **What happens if a task dependency isn't met?** (Teammate should wait; lead should escalate if blocker occurs)
-- **How long does it take vs. your estimate?** (Usually 10-20% longer due to coordination overhead)
-- **What token count does it report?** (Write it down—you'll compare to single session in Segment 5)
+- Does the lead coordinate effectively, or does it wait passively for reports?
+- Do teammates message each other or only the lead? (They should go through the lead.)
+- What happens if a task dependency isn't met? (The teammate should wait; the lead should escalate if a blocker occurs.)
+- How long does it actually take vs. your estimate?
+- What is the token count? Write it down — you'll compare it in Part 5.
 
-### Follow-Up Questions for Participants
+:::tip[Hint]
+If you find a teammate stuck indefinitely, check whether its upstream dependency actually completed. The lead session can be prompted directly: "What is the current status of each teammate?"
+:::
 
-1. *"Did Claude understand the task dependencies? Did it model them correctly?"*
-2. *"What took the longest: the actual work or the coordination overhead?"*
-3. *"If you had 10 tasks instead of 4, would teams still be worth it?"*
+### Reflection Questions
+
+1. Did Claude understand the task dependencies and model them correctly?
+2. What took the longest: the actual work or the coordination overhead?
+3. If you had 10 tasks instead of 4, would teams still be worth it?
 
 ---
 
-## Segment 5 — Cost Analysis and Comparison (10 min)
+## Part 5 — Cost Analysis and Comparison
 
 This is where teams either prove their value or fail the ROI test.
 
@@ -353,7 +354,7 @@ ROI analysis:
 - 5 people waiting: Clearly positive (17 min × 5 people = 85 person-minutes saved)
 ```
 
-### Comparison Table (Facilitator Projects)
+### Comparison Table
 
 | Approach | Time | Tokens | Cost | Best For |
 |---|---|---|---|---|
@@ -361,36 +362,34 @@ ROI analysis:
 | Agent Teams | 28 min | 46,000 | 5.75x | Large teams, complex features |
 | /batch | 20 min | 15,000 | 1.9x | Independent changes (same pattern) |
 
-### Key Insight to Emphasize
-
-*"Agent Teams are not about absolute speed. They're about whether parallelism saves enough time for many people to justify the token cost. For one person: use single session. For a team of 5 waiting on one person: teams win."*
-
----
-
-## Debrief (5 min)
-
-Ask the group these four questions:
-
-1. **"When would you choose Agent Teams over /batch or single session?"**
-   - Look for: "When truly independent, no same-file edits, and parallelism saves 3+ hours"
-   - Wrong answers: "Always," "for speed," "because it's cool"
-
-2. **"What was the biggest coordination cost you observed?"**
-   - Look for: "Waiting for dependencies," "messaging overhead," "merging results"
-
-3. **"If your team was working on 10 parallel features instead of 1, would teams change the calculus?"**
-   - Look for: "Yes, because 10 people waiting is more cost-saving"
-
-4. **"What would make you NOT use Agent Teams even for a large team?"**
-   - Look for: "Same-file edits," "high interdependence," "tight budget on tokens"
-
-Close with:
-
-> *"You now know why Agent Teams exist and exactly when they pay off. Default to single session. Use /batch for independent changes across files. Use teams only when you've done the math and parallelism actually saves time for multiple people. This judgment is what makes you effective at scale."*
+:::note
+Agent Teams are not about absolute speed. They are about whether parallelism saves enough time for enough people to justify the token cost. For one person: use single session. For a team of 5 waiting on one person's work: teams win.
+:::
 
 ---
 
-## Hands-on Exercise: Parallel Refactoring Task (Async, 30-45 minutes)
+## Reflection
+
+Work through these four questions before moving on:
+
+1. **When would you choose Agent Teams over /batch or single session?**
+   - Consider: "When tasks are truly independent, have no same-file edits, and parallelism saves 3+ hours"
+   - Watch out for: "Always," "for speed," or "because it's cool" — these are not valid justifications.
+
+2. **What was the biggest coordination cost you observed?**
+   - Consider: waiting for dependencies, messaging overhead, merging results
+
+3. **If your team was working on 10 parallel features instead of 1, would teams change the calculus?**
+   - Consider: 10 people waiting amplifies the time-savings multiplier significantly.
+
+4. **What would make you NOT use Agent Teams even for a large team?**
+   - Consider: same-file edits, high interdependence, tight token budget
+
+> You now know why Agent Teams exist and exactly when they pay off. Default to single session. Use /batch for independent changes across files. Use teams only when you have done the math and parallelism actually saves time for multiple people. This judgment is what makes you effective at scale.
+
+---
+
+## Hands-on Exercise: Parallel Refactoring Task (30–45 minutes)
 
 ### Challenge: Rename Function Across Codebase
 
@@ -479,7 +478,7 @@ ROI: Only use teams if you have 7+ people waiting on one person's work.
 
 ---
 
-## Common Issues Section
+## Common Issues
 
 **Installation or authentication fails**
 If Claude Code won't start or authenticate, troubleshoot:

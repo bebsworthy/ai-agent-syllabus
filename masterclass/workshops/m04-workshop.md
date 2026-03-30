@@ -4,157 +4,173 @@ description: "Build and commit your project CLAUDE.md, practice context hygiene 
 ---
 
 
-**Facilitated session | 45–60 min | Requires: M04 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M04 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Facilitator note**
+:::note
+Context discipline is what separates developers who get 2x productivity from Claude from those who get 10x. The difference isn't intelligence — it's habit. This workshop makes context management concrete and builds muscle memory. You'll see firsthand how conflicting context breaks Claude's reasoning, how CLAUDE.md fixes it, and how to audit your own projects. By the end, you'll commit a CLAUDE.md that becomes a living document for your team.
+:::
 
-Context discipline is what separates developers who get 2x productivity from Claude from those who get 10x. The difference isn't intelligence—it's habit. This session makes context management concrete and muscle-memory. Participants will see live how conflicting context breaks Claude's reasoning, how CLAUDE.md fixes it, and how to audit their own projects. By the end, they'll commit a CLAUDE.md that will become a living document for their team.
-
-**Prerequisites for participants**
+**Prerequisites**
 
 - M04 study guide read (theory + readings)
 - Claude Code installed and authenticated
 - A real project codebase with actual conventions (not a tutorial project)
-- Git access to the project (can commit CLAUDE.md)
+- Git access to the project (able to commit CLAUDE.md)
 - A text editor (VS Code, IDE, or simple editor)
 
-**Session overview**
+**What you'll do**
 
-| Segment | Activity | Format | Duration |
-|---|---|---|---|
-| 1 | Context Poisoning Demo | Live demo + group observation | 10 min |
-| 2 | CLAUDE.md Deep Dive | Group discussion + drafting | 15 min |
-| 3 | Context Monitoring Exercise | Hands-on with `/context` and `/compact` | 10 min |
-| 4 | Three-Phase Workflow Demo | Live demo of research → plan → implement | 10 min |
-| — | Hands-on Exercise | End-to-end on a real task | 50 min |
-| — | Debrief | Group discussion | 5 min |
+- [ ] Context poisoning demo — observe how conflicting context degrades performance
+- [ ] CLAUDE.md deep dive — audit your conventions and draft your file
+- [ ] Context monitoring exercise — hands-on with `/context` and `/compact`
+- [ ] Three-phase workflow demo — research → plan → implement
+- [ ] End-to-end hands-on exercise on a real task
 
 ---
 
-## Segment 1 — Context Poisoning Demo (10 min)
+## Part 1 — Context Poisoning Demo
 
-**Objective**: Show how conflicting context degrades performance.
+**Objective**: Observe how conflicting context degrades performance.
 
-**Setup**:
+Use a real (or realistic) scenario: your codebase has two different error handling patterns (old and new), and CLAUDE.md mentions neither.
 
-Use a real (or realistic) scenario: The codebase has two different error handling patterns (old and new), and CLAUDE.md mentions neither.
+**Step 1 — High-Context, Low-Signal**
 
-**Activity**:
+1. Open Claude Code in your project without a CLAUDE.md
+2. Ask Claude: "What's the error handling pattern?"
+3. Claude sees both patterns and is uncertain: "It looks like you use both `{ error: "..." }` and `throw new Error()`..."
+4. Ask Claude to implement an error handler — notice it may mix patterns
+5. Outcome: confusion
 
-1. **High-Context, Low-Signal** (3 min)
-   - Load the project without a CLAUDE.md
-   - Ask Claude: "What's the error handling pattern?"
-   - Claude sees both patterns, is uncertain: "It looks like you use both { error: "..." } and throw new Error()..."
-   - Ask Claude to implement an error handler: It might mix patterns
-   - Outcome: Confusion
+**Step 2 — Curated Context**
 
-2. **Curated Context** (3 min)
-   - Create a minimal CLAUDE.md: "Error handling: Always return { success: false, error: "message", code: "CODE" }. Never throw."
-   - Ask Claude the same questions
-   - Claude is confident and consistent
-   - Ask Claude to implement: It follows the spec
-   - Outcome: Reliability
+1. Create a minimal CLAUDE.md with one rule: `"Error handling: Always return { success: false, error: "message", code: "CODE" }. Never throw."`
+2. Ask Claude the same questions
+3. Claude responds confidently and consistently
+4. Ask Claude to implement the same handler — it follows the spec
+5. Outcome: reliability
 
-3. **Lesson** (4 min)
-   - "Smaller, curated context > larger, noisy context"
-   - "CLAUDE.md is the antidote to confusion"
+:::note
+The lesson here is direct: smaller, curated context beats larger, noisy context. CLAUDE.md is the antidote to confusion.
+:::
 
 ---
 
-## Segment 2 — CLAUDE.md Deep Dive (15 min)
+## Part 2 — CLAUDE.md Deep Dive
 
-**Objective**: Create and refine a CLAUDE.md for a real project.
+**Objective**: Create and refine a CLAUDE.md for your real project.
 
-**Facilitation**:
+**Step 1 — Audit Your Conventions** (5 min)
 
-1. **Audit Current Conventions** (5 min)
-   - Group discusses: "What are the actual conventions in this codebase?"
-   - Facilitator captures:
-     - Error handling pattern
-     - Async/await vs. callbacks vs. promises
-     - Where validation happens
-     - Naming conventions (camelCase, snake_case)
-     - Where to put new code
-     - Security rules (SQL parameterization, auth checks)
-     - Testing requirements
+Think through the actual conventions in your codebase. Capture answers to:
 
-2. **Draft CLAUDE.md** (5 min)
-   - Facilitator structures the conventions into CLAUDE.md format:
-     - Overview + tech stack
-     - Key files and purpose
-     - Conventions (5–10 key ones)
-     - Recent changes
-     - Common mistakes
-     - Testing requirements
-     - Deployment info
-   - Group reviews: "Are these accurate? Are they complete?"
+- What is the error handling pattern?
+- Async/await vs. callbacks vs. promises — which do you use?
+- Where does validation happen?
+- Naming conventions (camelCase, snake_case, etc.)?
+- Where does new code go?
+- Security rules (SQL parameterization, auth checks)?
+- Testing requirements?
 
-3. **Commit to Repo** (5 min)
-   - Save CLAUDE.md to the project root
-   - Commit to Git: `git add CLAUDE.md && git commit -m "Add CLAUDE.md with project conventions"`
-   - Outcome: A living document that Claude and humans both reference
+:::tip[Hint]
+If your conventions feel inconsistent or undocumented, that's normal — and exactly what CLAUDE.md is for. Write it as it *should* be, not as it currently is. It becomes a North Star. As you refactor, you align with CLAUDE.md instead of the old mess.
+:::
 
----
+**Step 2 — Draft Your CLAUDE.md** (5 min)
 
-## Segment 3 — Context Monitoring Exercise (10 min)
+Structure your conventions into CLAUDE.md format with these sections:
 
-**Objective**: Hands-on with context commands.
+- Overview + tech stack
+- Key files and their purpose
+- Conventions (5–10 key ones)
+- Recent changes (last 2–3 weeks)
+- Common mistakes to avoid
+- Testing requirements
+- Deployment info
 
-**Facilitation**:
+Review what you've written: Is it accurate? Is it complete?
 
-1. **Load a Real Codebase** (2 min)
-   - Open Claude Code in the project
-   - `/init` to create/update CLAUDE.md
+**Step 3 — Commit to Repo** (5 min)
 
-2. **Check Context** (2 min)
-   - Run `/context`
-   - Review the breakdown:
-     - How many tokens in CLAUDE.md?
-     - How many in history?
-     - How many in loaded files?
+```bash
+git add CLAUDE.md && git commit -m "Add CLAUDE.md with project conventions"
+```
 
-3. **Simulate a Long Conversation** (3 min)
-   - Have Claude answer 5–10 questions about the codebase (without loading large files)
-   - Run `/context` again
-   - Discuss: How did history grow? How did quality of responses change?
-
-4. **Compact and Compare** (3 min)
-   - Run `/compact`
-   - Run `/context` again
-   - Ask Claude the same questions again: Does it still understand?
-   - Lesson: Compaction preserves knowledge while freeing tokens
+Your CLAUDE.md is now a living document that both Claude and your team can reference.
 
 ---
 
-## Segment 4 — Three-Phase Workflow Demo (10 min)
+## Part 3 — Context Monitoring Exercise
 
-**Objective**: Show how to structure work for clean context.
+**Objective**: Hands-on practice with context commands.
 
-**Facilitation**:
+**Step 1 — Load your project**
 
-1. **Research Phase** (3 min)
-   - Start a new conversation (or `/clear`)
-   - Ask: "Walk me through the authentication flow. Show me the relevant files."
-   - Claude explores, responds
-   - Don't execute anything
-   - At the end: `/clear` to reset context
+Open Claude Code in your project and run `/init` to create or update CLAUDE.md.
 
-2. **Plan Phase** (3 min)
-   - Start fresh (new session or `/clear`)
-   - Load CLAUDE.md
-   - Ask: "Plan a new feature: Add rate limiting to the login endpoint. Include approach, changes, error handling."
-   - Claude generates plan in Plan Mode
-   - Review and refine
+**Step 2 — Check context**
 
-3. **Implementation Phase** (4 min)
-   - Execute the plan
-   - Context is clean, plan is locked in
-   - Implementation is straightforward
-   - Lesson: By separating phases, you avoid context pollution and rework
+Run `/context` and review the breakdown:
+
+- How many tokens are in CLAUDE.md?
+- How many are in conversation history?
+- How many are in loaded files?
+
+**Step 3 — Simulate a long conversation**
+
+Ask Claude 5–10 questions about the codebase (without loading large files), then run `/context` again. Notice how history grew.
+
+:::tip[Hint]
+If the context breakdown surprises you — particularly how fast conversation history grows — that's the point. Each exchange accumulates. This is why you manage context actively rather than letting it drift.
+:::
+
+**Step 4 — Compact and compare**
+
+1. Run `/compact`
+2. Run `/context` again
+3. Ask Claude the same questions — does it still understand?
+
+Compaction preserves knowledge while freeing tokens. It is not the same as clearing context.
+
+:::caution
+If `/compact` throws an error, try `/clear` instead (more direct, same effect). Some Claude Code versions use different command names — run `/help` to confirm what's available in your version.
+:::
+
+---
+
+## Part 4 — Three-Phase Workflow Demo
+
+**Objective**: Structure work for clean context.
+
+**Phase 1 — Research**
+
+1. Start a new conversation (or run `/clear`)
+2. Ask: "Walk me through the authentication flow. Show me the relevant files."
+3. Let Claude explore and respond
+4. Do not execute any changes yet
+5. At the end, run `/clear` to reset context — discard the research artifacts
+
+**Phase 2 — Plan**
+
+1. Start fresh (new session or `/clear`)
+2. Load CLAUDE.md
+3. Ask: "Plan a new feature: Add rate limiting to the login endpoint. Include approach, file changes, error handling."
+4. Claude generates a plan in Plan Mode
+5. Review and refine until it's solid
+
+**Phase 3 — Implementation**
+
+1. Execute the plan
+2. Context is clean; the plan is locked in
+3. Implementation proceeds without context pollution from the research phase
+
+:::note
+The key insight: research produces dead ends, stale questions, and exploratory noise. Carrying that into your planning phase pollutes Claude's reasoning. A clean slate before planning produces better plans and faster implementation.
+:::
 
 ---
 
@@ -162,81 +178,98 @@ Use a real (or realistic) scenario: The codebase has two different error handlin
 
 **Objective**: Build context discipline on a real task.
 
-**Setup** (5 min):
+**Setup** (5 min)
 
-Pick a real feature or task. Target: Moderately complex (2–4 hours of work). Example: "Add email verification to the signup flow."
+Pick a real feature or task from your project. Target: moderately complex (2–4 hours of work). Example: "Add email verification to the signup flow."
 
-**Steps** (50 min):
-
-1. **Phase 1: Research** (15 min)
-   - New session or `/clear`
-   - Ask Claude: "Walk me through our current signup flow. Show me the relevant files. What's the authentication model?"
-   - Claude explores the codebase
-   - Take notes on key findings
-   - At the end: Run `/clear` (discard research artifacts)
-
-2. **Phase 2: Plan** (20 min)
-   - New session or `/clear` (context is empty)
-   - Load CLAUDE.md: Ask Claude to refresh from the file
-   - Ask Claude: "Plan the addition of email verification. Include: architecture, database changes, new endpoints, error handling, security considerations, and validation rules."
-   - Claude generates a plan in Plan Mode
-   - Group reviews and refines: "How does this fit with existing auth? Are we validating the email correctly? What about edge cases (user changes email, verification link expires)?"
-   - Continue until the plan is solid
-
-3. **Phase 3: Implementation** (10 min)
-   - Execute the plan
-   - Claude implements
-   - Context is focused, plan is locked in
-   - Implementation is fast and accurate
-
-4. **Phase 4: Verification** (5 min)
-   - Ask Claude: "Did we implement all the requirements from the plan? Are there edge cases we missed?"
-   - Claude reviews its own work against the plan
-   - Outcome: Features that match the spec because the spec was precise and context was clean
+:::tip[Hint]
+Choose something real. The goal is to build a habit, not to complete a hypothetical. If you don't have a new feature ready, pick a refactoring task or a bug you've been avoiding.
+:::
 
 ---
 
-## Debrief Questions
+**Phase 1: Research** (15 min)
 
-1. **"Before the workshop, did you think context size mattered more than context quality? What changed your mind?"** — Look for: participants realizing curated < large contexts
-
-2. **"CLAUDE.md is now committed to Git. Who should update it when conventions change?"** — Look for: understanding that it's a team responsibility, not just one person's job
-
-3. **"How did the `/context` breakdown surprise you? What was taking up more tokens than you expected?"** — Look for: awareness that conversation history grows fast, or that loaded files consume significant tokens
-
-4. **"In the three-phase workflow, why did `/clear` between phases matter so much?"** — Look for: understanding that research artifacts (dead ends, questions) pollute planning context, so a clean slate is better
-
-5. **"If you commit CLAUDE.md next week and six months later it's outdated, what do you do?"** — Look for: recognition that CLAUDE.md is a living document that must be actively maintained by the team
+1. New session or `/clear`
+2. Ask Claude: "Walk me through our current signup flow. Show me the relevant files. What's the authentication model?"
+3. Let Claude explore the codebase
+4. Take notes on key findings in a separate document
+5. At the end: run `/clear` (discard research artifacts before moving on)
 
 ---
 
-## Common Issues
+**Phase 2: Plan** (20 min)
 
-**Participant says: "My project is too messy to write a CLAUDE.md — conventions aren't consistent yet"**
+1. New session or `/clear` — context is empty
+2. Ask Claude to load CLAUDE.md and refresh from it
+3. Ask Claude: "Plan the addition of email verification. Include: architecture, database changes, new endpoints, error handling, security considerations, and validation rules."
+4. Claude generates a plan in Plan Mode
+5. Review and refine: Does this fit with existing auth? Is the email validated correctly? What about edge cases (user changes email before verifying, verification link expires)?
+6. Continue until the plan is solid before moving on
 
-This is the most common concern. Reframe it: "Write CLAUDE.md as it *should* be, not as it currently is. It becomes a North Star. As the team refactors, they can align with CLAUDE.md instead of the old mess."
+:::tip[Hint]
+The plan phase is where most of the thinking happens. Don't rush it. A vague plan produces vague implementation. Push Claude on edge cases explicitly — ask "What could go wrong?" and "What did we miss?"
+:::
 
-**Participant loads their project and Claude's context immediately fills up**
+---
 
-This is expected with large codebases. Use it as a teaching moment: "This is why we don't load entire projects. In the next module (M05), we'll use lazy loading and agent-based research to keep context focused." For now, add to CLAUDE.md: "Focus on /src/models and /src/routes" to scope future interactions.
+**Phase 3: Implementation** (10 min)
 
-**Participant's `/context` shows huge history bloat after a few questions**
+1. Execute the plan
+2. Claude implements based on the clean context and locked-in plan
+3. Implementation is fast and accurate because the spec was precise
 
-Demonstration of the problem context poisoning creates. Walk through: `/context` → see history → ask a question → `/context` → see it grew. Then: `/clear` → see it drop to near-zero. Lesson: "Use `/clear` between major phases to prevent history from becoming noise."
+---
 
-**Participant gets an error running `/compact`**
+**Phase 4: Verification** (5 min)
 
-If `/compact` fails, try `/clear` instead (same effect, but more direct). Note: some Claude Code versions use different names for these commands. Verify with `/help` if unsure.
+1. Ask Claude: "Did we implement all the requirements from the plan? Are there edge cases we missed?"
+2. Claude reviews its own work against the plan
+3. Outcome: features that match the spec because the spec was precise and context was clean
+
+---
+
+## Reflection Questions
+
+Work through these independently when you finish the exercise. They reinforce the concepts from the session:
+
+1. Before this workshop, did you think context *size* mattered more than context *quality*? What changed your mind?
+
+2. CLAUDE.md is now committed to Git. Who should update it when conventions change, and how will your team know to do so?
+
+3. What did the `/context` breakdown show you that surprised you? What was consuming more tokens than you expected?
+
+4. In the three-phase workflow, why did `/clear` between phases matter so much? What would have happened if you carried research artifacts into planning?
+
+5. If you commit CLAUDE.md today and it's outdated six months from now, what's your process for keeping it current?
+
+---
+
+## Troubleshooting
+
+**"My project is too messy to write a CLAUDE.md — conventions aren't consistent yet"**
+
+Write CLAUDE.md as it *should* be, not as it currently is. It becomes a North Star. As you refactor, align with CLAUDE.md instead of the old mess.
+
+**Claude's context fills up immediately after loading your project**
+
+This is expected with large codebases. Don't load the entire project. Scope it in CLAUDE.md: add a line like `"Focus on /src/models and /src/routes"` to keep future interactions focused. In M05, you'll use lazy loading and agent-based research to manage this more precisely.
+
+**`/context` shows huge history bloat after just a few questions**
+
+This is context poisoning in action. Walk through it deliberately: `/context` → ask a question → `/context` → see it grew → `/clear` → see it drop to near-zero. Use `/clear` between major phases to prevent history from becoming noise.
+
+**`/compact` throws an error**
+
+Try `/clear` instead — same effect, more direct. Verify available commands with `/help` if unsure.
 
 **"We don't have a Git repo yet / we're not ready to commit this"**
 
-Fine. Still draft CLAUDE.md and discuss it as a team. The value is in the discussion, not the Git history. They can commit later when ready.
+Still draft CLAUDE.md and review it. The value is in the drafting and discussion, not the Git history. Commit when ready.
 
 ---
 
-## What to Commit Before Leaving
-
-Each participant (or the team if working together) should have:
+## What to Have When You're Done
 
 - [ ] A CLAUDE.md file at the project root with:
   - [ ] Overview + tech stack
@@ -246,7 +279,7 @@ Each participant (or the team if working together) should have:
   - [ ] Common mistakes to avoid
   - [ ] Testing requirements
   - [ ] Deployment info (if applicable)
-- [ ] CLAUDE.md committed to Git (or at least drafted and discussed)
+- [ ] CLAUDE.md committed to Git (or at minimum drafted and reviewed)
 - [ ] Experience running `/context` and understanding the breakdown
 - [ ] Understanding of when to use `/clear` between work phases
-- [ ] Agreement on who owns updating CLAUDE.md going forward
+- [ ] A clear owner (you or your team) for keeping CLAUDE.md up to date

@@ -4,43 +4,34 @@ description: "Create a shared CLAUDE.md, configure .mcp.json, set up cost monito
 ---
 
 
-**Facilitated session | 45–60 min | Requires: M13 study guide read beforehand**
+**Self-directed | 45–60 min | Requires: M13 study guide read beforehand**
 
 ---
 
 ## Before You Start
 
-**Prerequisites for participants**
+**Prerequisites**
 - M13 study guide read (theory + readings)
 - Access to your team's tooling (Git, cost monitoring, permission management)
 - Leadership support (or at least willingness to discuss policies)
 - Understanding of your team's existing code review processes
 - A text editor or Google Docs for drafting documents
 
-**What this session does**
-The theory covers permission modes, cost management, and team dynamics. This workshop makes them actionable. Participants will draft actual team policies, set up cost monitoring, and create onboarding checklists. By the end, every team has a working CLAUDE.md and an adoption playbook they can commit.
-
-**Facilitator preparation**
-- Have a sample cost monitoring spreadsheet ready to show
-- Prepare a template CLAUDE.md from a real team (anonymized)
-- Know your organization's budget constraints and compliance requirements
-- Be ready to discuss escalation scenarios: "What if a developer exceeds budget by 300%?"
+**What this workshop does**
+The theory covers permission modes, cost management, and team dynamics. This workshop makes them actionable. You will draft actual team policies, set up cost monitoring, and create onboarding checklists. By the end, you'll have a working CLAUDE.md and an adoption playbook ready to commit.
 
 ---
 
-## Session Plan
+## What You'll Do
 
-| Segment | Activity | Time |
-|---|---|---|
-| 1 | Exercise 1: Establish team conventions | 15 min |
-| 2 | Exercise 2: Cost monitoring setup | 15 min |
-| 3 | Exercise 3: Draft adoption playbook | 15 min |
-| — | Hands-on: Write CLAUDE.md + onboarding checklist | 30–45 min |
-| — | Debrief | 5 min |
+- Exercise 1: Establish team conventions
+- Exercise 2: Cost monitoring setup
+- Exercise 3: Draft adoption playbook
+- Hands-on: Write CLAUDE.md and onboarding checklist
 
 ---
 
-## Exercise 1: Establish Team Conventions (15 min)
+## Exercise 1: Establish Team Conventions
 
 **Goal:** Document what your team will do with Claude Code.
 
@@ -95,15 +86,13 @@ Create a document (in your repo as `CLAUDE.md` or similar):
 
 **Your turn:** Adapt this template for your team. What rules matter most?
 
-**Facilitator note:** As teams fill this out, watch for:
-- Consensus on permission modes (can be contentious)
-- Clarity on what "security-sensitive code" means for your org
-- Realistic budget numbers (too low discourages use; too high creates waste)
-- Specific knowledge-sharing mechanisms (not vague)
+:::tip[Hint]
+The most commonly contentious decisions are permission modes and what exactly counts as "security-sensitive code." Take time to be specific rather than vague — an ambiguous policy won't be followed consistently. Budget numbers that are too low discourage use; too high creates waste. Anchor on realistic usage and adjust after the first month.
+:::
 
 ---
 
-## Exercise 2: Cost Monitoring Setup (15 min)
+## Exercise 2: Cost Monitoring Setup
 
 **Goal:** Know what Claude Code costs your team.
 
@@ -148,11 +137,13 @@ Recommendations:
 - Budget allows for more usage next month
 ```
 
-**Facilitator note:** Emphasize that cost monitoring isn't about punishment—it's about awareness. If Alice is a heavy user, that might be great (she's leveraging the tool well) or concerning (she's dependent on it). The data informs the conversation.
+:::note
+Cost monitoring is not about punishment — it is about awareness. If one developer is a heavy user, that might be great (leveraging the tool well) or worth investigating (over-dependence). The data informs the conversation, not the verdict.
+:::
 
 ---
 
-## Exercise 3: Draft Team Adoption Playbook (15 min)
+## Exercise 3: Draft Team Adoption Playbook
 
 **Goal:** Create onboarding and governance docs.
 
@@ -191,11 +182,13 @@ Recommendations:
 - Developers bypassing code review because "Claude wrote it"
 ```
 
-**Facilitator note:** Push on "Escalation path." What actually happens if someone violates policy? A conversation with their manager? A workshop? Revoked access? Be specific.
+:::tip[Hint]
+Be specific about the escalation path. "What actually happens if someone violates policy?" is a question worth answering now. A conversation with their manager? A workshop? Revoked access? Vague escalation paths don't get followed.
+:::
 
 ---
 
-## Hands-on Exercise: Write Your Team's CLAUDE.md and Onboarding Checklist (30–45 min)
+## Hands-on Exercise: Write Your Team's CLAUDE.md and Onboarding Checklist
 
 ### Part 1: Team CLAUDE.md (20 min)
 
@@ -214,7 +207,7 @@ You'll create an actual document your team will use.
 
 3. Write the document in Markdown (so you can commit it to your repo)
 
-4. Get feedback from 1-2 teammates. Revise.
+4. Review it yourself or with a teammate. Revise.
 
 5. Commit to your repo (e.g., `CLAUDE.md` in root)
 
@@ -252,19 +245,19 @@ Document your review process:
 
 ---
 
-## Debrief Questions
+## Reflection Questions
 
-Ask the group:
+Work through these on your own after completing the exercises:
 
-1. **"When you wrote CLAUDE.md, what was the hardest decision?"** — Look for: permission modes, budget setting, defining "security-sensitive code."
+1. **When you wrote CLAUDE.md, what was the hardest decision?** — Consider: permission modes, budget setting, defining "security-sensitive code."
 
-2. **"What would you put in the 'What NOT to use Claude Code for' section specific to your domain?"** — Look for: domain-specific risks (compliance, data sensitivity, security).
+2. **What would you put in the "What NOT to use Claude Code for" section specific to your domain?** — Consider domain-specific risks: compliance requirements, data sensitivity, security constraints.
 
-3. **"If someone uses Claude Code for untrusted code (against policy), how do you address it?"** — Look for: escalation clarity; whether it's a training moment or a red flag.
+3. **If someone uses Claude Code for untrusted code (against policy), how do you address it?** — Is it a training moment or a red flag? Does the answer change based on seniority or context?
 
-4. **"You set a monthly budget. What happens if someone exceeds it by 50%?"** — Look for: clear process; whether it's automatic pause or conversation first.
+4. **You set a monthly budget. What happens if someone exceeds it by 50%?** — Define a clear process: automatic pause, or conversation first?
 
-5. **"Who owns monitoring costs and making the monthly decision?"** — Look for: clarity on roles; avoidance of "everyone's responsible" (no one is).
+5. **Who owns monitoring costs and making the monthly decision?** — "Everyone's responsible" usually means no one is. Name a role.
 
 ---
 
@@ -284,9 +277,9 @@ Ask the group:
 
 ---
 
-## What to Commit Before Leaving
+## What to Commit Before Finishing
 
-Each participant or team should have:
+You should have produced:
 
 - [ ] A team CLAUDE.md document (can be rough; will be refined)
 - [ ] Cost monitoring approach (tool identified, budgets set)
