@@ -368,4 +368,16 @@ If you have gaps in the foundation tier, address those before investing in AI-au
 
 ---
 
-*Next: [M12: CI/CD Integration and Headless Workflows](../M12-CICD-Integration/README.md)*
+## Workshop
+
+The hands-on session for this module: [**M11 Workshop: Post-Deployment — Monitoring AI-Generated Systems**](../workshops/m11-workshop.md)
+
+## Takeaway
+
+After completing this module and the workshop, you will have:
+
+- A mental model for observability in AI-augmented systems
+- Familiarity with OpenTelemetry instrumentation for LLM applications
+- An incident response workflow using AI-assisted investigation
+- An observability audit checklist for your own systems
+- Understanding of cost tracking as a reliability signal
