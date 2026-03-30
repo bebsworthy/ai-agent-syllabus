@@ -18,6 +18,10 @@ CLAUDE.md is injected into Claude's context on **every single request**. It's no
 
 If your project has two error handling patterns (old and new), Claude will mix them. If your team uses a specific test framework but there's a stale config for another one, Claude will guess. CLAUDE.md resolves ambiguity with authority.
 
+:::caution[Context, not code]
+CLAUDE.md is additional context injected into a probabilistic system — not deterministic configuration. As your conversation grows and context fills up, instructions in CLAUDE.md can be forgotten, diluted, or overridden by stronger signals elsewhere in the conversation. You are steering a probabilistic machine, not programming a deterministic one. If Claude starts drifting from your conventions, remind it — or start a fresh session where CLAUDE.md is at full strength.
+:::
+
 ## Do This
 
 ### 1. Generate a starter
