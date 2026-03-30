@@ -1,6 +1,6 @@
 ---
 title: "Claude Code: 0 to 200kph"
-description: "For developers with AI coding experience who want Claude-specific mastery. From install to full workflow automation in under 5 hours."
+description: "For developers with AI coding experience who want Claude-specific mastery. From install to multi-agent workflows in under 6 hours."
 ---
 
 # Claude Code: 0 to 200kph
@@ -20,7 +20,7 @@ You've used AI coding tools before — Copilot, Cursor, Aider, or similar. You k
 
 Each module starts with a **"how it works"** mental model (2-3 paragraphs, not a lecture), then goes deep on the Claude-specific techniques that separate casual users from power users.
 
-## The modules
+## The modules (11 modules)
 
 | # | Module | Duration | You Build |
 |---|--------|----------|-----------|
@@ -28,13 +28,16 @@ Each module starts with a **"how it works"** mental model (2-3 paragraphs, not a
 | 2 | [CLAUDE.md](b02-claude-md.md) | 25 min | Committed CLAUDE.md + path-specific rules |
 | 3 | [Plan Mode & Thinking](b03-plan-mode.md) | 25 min | Plan-to-implementation workflow + thinking controls |
 | 4 | [Context Engineering](b04-context-and-models.md) | 30 min | Context management practice + model selection |
-| 5 | [Daily Workflows](b05-daily-workflows.md) | 30 min | 6 workflow patterns on your real codebase |
+| 5 | [Daily Workflows](b05-daily-workflows.md) | 30 min | 7 workflow patterns on your real codebase |
 | | *You're productive now. Take a break or keep going.* | | |
 | 6 | [Skills & Marketplace](b06-first-skill.md) | 35 min | Custom skill + marketplace awareness |
 | 7 | [MCP & External Tools](b07-mcp-connections.md) | 35 min | 2 MCP connections + CLI-vs-MCP judgment |
 | 8 | [Hooks & Beyond](b08-hooks-and-integration.md) | 35 min | 2 hooks + end-to-end workflow + what's next |
+| 9 | [Research & Docs](b09-research-and-docs.md) | 35 min | Local reference docs + diamond research pattern |
+| 10 | [Don't Trust, Verify](b10-dont-trust-verify.md) | 30 min | Verification patterns that catch mistakes before they ship |
+| 11 | [Everything Everywhere All at Once](b11-everything-everywhere.md) | 40 min | Multi-agent workflow design using 8 production patterns |
 
-**Total: ~4 hours**
+**Total: ~5.5 hours**
 
 ## Prerequisites
 
