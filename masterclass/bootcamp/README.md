@@ -20,7 +20,7 @@ You've used AI coding tools before — Copilot, Cursor, Aider, or similar. You k
 
 Each module starts with a **"how it works"** mental model (2-3 paragraphs, not a lecture), then goes deep on the Claude-specific techniques that separate casual users from power users.
 
-## The modules (11 modules)
+## The modules (12 modules)
 
 | # | Module | Duration | You Build |
 |---|--------|----------|-----------|
@@ -36,8 +36,9 @@ Each module starts with a **"how it works"** mental model (2-3 paragraphs, not a
 | 9 | [Research & Docs](b09-research-and-docs.md) | 35 min | Local reference docs + diamond research pattern |
 | 10 | [Don't Trust, Verify](b10-dont-trust-verify.md) | 30 min | Verification patterns that catch mistakes before they ship |
 | 11 | [Everything Everywhere All at Once](b11-everything-everywhere.md) | 40 min | Multi-agent workflow design using 8 production patterns |
+| 12 | [Fun with Adversarial Agents](b12-adversarial-agents.md) | 30 min | GAN-style adversarial code review with competing agents |
 
-**Total: ~5.5 hours**
+**Total: ~6 hours**
 
 ## Prerequisites
 

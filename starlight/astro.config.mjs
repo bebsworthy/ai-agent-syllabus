@@ -39,6 +39,10 @@ export default defineConfig({
             { label: '06 — Build Your First Skill', slug: 'bootcamp/b06-first-skill' },
             { label: '07 — Connect Your Tools', slug: 'bootcamp/b07-mcp-connections' },
             { label: '08 — Hooks and Integration', slug: 'bootcamp/b08-hooks-and-integration' },
+            { label: '09 — Research and Docs', slug: 'bootcamp/b09-research-and-docs' },
+            { label: '10 — Don\'t Trust, Verify', slug: 'bootcamp/b10-dont-trust-verify' },
+            { label: '11 — Everything Everywhere', slug: 'bootcamp/b11-everything-everywhere' },
+            { label: '12 — Adversarial Agents', slug: 'bootcamp/b12-adversarial-agents' },
           ],
         },
         {
