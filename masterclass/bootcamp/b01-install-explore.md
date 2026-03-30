@@ -1,11 +1,12 @@
 ---
 title: "01: Install and Explore"
 description: "Install Claude Code, run your first interaction on a real codebase, and learn the survival shortcuts."
+sidebar:
+  label: "01: Install & Explore"
+  order: 1
 ---
 
 **20 minutes | You need: a real project, admin access, internet**
-
----
 
 ## Setup
 
@@ -69,7 +70,9 @@ Try each of these now:
 | `Shift+Tab` | Cycle: Normal → Plan Mode → Auto-Accept |
 | `!command` | Run a shell command (e.g., `!git status`) |
 
-> **Why this matters:** Claude reads your codebase on-demand using filesystem tools (Glob, Grep, Read). It does not pre-index anything. The first exploratory question lets Claude build a map of your project that improves all subsequent answers.
+:::note[Why this matters]{icon="rocket"}
+Claude reads your codebase on-demand using filesystem tools (Glob, Grep, Read). It does not pre-index anything. The first exploratory question lets Claude build a map of your project that improves all subsequent answers.
+:::
 
 ## Artifact
 

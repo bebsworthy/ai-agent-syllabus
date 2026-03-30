@@ -1,11 +1,12 @@
 ---
 title: "08: Hooks and Putting It All Together"
 description: "Add automatic quality gates and run an end-to-end workflow combining everything you've built."
+sidebar:
+  label: "08: Hooks & Integration"
+  order: 8
 ---
 
 **30 minutes | You need: everything from modules 1-7**
-
----
 
 ## Setup
 
@@ -63,7 +64,7 @@ Combine everything into a single real task from your backlog:
 
 This is the workflow stack in action:
 
-```
+```text
 CLAUDE.md          → persistent context (your conventions)
 Skills             → reusable instructions (your team's playbook)
 Subagents          → isolated workers (research without polluting context)
@@ -82,7 +83,9 @@ The most useful events:
 | `Stop` | When session ends | Cleanup, send notification |
 | `SessionStart` | When session begins | Load project-specific setup |
 
-> **Why this matters:** Hooks guarantee quality gates that don't depend on remembering to run them. A team with lint + test hooks catches issues automatically, every time, without human discipline. Combined with skills and MCP, you have a complete workflow automation stack.
+:::note[Why this matters]{icon="approve-check"}
+Hooks guarantee quality gates that don't depend on remembering to run them. A team with lint + test hooks catches issues automatically, every time, without human discipline. Combined with skills and MCP, you have a complete workflow automation stack.
+:::
 
 ## Artifact
 
@@ -91,7 +94,5 @@ Two working hooks (auto-lint + pre-commit tests). A completed end-to-end workflo
 ## Go Deeper
 
 [Playbook M07 — Advanced Workflows](/tier-2/m07-advanced-workflows/) for the full hook lifecycle (15+ events), plugins for packaging and distribution, and agent teams for coordinated multi-agent work. [Playbook M08 — Security](/tier-2/m08-security/) for security-reviewer subagents. [Playbook M12 — CI/CD](/tier-3/m12-cicd-integration/) for headless mode and pipeline integration.
-
----
 
 *You've completed Claude Code in a Day. You have: a CLAUDE.md, Plan Mode fluency, context management habits, daily workflow templates, a custom skill, MCP connections, and automated quality hooks. For the full picture — theory, security, team adoption, CI/CD — see the [AI-Augmented Development Playbook](/tier-1/).*

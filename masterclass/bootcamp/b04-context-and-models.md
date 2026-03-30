@@ -1,11 +1,12 @@
 ---
 title: "04: Context is Everything"
 description: "Manage your context window, pick the right model, and delegate research to subagents."
+sidebar:
+  label: "04: Context & Models"
+  order: 4
 ---
 
 **30 minutes | You need: Claude Code running with some conversation history**
-
----
 
 ## Setup
 
@@ -15,7 +16,7 @@ Open Claude Code in your project. If you've been working through modules 1-3, yo
 
 ### 1. See where your tokens go
 
-```
+```text
 /context
 ```
 
@@ -31,7 +32,7 @@ Run `/context` again. Notice how Messages grew.
 
 ### 3. Compact with intent
 
-```
+```text
 /compact Focus on the test patterns and commands
 ```
 
@@ -39,7 +40,7 @@ Run `/context` again — space reclaimed, but the useful information is preserve
 
 ### 4. Clean slate
 
-```
+```text
 /clear
 ```
 
@@ -71,7 +72,9 @@ Try each model on a real task:
 | `/effort low` | Simple formatting, quick questions |
 | `/effort high` | Hard problems where you want deeper reasoning |
 
-> **Why this matters:** The context window is finite. As it fills, Claude starts forgetting instructions and making mistakes. Subagents are the most important pattern — they do heavy reading in their own window and report back a summary. Model selection is a cost/quality trade-off: Sonnet at ~$3/1M tokens handles most tasks; Opus at ~$15/1M is worth it for genuinely hard problems.
+:::note[Why this matters]{icon="magnifier"}
+The context window is finite. As it fills, Claude starts forgetting instructions and making mistakes. Subagents are the most important pattern — they do heavy reading in their own window and report back a summary. Model selection is a cost/quality trade-off: Sonnet at ~$3/1M tokens handles most tasks; Opus at ~$15/1M is worth it for genuinely hard problems.
+:::
 
 ## Artifact
 

@@ -1,11 +1,12 @@
 ---
 title: "07: Connect Your Tools with MCP"
 description: "Give Claude access to GitHub, databases, and other tools — so it works with your real systems, not just files."
+sidebar:
+  label: "07: MCP Connections"
+  order: 7
 ---
 
 **35 minutes | You need: GitHub access (or another external tool)**
-
----
 
 ## Setup
 
@@ -20,7 +21,7 @@ claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
 Verify it's connected:
-```
+```text
 /mcp
 ```
 
@@ -72,7 +73,9 @@ Use your MCP connections together:
 
 For team setups, put shared connections in `.mcp.json` and commit it. Keep tokens in `.claude/settings.local.json`.
 
-> **Why this matters:** Tool Search (automatic on Sonnet 4+ and Opus 4+) lazy-loads MCP tools only when needed, so you can connect many servers without bloating your context. Start with 2-3 that match your immediate workflow. Don't install everything at once.
+:::note[Why this matters]{icon="right-arrow"}
+Tool Search (automatic on Sonnet 4+ and Opus 4+) lazy-loads MCP tools only when needed, so you can connect many servers without bloating your context. Start with 2-3 that match your immediate workflow. Don't install everything at once.
+:::
 
 ## Artifact
 

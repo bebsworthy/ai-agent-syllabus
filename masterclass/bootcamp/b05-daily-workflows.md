@@ -1,11 +1,12 @@
 ---
 title: "05: Daily Workflows That Actually Work"
 description: "Five real scenarios on your own codebase — debug, test, refactor, ship, and explore."
+sidebar:
+  label: "05: Daily Workflows"
+  order: 5
 ---
 
 **30 minutes | You need: your codebase open, ~5 minutes per scenario**
-
----
 
 ## Setup
 
@@ -62,7 +63,9 @@ Use a subagent for this to keep your main context clean:
 - **Use "think hard"** for complex problems — it allocates more reasoning budget.
 - **Session management:** `/resume` to pick up previous work, `/rename` to label sessions, `claude --continue` to resume the most recent session.
 
-> **Why this matters:** These five workflows cover 90% of what you'll do daily with Claude Code. The prompts above are templates — adapt them to your codebase and save the ones that work best.
+:::note[Why this matters]{icon="star"}
+These five workflows cover 90% of what you'll do daily with Claude Code. The prompts above are templates — adapt them to your codebase and save the ones that work best.
+:::
 
 ## Artifact
 
@@ -71,7 +74,5 @@ At least 3 completed workflow runs on your real codebase. A personal prompt chea
 ## Go Deeper
 
 [Playbook M02 — Prompt Engineering](/tier-1/m02-prompt-engineering/) for named techniques (zero-shot, few-shot, chain-of-thought) and the research behind them. [Playbook M09 — Code Review](/tier-2/m09-code-review/) for the Writer/Reviewer pattern.
-
----
 
 *You're productive now. Modules 6-8 add power-user capabilities — skills, MCP connections, and hooks. Do them when you're ready to level up.*

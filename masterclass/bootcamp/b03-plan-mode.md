@@ -1,11 +1,12 @@
 ---
 title: "03: Plan Before You Build"
 description: "Use Plan Mode to catch mistakes at the spec level (minutes to fix) instead of the code level (hours to fix)."
+sidebar:
+  label: "03: Plan Mode"
+  order: 3
 ---
 
 **30 minutes | You need: a real multi-file task from your backlog**
-
----
 
 ## Setup
 
@@ -27,7 +28,7 @@ Review the plan. Notice the assumptions, the ambiguity, the missing details.
 
 Now write a proper spec for the same feature:
 
-```
+```text
 Add profile editing to the user settings page.
 
 Requirements:
@@ -66,7 +67,9 @@ Review the diff before approving.
 
 Plan Mode is for multi-file features, unfamiliar codebases, and architectural changes. Skip it for single-file, well-scoped changes you can describe in one sentence.
 
-> **Why this matters:** The most common failure mode with AI coding isn't bad code — it's solving the wrong problem. Plan Mode catches mistakes at the spec level (minutes to fix) instead of the code level (hours to fix). Clear spec → 1 round of review (~1 hour). Vague spec → 3 rounds of revision (~8 hours).
+:::note[Why this matters]{icon="approve-check-circle"}
+The most common failure mode with AI coding isn't bad code — it's solving the wrong problem. Plan Mode catches mistakes at the spec level (minutes to fix) instead of the code level (hours to fix). Clear spec → 1 round of review (~1 hour). Vague spec → 3 rounds of revision (~8 hours).
+:::
 
 ## Artifact
 

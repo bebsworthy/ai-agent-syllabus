@@ -1,11 +1,9 @@
 ---
 title: "Claude Code in a Day"
 description: "From install to custom workflows in under 5 hours. No lectures — just your codebase and results."
+sidebar:
+  order: 0
 ---
-
-# Claude Code in a Day
-
-*From install to custom workflows in under 5 hours. No lectures — just your codebase and results.*
 
 ## Who this is for
 

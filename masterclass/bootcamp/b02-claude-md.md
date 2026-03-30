@@ -1,11 +1,12 @@
 ---
 title: "02: Your CLAUDE.md — Onboarding Your AI"
 description: "Create the single file that makes Claude understand your project's conventions, patterns, and constraints."
+sidebar:
+  label: "02: CLAUDE.md"
+  order: 2
 ---
 
 **30 minutes | You need: Claude Code running in your project**
-
----
 
 ## Setup
 
@@ -15,7 +16,7 @@ Open Claude Code in your project root. Have your project's conventions in mind (
 
 ### 1. Generate a starter
 
-```
+```text
 /init
 ```
 
@@ -62,7 +63,9 @@ git commit -m "Add CLAUDE.md with project conventions"
 
 Your CLAUDE.md is now a shared team asset.
 
-> **Why this matters:** Without CLAUDE.md, Claude sees your codebase but has no authoritative guidance on conventions. If your project has two error handling patterns (old and new), Claude will mix them. CLAUDE.md resolves the ambiguity. Keep it under ~200 lines / 2,000 tokens — it loads on every request.
+:::note[Why this matters]{icon="information"}
+Without CLAUDE.md, Claude sees your codebase but has no authoritative guidance on conventions. If your project has two error handling patterns (old and new), Claude will mix them. CLAUDE.md resolves the ambiguity. Keep it under ~200 lines / 2,000 tokens — it loads on every request.
+:::
 
 ## Artifact
 

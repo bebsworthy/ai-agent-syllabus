@@ -1,11 +1,12 @@
 ---
 title: "06: Build Your First Skill"
 description: "Turn a task you repeat weekly into a reusable slash command the whole team can use."
+sidebar:
+  label: "06: First Skill"
+  order: 6
 ---
 
 **35 minutes | You need: a task you repeat at least weekly**
-
----
 
 ## Setup
 
@@ -94,7 +95,9 @@ git commit -m "Add [skill-name] skill for team use"
 
 Skills in `.claude/skills/` are available to anyone who clones the repo. Personal skills go in `~/.claude/skills/`.
 
-> **Why this matters:** Skills follow progressive disclosure — Claude sees only the name and description (~100 tokens) until a skill is needed, then loads the full instructions. This keeps context lean. A team with 10 good skills eliminates hundreds of repeated prompt-writing sessions.
+:::note[Why this matters]{icon="bars"}
+Skills follow progressive disclosure — Claude sees only the name and description (~100 tokens) until a skill is needed, then loads the full instructions. This keeps context lean. A team with 10 good skills eliminates hundreds of repeated prompt-writing sessions.
+:::
 
 ## Artifact
 
