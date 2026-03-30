@@ -6,7 +6,7 @@ export default defineConfig({
 
   integrations: [
     starlight({
-      title: 'AI-Augmented Development Masterclass',
+      title: 'AI-Augmented Development Playbook',
       description: 'Operationalizing Claude Code for professional teams — 14 modules across three tiers.',
       tagline: 'Operationalizing Claude Code for Professional Teams',
 
@@ -27,6 +27,20 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
 
       sidebar: [
+        {
+          label: 'Claude Code in a Day',
+          items: [
+            { label: 'Overview', slug: 'bootcamp' },
+            { label: '01 — Install and Explore', slug: 'bootcamp/b01-install-explore' },
+            { label: '02 — Your CLAUDE.md', slug: 'bootcamp/b02-claude-md' },
+            { label: '03 — Plan Before You Build', slug: 'bootcamp/b03-plan-mode' },
+            { label: '04 — Context is Everything', slug: 'bootcamp/b04-context-and-models' },
+            { label: '05 — Daily Workflows', slug: 'bootcamp/b05-daily-workflows' },
+            { label: '06 — Build Your First Skill', slug: 'bootcamp/b06-first-skill' },
+            { label: '07 — Connect Your Tools', slug: 'bootcamp/b07-mcp-connections' },
+            { label: '08 — Hooks and Integration', slug: 'bootcamp/b08-hooks-and-integration' },
+          ],
+        },
         {
           label: 'Tier 1: Foundations',
           items: [

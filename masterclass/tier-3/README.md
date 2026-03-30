@@ -30,7 +30,7 @@ This tier shifts focus from building to operating—and from individual develope
 
 Each module follows this rhythm:
 - **Pre-work (15-20 min):** Self-paced reading on theory and fundamentals
-- **Facilitated Workshop (45-60 min):** Hands-on exercises in small groups or live
+- **Self-directed Workshop (45-60 min):** Hands-on exercises you work through at your own pace
 - **Concrete Takeaway:** An artifact you'll actually use (workflow, playbook, config, framework)
 
 ## Prerequisites
@@ -66,9 +66,9 @@ The specific tools will change. The principles—context management, agent desig
 
 ## How to Use This Tier
 
-- **Solo path:** Work through modules in order; complete pre-work before facilitated sessions
+- **Solo path:** Work through modules in order; complete pre-work before workshop sessions
 - **Team path:** Run sessions synchronously; discuss as a group during workshops
-- **Asynchronous path:** Pre-record facilitated sessions; teams self-organize exercises
+- **Asynchronous path:** Teams self-organize exercises and share results
 
 ## Suggested Instructor Notes
 

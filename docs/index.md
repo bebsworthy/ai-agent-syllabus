@@ -1,9 +1,9 @@
 ---
-title: AI-Augmented Development Masterclass
+title: AI-Augmented Development Playbook
 description: Operationalizing Claude Code for professional teams — 14 modules across three tiers.
 ---
 
-# AI-Augmented Development Masterclass
+# AI-Augmented Development Playbook
 
 ## Operationalizing Claude Code for Professional Teams
 
@@ -54,7 +54,7 @@ A blended training curriculum that combines theoretical foundations with hands-o
 Every module follows the same pattern:
 
 1. **Pre-work** (15–20 min) — Self-paced theory reading that builds a mental model
-2. **Workshop** (45–60 min) — Facilitated hands-on session applying the theory with Claude Code
+2. **Workshop** (45–60 min) — Self-directed hands-on session applying the theory with Claude Code
 3. **Takeaway** — A concrete artifact, habit, or workflow the learner uses from that day forward
 
 The theory isn't academic padding. It's the *why* that makes the *how* stick.
