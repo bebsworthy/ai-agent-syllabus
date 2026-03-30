@@ -33,13 +33,6 @@ jobs:
         working-directory: starlight
         run: npm ci
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Generate docs from source
-        run: python scripts/build_starlight.py
-
       - name: Build Starlight site
         working-directory: starlight
         run: npm run build
