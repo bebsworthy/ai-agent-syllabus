@@ -11,6 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 MASTERCLASS = ROOT / "masterclass"
 STARLIGHT_DOCS = ROOT / "starlight" / "src" / "content" / "docs"
+WORKSHOPS_SRC = MASTERCLASS / "workshops"
+WORKSHOPS_DEST = STARLIGHT_DOCS / "workshops"
 
 TIER_DIRS = {
     "Tier 1 - Foundations": "tier-1",
@@ -179,6 +181,19 @@ def main() -> None:
                 process_file(src_file, dest_file)
             except Exception as exc:
                 errors.append(f"{src_file}: {exc}")
+
+    # Workshops — flat directory
+    print(f"\nworkshops/  ->  starlight/.../docs/workshops/")
+    if WORKSHOPS_SRC.exists():
+        for src_file in sorted(WORKSHOPS_SRC.glob("*.md")):
+            dest_name = source_to_dest(src_file.name)
+            dest_file = WORKSHOPS_DEST / dest_name
+            try:
+                process_file(src_file, dest_file)
+            except Exception as exc:
+                errors.append(f"{src_file}: {exc}")
+    else:
+        print(f"WARNING: workshops source not found: {WORKSHOPS_SRC}", file=sys.stderr)
 
     if errors:
         print("\nErrors:", file=sys.stderr)

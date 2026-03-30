@@ -439,7 +439,7 @@ By the end of this module and workshop, you should have:
 - Your company's incident postmortems (learn from real incidents)
 
 ### M11 Study Guide
-[M11-Post-Deployment.md](M11-Post-Deployment.md)
+[M11-Post-Deployment.md](../Tier 3 - Operations and Scale/M11-Post-Deployment.md)
 
 ---
 

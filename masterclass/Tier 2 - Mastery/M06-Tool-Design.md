@@ -10,7 +10,7 @@ This module teaches you *how* agents actually use tools, then walks you through 
 **Hands-on:** Custom TypeScript MCP server using the Anthropic SDK
 **Takeaway:** A working MCP server + design principles applied to all future tools
 
-> **Workshop:** [M06-Tool-Design-workshop.md](M06-Tool-Design-workshop.md)
+> **Workshop:** [M06-Tool-Design-workshop.md](../workshops/M06-Tool-Design-workshop.md)
 
 ---
 

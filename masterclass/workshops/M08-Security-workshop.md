@@ -484,4 +484,4 @@ Each participant should have:
 
 ---
 
-*Next: [M09 — AI-Assisted Code Review](M09-Code-Review.md)*
+*Next: [M09 — AI-Assisted Code Review](../Tier 2 - Mastery/M09-Code-Review.md)*

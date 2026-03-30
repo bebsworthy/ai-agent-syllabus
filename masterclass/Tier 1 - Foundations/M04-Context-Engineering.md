@@ -8,7 +8,7 @@ This module covers the four failure modes from Drew Breunig's research: context 
 
 This is the module where developers who seem to "get 80% time savings" differ from those who don't. It's not about intelligence; it's about context discipline.
 
-> **Workshop:** [M04-Context-Engineering-workshop.md](M04-Context-Engineering-workshop.md)
+> **Workshop:** [M04-Context-Engineering-workshop.md](../workshops/M04-Context-Engineering-workshop.md)
 
 ---
 

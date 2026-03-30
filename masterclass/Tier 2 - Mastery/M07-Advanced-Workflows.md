@@ -10,7 +10,7 @@ This module teaches you to design skills that your whole team uses, create speci
 **Hands-on:** Custom skill + subagent + hook in a real repository
 **Takeaway:** At least one team skill and one hook deployed to your project
 
-> **Workshop:** [M07-Advanced-Workflows-workshop.md](M07-Advanced-Workflows-workshop.md)
+> **Workshop:** [M07-Advanced-Workflows-workshop.md](../workshops/M07-Advanced-Workflows-workshop.md)
 
 ---
 

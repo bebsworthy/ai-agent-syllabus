@@ -14,7 +14,7 @@ This module teaches you to think about security *with* AI, not despite it. You'l
 **Hands-on:** Security-reviewer subagent + pre-commit hook + live vulnerability testing
 **Takeaway:** A security review workflow integrated into your CI/CD pipeline
 
-> **Workshop:** [M08-Security-workshop.md](M08-Security-workshop.md)
+> **Workshop:** [M08-Security-workshop.md](../workshops/M08-Security-workshop.md)
 
 ---
 

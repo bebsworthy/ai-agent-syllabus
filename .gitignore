@@ -16,8 +16,10 @@ __pycache__/
 # Starlight / Node
 starlight/node_modules/
 starlight/dist/
+starlight/.astro/
 
 # Generated Starlight docs (built by scripts/build_starlight.py)
 starlight/src/content/docs/tier-1/
 starlight/src/content/docs/tier-2/
 starlight/src/content/docs/tier-3/
+starlight/src/content/docs/workshops/

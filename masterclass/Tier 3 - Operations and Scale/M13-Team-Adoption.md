@@ -10,7 +10,7 @@ You'll also learn what NOT to do with Claude Code—untrusted code, production d
 
 Finally, you'll build an onboarding experience for new developers joining an AI-augmented team, and establish shared documentation so knowledge isn't trapped in individuals.
 
-> **Workshop:** [M13-Team-Adoption-workshop.md](M13-Team-Adoption-workshop.md)
+> **Workshop:** [M13-Team-Adoption-workshop.md](../workshops/M13-Team-Adoption-workshop.md)
 
 ## Prerequisites
 

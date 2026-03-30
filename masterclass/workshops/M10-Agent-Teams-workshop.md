@@ -513,7 +513,7 @@ If Claude Code won't start or authenticate, troubleshoot:
   - Dask: https://www.dask.org/
 - **Cost-Benefit Analysis Framework:** https://en.wikipedia.org/wiki/Cost%E2%80%93benefit_analysis
 - **The /batch Command:** Claude Code documentation
-- **M10 Study Guide:** [M10-Agent-Teams.md](M10-Agent-Teams.md)
+- **M10 Study Guide:** [M10-Agent-Teams.md](../Tier 2 - Mastery/M10-Agent-Teams.md)
 
 ---
 

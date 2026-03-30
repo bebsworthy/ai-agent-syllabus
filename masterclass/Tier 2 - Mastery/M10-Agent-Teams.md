@@ -14,7 +14,7 @@ This module teaches you when Agent Teams add value and when simpler patterns wor
 
 **Takeaway:** Judgment about when Agent Teams pay off vs when single-session/subagent is better
 
-> **Workshop:** [M10-Agent-Teams-workshop.md](M10-Agent-Teams-workshop.md)
+> **Workshop:** [M10-Agent-Teams-workshop.md](../workshops/M10-Agent-Teams-workshop.md)
 
 ---
 

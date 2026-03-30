@@ -6,7 +6,7 @@ The difference between a vague request that produces mediocre code and a precise
 
 You'll also learn model and effort level selection: Sonnet 4.6 for daily work (90% of tasks), Opus 4.6 for complex reasoning (5x cost, but worth it), Haiku 4.5 for quick questions. Effort levels (`/effort low|medium|high|max`) directly trade computation for quality—you'll learn when each is worth the cost.
 
-> **Workshop:** [M02-Prompt-Engineering-workshop.md](M02-Prompt-Engineering-workshop.md)
+> **Workshop:** [M02-Prompt-Engineering-workshop.md](../workshops/M02-Prompt-Engineering-workshop.md)
 
 ---
 

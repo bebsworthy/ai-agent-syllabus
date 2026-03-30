@@ -14,7 +14,7 @@ This module teaches you that style is automatable (linters do that), but design 
 **Hands-on:** /review skill + Writer/Reviewer pattern + live PR review exercise
 **Takeaway:** A /review skill and the Writer/Reviewer pattern as standard practice
 
-> **Workshop:** [M09-Code-Review-workshop.md](M09-Code-Review-workshop.md)
+> **Workshop:** [M09-Code-Review-workshop.md](../workshops/M09-Code-Review-workshop.md)
 
 ---
 

@@ -14,7 +14,7 @@ This module also covers the dual-agent model: local agents for interactive debug
 
 **Takeaway:** Incident investigation prompt templates, observability audit checklist, and judgment about when AI accelerates vs. replacing human diagnosis.
 
-> **Workshop:** [M11-Post-Deployment-workshop.md](M11-Post-Deployment-workshop.md)
+> **Workshop:** [M11-Post-Deployment-workshop.md](../workshops/M11-Post-Deployment-workshop.md)
 
 ---
 

@@ -8,7 +8,7 @@ This module covers agent architecture (planning loops, memory systems, tool disp
 
 You'll connect 2–3 relevant MCP servers (GitHub, a database, a team tool), observe how agents discover and use tools, and learn the curated tool lists by role (full-stack, frontend, backend, DevOps, lead). By the end, you'll have working integrations your team will use daily, plus an understanding of why agent tool selection matters as much as agent reasoning.
 
-> **Workshop:** [M05-Agents-and-MCP-workshop.md](M05-Agents-and-MCP-workshop.md)
+> **Workshop:** [M05-Agents-and-MCP-workshop.md](../workshops/M05-Agents-and-MCP-workshop.md)
 
 ---
 

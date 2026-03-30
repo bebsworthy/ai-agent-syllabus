@@ -8,7 +8,7 @@ You'll learn the `-p` (plan mode) and headless flags that make Claude Code suita
 
 The key insight: there are two distinct patterns. **Parallel independent tasks** (refactor file A, B, C simultaneously with no dependencies) use `/batch`. **Coordinated interdependent tasks** (Agent Team orchestrates services) are separate from batch. This module focuses on the former; you'll see why the distinction matters.
 
-> **Workshop:** [M12-CICD-Integration-workshop.md](M12-CICD-Integration-workshop.md)
+> **Workshop:** [M12-CICD-Integration-workshop.md](../workshops/M12-CICD-Integration-workshop.md)
 
 ## Prerequisites
 

@@ -8,7 +8,7 @@ You'll learn the evaluation frameworks from this entire course and apply them to
 
 This is the capstone: not "how to use Claude Code," but "how to think about AI tools and software development." When you finish this module, you'll be equipped to evaluate new tools, adopt them confidently, and know when to stay with what works.
 
-> **Workshop:** [M14-Whats-Next-workshop.md](M14-Whats-Next-workshop.md)
+> **Workshop:** [M14-Whats-Next-workshop.md](../workshops/M14-Whats-Next-workshop.md)
 
 ## Prerequisites
 

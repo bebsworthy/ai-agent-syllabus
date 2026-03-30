@@ -8,7 +8,7 @@ This module teaches you the workflow inversion: **idea → rapid prototype → f
 
 This module is especially critical for product owners. By the end, you'll understand how to write a specification that developers (and Claude) can execute without ambiguity.
 
-> **Workshop:** [M03-Specs-Are-Source-Code-workshop.md](M03-Specs-Are-Source-Code-workshop.md)
+> **Workshop:** [M03-Specs-Are-Source-Code-workshop.md](../workshops/M03-Specs-Are-Source-Code-workshop.md)
 
 ---
 
