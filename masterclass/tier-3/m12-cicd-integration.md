@@ -12,7 +12,6 @@ You'll learn the `-p` (plan mode) and headless flags that make Claude Code suita
 
 The key insight: there are three tiers of automation. **Parallel independent tasks** (Batch API, xargs—no dependencies between files) are the M12 focus. **Coordinated single-pipeline tasks** (vendor-native agentic workflows from GitHub and GitLab) are the emerging middle tier. **Long-running multi-session Agent Teams** require Tier 4. This module focuses on the first tier and introduces the second.
 
-> **Workshop:** [M12-CICD-Integration-workshop.md](../workshops/M12-CICD-Integration-workshop.md)
 
 ## Prerequisites
 
@@ -247,6 +246,10 @@ Teams install once: `claude code --plugin my-security-review`. Then any develope
 5. **"xargs and Parallel Processing"** — Linux man page or tutorial
    - ~10 min. Practical guide to parallelizing shell tasks.
 
+
+## Workshop
+
+The hands-on session for this module: [**M12: CI/CD Integration and Headless Workflows — Workshop Guide**](../workshops/m12-workshop.md)
 
 ## Takeaway: At Least One CI/CD Integration Running in Your Pipeline
 

@@ -10,7 +10,6 @@ The difference between a vague request that produces mediocre code and a precise
 
 You'll also learn model and effort level selection: Sonnet 4.6 for daily work (90% of tasks), Opus 4.6 for complex reasoning (higher cost, but worth it for hard problems), Haiku 4.5 for quick questions. Effort levels (`/effort low|medium|high|max`) directly trade computation for quality—you'll learn when each is worth the cost.
 
-> **Workshop:** [M02-Prompt-Engineering-workshop.md](../workshops/M02-Prompt-Engineering-workshop.md)
 
 ---
 
@@ -320,6 +319,10 @@ For internal tooling and single-user workflows, the risk is lower. For any workf
    - Link: https://claude.com/claude-code (or internal docs)
 
 ---
+
+## Workshop
+
+The hands-on session for this module: [**M02: Prompt Engineering — Workshop Guide**](../workshops/m02-workshop.md)
 
 ## Takeaway
 

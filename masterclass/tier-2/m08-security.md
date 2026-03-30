@@ -18,7 +18,6 @@ This module teaches you to think about security *with* AI, not despite it. You'l
 **Hands-on:** Security-reviewer subagent + pre-commit hook + live vulnerability testing
 **Takeaway:** A security review workflow integrated into your CI/CD pipeline
 
-> **Workshop:** [M08-Security-workshop.md](../workshops/M08-Security-workshop.md)
 
 ---
 
@@ -122,6 +121,10 @@ The security-reviewer subagent you build in the workshop is itself an attack sur
 **Layer 3: Human Review**
 Always required. AI is a tool, not a replacement.
 
+
+## Workshop
+
+The hands-on session for this module: [**M08: Security in the Age of AI-Generated Code — Workshop Guide**](../workshops/m08-workshop.md)
 
 ## Takeaway
 

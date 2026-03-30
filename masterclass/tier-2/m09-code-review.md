@@ -18,7 +18,6 @@ This module teaches you that style is automatable (linters do that), but design 
 **Hands-on:** /review skill + Writer/Reviewer pattern + live PR review exercise
 **Takeaway:** A /review skill and the Writer/Reviewer pattern as standard practice
 
-> **Workshop:** [M09-Code-Review-workshop.md](../workshops/M09-Code-Review-workshop.md)
 
 ---
 
@@ -137,6 +136,10 @@ Mitigations:
 1. Use truly independent reviewer agents—no shared context, no hierarchical filtering between writer and reviewer.
 2. Anchor review to a checklist tied to design principles; this reduces reviewer bias toward AI-generated content.
 3. Have a human verify all high-severity findings before acting on them, whether the finding came from an AI reviewer or a human one.
+
+## Workshop
+
+The hands-on session for this module: [**M09: AI-Assisted Code Review — Workshop Guide**](../workshops/m09-workshop.md)
 
 ## Takeaway
 

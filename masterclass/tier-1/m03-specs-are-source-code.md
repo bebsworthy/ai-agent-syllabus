@@ -12,7 +12,6 @@ This module teaches you the workflow inversion: **idea → rapid prototype → f
 
 This module is especially critical for product owners. By the end, you'll understand how to write a specification that developers (and Claude) can execute without ambiguity.
 
-> **Workshop:** [M03-Specs-Are-Source-Code-workshop.md](../workshops/M03-Specs-Are-Source-Code-workshop.md)
 
 ---
 
@@ -203,6 +202,10 @@ A clear spec is necessary but not sufficient when implementing complex features 
    - Link: https://pragprog.com/ (or your team's library)
 
 ---
+
+## Workshop
+
+The hands-on session for this module: [**M03: Specifications Are the New Source Code — Workshop Guide**](../workshops/m03-workshop.md)
 
 ## Takeaway
 

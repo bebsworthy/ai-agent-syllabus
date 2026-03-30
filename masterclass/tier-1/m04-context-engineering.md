@@ -12,7 +12,6 @@ This module covers the four failure modes from Drew Breunig's research: context 
 
 This is the module where developers who seem to "get 80% time savings" differ from those who don't. It's not about intelligence; it's about context discipline.
 
-> **Workshop:** [M04-Context-Engineering-workshop.md](../workshops/M04-Context-Engineering-workshop.md)
 
 ---
 
@@ -288,6 +287,10 @@ Context Usage:
    - Official guide to CLAUDE.md format and context commands
    - Link: https://claude.com/claude-code
 
+
+## Workshop
+
+The hands-on session for this module: [**M04: Context Engineering — Workshop Guide**](../workshops/m04-workshop.md)
 
 ## Takeaway
 

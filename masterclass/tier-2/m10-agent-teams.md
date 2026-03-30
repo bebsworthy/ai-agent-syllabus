@@ -18,7 +18,6 @@ This module teaches you when Agent Teams add value and when simpler patterns wor
 
 **Takeaway:** Judgment about when Agent Teams pay off vs when single-session/subagent is better
 
-> **Workshop:** [M10-Agent-Teams-workshop.md](../workshops/M10-Agent-Teams-workshop.md)
 
 ---
 
@@ -174,6 +173,10 @@ Example:
 - ROI: Positive for large teams, negative for 1-2 people
 
 ---
+
+## Workshop
+
+The hands-on session for this module: [**M10 Workshop: Agent Teams and Parallel Orchestration**](../workshops/m10-workshop.md)
 
 ## Takeaway
 

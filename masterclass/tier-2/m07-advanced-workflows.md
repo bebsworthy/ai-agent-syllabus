@@ -14,7 +14,6 @@ This module teaches you to design skills that your whole team uses, create speci
 **Hands-on:** Custom skill + subagent + hook in a real repository
 **Takeaway:** At least one team skill and one hook deployed to your project
 
-> **Workshop:** [M07-Advanced-Workflows-workshop.md](../workshops/M07-Advanced-Workflows-workshop.md)
 
 ---
 
@@ -247,6 +246,10 @@ Hooks receive a JSON object on stdin. Common fields:
 Exit code `0` = success; non-zero = signal an error condition to Claude.
 
 ---
+
+## Workshop
+
+The hands-on session for this module: [**M07: Advanced Workflows — Workshop Guide**](../workshops/m07-workshop.md)
 
 ## Takeaway
 

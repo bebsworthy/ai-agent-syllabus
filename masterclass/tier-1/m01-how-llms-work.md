@@ -128,6 +128,10 @@ Complete these before the workshop session. Total reading time: ~20 minutes.
 
 ---
 
+## Workshop
+
+The hands-on session for this module: [**M01 Workshop: How LLMs Actually Work**](../workshops/m01-workshop.md)
+
 ## Takeaway
 
 After completing the pre-work and the workshop session, you will have:

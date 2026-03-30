@@ -14,7 +14,6 @@ You'll also learn what NOT to do with Claude Code—untrusted code, production d
 
 Finally, you'll build an onboarding experience for new developers joining an AI-augmented team, and establish shared documentation so knowledge isn't trapped in individuals.
 
-> **Workshop:** [M13-Team-Adoption-workshop.md](../workshops/M13-Team-Adoption-workshop.md)
 
 ## Prerequisites
 
@@ -359,6 +358,10 @@ For regulated teams, designate an AI governance owner, schedule monthly syncs wi
 5. **Your Company's Security and Compliance Policies**
    - ~15 min. What does your org allow/require? Secrets? External APIs? Database access?
 
+
+## Workshop
+
+The hands-on session for this module: [**M13: Team Adoption — Standards, Safety, and Scaling — Workshop Guide**](../workshops/m13-workshop.md)
 
 ## Takeaway: A Team Adoption Playbook
 

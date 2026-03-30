@@ -12,7 +12,6 @@ You'll learn the evaluation frameworks from this entire course and apply them to
 
 This is the capstone: not "how to use Claude Code," but "how to think about AI tools and software development." When you finish this module, you'll be equipped to evaluate new tools, adopt them confidently, and know when to stay with what works.
 
-> **Workshop:** [M14-Whats-Next-workshop.md](../workshops/M14-Whats-Next-workshop.md)
 
 ## Prerequisites
 
@@ -235,6 +234,10 @@ The evaluation framework above handles what exists today. But tool selection als
 - **Human-in-the-loop optimization:** Rather than generating one implementation, tools present multiple alternatives (more readable vs. faster vs. more memory-efficient) for humans to select from.
 
 When evaluating tools for long-term adoption, check whether the tool's architecture and roadmap signal movement toward any of these paradigms. A tool that is well-positioned structurally—even if it doesn't yet implement these features—is a better long-term bet than one that would require fundamental redesign.
+
+## Workshop
+
+The hands-on session for this module: [**M14: What's Next — Evaluating the Evolving Landscape — Workshop Guide**](../workshops/m14-workshop.md)
 
 ## Takeaway: A Transferable Evaluation Framework
 
