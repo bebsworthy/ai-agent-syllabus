@@ -31,11 +31,15 @@ You should see GitHub tools in the list.
 
 Ask Claude to do something that requires GitHub access:
 
-> *"List the open PRs on this repo and summarize what each one changes."*
+```text
+List the open PRs on this repo and summarize what each one changes.
+```
 
 or
 
-> *"Review PR #[number] for security issues and potential bugs."*
+```text
+Review PR #[number] for security issues and potential bugs.
+```
 
 ### 3. Connect one more tool
 
@@ -61,7 +65,9 @@ Verify with `/mcp` again.
 
 Use your MCP connections together:
 
-> *"Check if there are any open issues related to authentication, then look at the relevant code and draft a fix for the most recent one."*
+```text
+Check if there are any open issues related to authentication, then look at the relevant code and draft a fix for the most recent one.
+```
 
 ### 5. Understand where configs live
 

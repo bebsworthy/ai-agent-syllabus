@@ -39,7 +39,9 @@ Open the generated `CLAUDE.md`. Add at least 5 items from this checklist:
 
 Ask Claude a question where the CLAUDE.md should influence the answer:
 
-> *"Write a new test for [module]. Follow our testing conventions."*
+```text
+Write a new test for [module]. Follow our testing conventions.
+```
 
 Does it use the right framework? The right patterns? If not, refine the CLAUDE.md and try again.
 

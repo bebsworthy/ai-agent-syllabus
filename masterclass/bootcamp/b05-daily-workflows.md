@@ -18,7 +18,9 @@ Pick real tasks from your codebase for each scenario below. Don't use hypothetic
 
 Find a real error message from your logs or a failing test. Paste it:
 
-> *"I'm getting this error: [paste error]. Trace through the codebase, find the root cause, and fix it."*
+```text
+I'm getting this error: [paste error]. Trace through the codebase, find the root cause, and fix it.
+```
 
 If you don't have a current error, break something on purpose and let Claude fix it.
 
@@ -26,7 +28,9 @@ If you don't have a current error, break something on purpose and let Claude fix
 
 Pick an untested module:
 
-> *"Write comprehensive tests for `src/services/auth.ts`. Cover happy paths, edge cases, and error handling. Use our existing test patterns. Run the tests and fix any failures."*
+```text
+Write comprehensive tests for `src/services/auth.ts`. Cover happy paths, edge cases, and error handling. Use our existing test patterns. Run the tests and fix any failures.
+```
 
 The key phrase is **"Run the tests and fix any failures"** — this gives Claude a feedback loop.
 
@@ -34,7 +38,9 @@ The key phrase is **"Run the tests and fix any failures"** — this gives Claude
 
 Pick a messy area. Use Plan Mode for this one:
 
-> *"Refactor `src/utils/` to eliminate code duplication. Flag functions with >70% similarity and propose shared utilities."*
+```text
+Refactor `src/utils/` to eliminate code duplication. Flag functions with >70% similarity and propose shared utilities.
+```
 
 Review the plan before letting Claude execute.
 
@@ -42,7 +48,9 @@ Review the plan before letting Claude execute.
 
 After any of the above:
 
-> *"Commit these changes with a descriptive message, push to a new branch called `feature/[name]`, and create a PR."*
+```text
+Commit these changes with a descriptive message, push to a new branch called `feature/[name]`, and create a PR.
+```
 
 Claude handles staging, committing, branching, and PR creation in one go.
 
@@ -50,11 +58,15 @@ Claude handles staging, committing, branching, and PR creation in one go.
 
 Pick a module you've never touched:
 
-> *"Explain the architecture of `src/payments/`. What are the main components, how do they connect, and where does data flow?"*
+```text
+Explain the architecture of `src/payments/`. What are the main components, how do they connect, and where does data flow?
+```
 
 Use a subagent for this to keep your main context clean:
 
-> *"Use a subagent to map how the payment module handles refunds and whether there's existing retry logic I should reuse."*
+```text
+Use a subagent to map how the payment module handles refunds and whether there's existing retry logic I should reuse.
+```
 
 ### Prompting tips to keep handy
 

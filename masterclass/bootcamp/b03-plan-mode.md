@@ -20,7 +20,9 @@ Enter Plan Mode: press `Shift+Tab` (or type `/plan`).
 
 Give Claude a vague one-liner:
 
-> *"Users should be able to edit their profiles."*
+```text
+Users should be able to edit their profiles.
+```
 
 Review the plan. Notice the assumptions, the ambiguity, the missing details.
 
@@ -51,7 +53,9 @@ Enter Plan Mode again with this spec. Compare the plan quality.
 
 Challenge one assumption:
 
-> *"What about race conditions if two tabs are open? How should we handle concurrent edits?"*
+```text
+What about race conditions if two tabs are open? How should we handle concurrent edits?
+```
 
 Use `Ctrl+G` to open the plan in your text editor for direct editing.
 
@@ -59,7 +63,9 @@ Use `Ctrl+G` to open the plan in your text editor for direct editing.
 
 Once the plan looks solid, exit Plan Mode (`Shift+Tab`) and tell Claude to implement:
 
-> *"This plan looks good. Execute it."*
+```text
+This plan looks good. Execute it.
+```
 
 Review the diff before approving.
 

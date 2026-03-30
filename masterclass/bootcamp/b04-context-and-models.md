@@ -26,7 +26,9 @@ Review the breakdown: system prompt, tools, memory files, messages, free space. 
 
 Start a research-heavy task:
 
-> *"Explain the testing strategy in this project. What frameworks do we use, where are the test files, and what patterns do they follow?"*
+```text
+Explain the testing strategy in this project. What frameworks do we use, where are the test files, and what patterns do they follow?
+```
 
 Run `/context` again. Notice how Messages grew.
 
@@ -57,7 +59,9 @@ When you see these → `/clear` and start fresh.
 
 Ask Claude to research something in a separate context:
 
-> *"Use a subagent to investigate how our authentication system handles token refresh, and whether we have any existing OAuth utilities I should reuse."*
+```text
+Use a subagent to investigate how our authentication system handles token refresh, and whether we have any existing OAuth utilities I should reuse.
+```
 
 Run `/context` before and after. The subagent's work stays in its own context window — only the summary enters yours.
 

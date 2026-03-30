@@ -45,17 +45,23 @@ A browser window opens for one-time authentication. Credentials are stored local
 
 Ask Claude:
 
-> *"What does this project do? Describe the architecture, main modules, and how data flows."*
+```text
+What does this project do? Describe the architecture, main modules, and how data flows.
+```
 
 Review the output. Did it get the structure right? What did it miss?
 
 ### 4. Find and explain a function
 
-> *"Find the function that handles [something specific in your project] and explain what it does."*
+```text
+Find the function that handles [something specific in your project] and explain what it does.
+```
 
 ### 5. Make your first edit
 
-> *"Add a JSDoc comment to [that function] explaining its purpose and parameters."*
+```text
+Add a JSDoc comment to [that function] explaining its purpose and parameters.
+```
 
 Review the proposed change. Approve it. You just made your first AI-assisted edit.
 
