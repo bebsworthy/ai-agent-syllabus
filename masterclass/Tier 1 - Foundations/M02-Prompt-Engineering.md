@@ -6,6 +6,8 @@ The difference between a vague request that produces mediocre code and a precise
 
 You'll also learn model and effort level selection: Sonnet 4.6 for daily work (90% of tasks), Opus 4.6 for complex reasoning (5x cost, but worth it), Haiku 4.5 for quick questions. Effort levels (`/effort low|medium|high|max`) directly trade computation for quality—you'll learn when each is worth the cost.
 
+> **Workshop:** [M02-Prompt-Engineering-workshop.md](M02-Prompt-Engineering-workshop.md)
+
 ---
 
 ## Pre-work: Theory (15–20 min)
@@ -76,7 +78,7 @@ Before answering, list the top 3 risks you'd check for."
 
 Provide the exact context Claude needs to answer accurately:
 
-```
+````
 "Here's the relevant part of our database schema:
 
 ```sql
@@ -89,7 +91,7 @@ CREATE TABLE users (
 ```
 
 Write a query to find all admin users who haven't logged in for 30 days."
-```
+````
 
 **When it works**: Nearly always. When you have the right context, Claude's accuracy skyrockets.
 **When it fails**: If you provide the wrong context, Claude will use it anyway, leading to confidently incorrect answers.
@@ -217,178 +219,6 @@ These don't magically add reasoning; they signal to Claude that you expect caref
 5. **Claude Code Documentation: Model Selection and Effort Levels**
    - Official guidance on when to use Sonnet vs. Opus vs. Haiku.
    - Link: https://claude.com/claude-code (or internal docs)
-
----
-
-## Workshop: Facilitated Hands-on (45–60 min)
-
-### Segment 1: Side-by-Side Prompt Comparison (15 min)
-
-**Objective**: Show the direct impact of prompt quality on output.
-
-**Setup**:
-
-Choose a real, moderately-complex task from the codebase. Examples:
-- "Add rate limiting to the API"
-- "Refactor the authentication module"
-- "Find and fix memory leaks in the data pipeline"
-- "Add comprehensive error handling to the payment processing"
-
-**Activity**:
-
-1. **Bad Prompt** (5 min)
-   ```
-   "Improve the authentication code."
-   ```
-   - Run this in Claude Code
-   - Observe: Vague suggestions, possible hallucinations, unclear scope
-
-2. **Good Prompt** (5 min)
-   ```
-   "Improve the authentication code by implementing rate limiting.
-
-   Here's the current implementation:
-   [paste the actual code]
-
-   Specific improvements:
-   1. Limit login attempts to 5 per IP per minute
-   2. Return a 429 status with a clear error message
-   3. Log all failed attempts to the audit log
-   4. Start with modifying the `POST /auth/login` endpoint
-
-   Show me the updated code and explain what changed."
-   ```
-   - Run this in Claude Code
-   - Observe: Specific, actionable suggestions; Claude understands the scope
-
-3. **Comparison** (5 min)
-   - Discuss: What made the good prompt better? (Specificity, examples, clear requirements, starting point)
-   - Lesson: The same task, with 10 seconds of extra framing, produces vastly better results
-
----
-
-### Segment 2: Model and Effort Selection (10 min)
-
-**Facilitate decision-making**:
-
-Present three realistic scenarios. For each, ask the group: "Which model? Which effort?"
-
-**Scenario 1: Quick Code Search**
-- "Find all places where we call the deprecated `getUser()` function."
-- Answer: Haiku + medium effort (fast, cheap, simple task)
-
-**Scenario 2: Feature Implementation**
-- "Add a new API endpoint for exporting user data as CSV. Here's the database schema, here's our error handling pattern, here's an example endpoint. Go."
-- Answer: Sonnet + medium effort (80% of the work, good reasoning, reasonable cost)
-
-**Scenario 3: Debug a Subtle Memory Leak**
-- "Our API is leaking ~50MB per hour. The leak is in one of these three components [describe]. Trace the issue and propose a fix."
-- Answer: Opus + high effort (complex reasoning, worth 5x cost)
-
-**Cost awareness** (2 min):
-
-- Sonnet: ~$0.0001 per line of code generated (very cheap)
-- Opus: ~$0.0005 per line (5x more, still under a penny per realistic line)
-- A full day of Opus usage (even 2M tokens) = ~$30 in compute
-- Conclusion: Use the right tool for the job. Opus on a hard problem is cheaper than Sonnet struggling for hours.
-
----
-
-### Segment 3: Live Prompting Exercise (20 min)
-
-**Objective**: Build and refine a prompt in real-time.
-
-**Setup**: Pick a real, moderately-complex task from the team's codebase.
-
-**Facilitation**:
-
-1. **Write a Zero-Shot Prompt** (3 min)
-   - Group contributes ideas: "What's the task we want?"
-   - Facilitator writes a simple version in Claude Code
-   - Run it. Observe the output. Discuss: Did it work? What's missing?
-
-2. **Refine with Devin's Principles** (5 min)
-   - Apply principle 1: Specify the approach (not the outcome)
-     - "Don't just 'improve error handling'—implement try-catch blocks, validate inputs, log to the audit system."
-   - Apply principle 2: Indicate starting points
-     - "Start by modifying the `handleRequest()` function."
-   - Apply principle 3: Defensive prompting
-     - "Check that all numeric inputs are positive. If validation fails, return a specific error message, not a generic 500."
-   - Rerun the prompt. Better?
-
-3. **Add Context (RAG)** (5 min)
-   - Copy the actual code into the prompt
-   - Copy example error messages or patterns from the codebase
-   - Rerun. Even better?
-
-4. **Adjust Effort** (2 min)
-   - If the output is good, try `/effort low` (see if it's faster)
-   - If it's mediocre, try `/effort high` (see the difference)
-   - Note the time and cost trade-off
-
-5. **Review and Feedback** (5 min)
-   - Claude produces the initial implementation
-   - Group reviews: "Does this match our requirements? Are there edge cases? Is it consistent with our code style?"
-   - Feed back: "This is good but could be safer. Add validation for null input."
-   - Claude refines.
-
----
-
-## Hands-on Exercise: Iterative Prompt Refinement
-
-**Objective**: Build a reusable prompt for a recurring task.
-
-**Setup** (5 min):
-
-Pick a realistic task that the team does repeatedly. Examples:
-- "Add a new API endpoint"
-- "Create a new React component"
-- "Write a database migration"
-- "Add comprehensive tests"
-
-**Steps** (50 min):
-
-1. **Round 1: Zero-Shot** (5 min)
-   - Write a one-sentence prompt: "Add a new API endpoint for user profiles."
-   - Let Claude produce output
-   - Observe: Generic? Missing requirements? Not following your code style?
-
-2. **Round 2: Add Context and Specificity** (10 min)
-   - Rewrite with Devin's four principles:
-     - "Add a new API endpoint for `GET /users/:id/profile`.
-     - Returns user name, email, role, and creation date (query from the `users` table).
-     - Add it to the `users.routes.ts` file.
-     - Follow our error handling pattern: return 400 for invalid IDs, 404 if user not found, 200 with JSON if success.
-     - Copy the payload format from the existing `GET /users/:id` endpoint.
-     - Use our standard rate limiting middleware."
-   - Let Claude produce output again
-   - Review: Better aligned with your requirements?
-
-3. **Round 3: Feedback Loop** (10 min)
-   - Review Claude's code
-   - Ask clarifying questions: "Did you include validation? Does this handle concurrent requests? Is this consistent with our logging?"
-   - Feed back Claude's answers into the next prompt
-   - Refine once more
-   - Outcome: A prompt that produces exactly what you need
-
-4. **Round 4: Build a Template** (10 min)
-   - Document the final prompt as a reusable template in your team's documentation
-   - Example template:
-     ```
-     "Add a new API endpoint for [ENDPOINT].
-     - Route: [METHOD /path/:params]
-     - Returns: [describe response payload]
-     - Error cases: [describe 400, 404, 500 scenarios]
-     - Validation: [describe input validation]
-     - Reference implementation: [existing similar endpoint]
-     - Middleware: [rate limiting, auth, etc.]"
-     ```
-   - Use this template for future tasks
-
-5. **Debrief** (5 min)
-   - "You just created a prompting template that will save hours of work. Every future endpoint request can follow this pattern."
-   - "The effort upfront (being specific, providing context) multiplies across uses."
-   - "This is prompt engineering: turning vague requests into precise instructions that Claude can reliably execute."
 
 ---
 

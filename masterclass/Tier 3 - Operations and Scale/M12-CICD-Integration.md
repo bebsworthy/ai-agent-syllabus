@@ -8,6 +8,8 @@ You'll learn the `-p` (plan mode) and headless flags that make Claude Code suita
 
 The key insight: there are two distinct patterns. **Parallel independent tasks** (refactor file A, B, C simultaneously with no dependencies) use `/batch`. **Coordinated interdependent tasks** (Agent Team orchestrates services) are separate from batch. This module focuses on the former; you'll see why the distinction matters.
 
+> **Workshop:** [M12-CICD-Integration-workshop.md](M12-CICD-Integration-workshop.md)
+
 ## Prerequisites
 
 - Completed Tier 1 and Tier 2
@@ -104,7 +106,8 @@ my-security-review/
 ├── SKILL.md           # metadata
 ├── skills/            # reusable prompts
 │   └── security-check.md
-├── agents/            # agent definitions (if any)├── hooks.json        # CI/CD triggers
+├── agents/            # agent definitions (if any)
+├── hooks.json         # CI/CD triggers
 ├── mcp.json          # MCP tool definitions
 └── manifest.json     # plugin manifest
 ```
@@ -128,204 +131,6 @@ Teams install once: `claude code --plugin my-security-review`. Then any develope
 5. **"xargs and Parallel Processing"** — Linux man page or tutorial
    - ~10 min. Practical guide to parallelizing shell tasks.
 
-## Workshop: Facilitated Exercises (45-60 min)
-
-### Exercise 1: Design Your First PR Review Automation (15 min)
-
-**Goal:** Map what review checks make sense to automate.
-
-1. Look at your last 20 PRs. For each, list review comments. Group by category:
-   - Security: "This could be SQL injection"
-   - Complexity: "This function is too long"
-   - Testing: "What about the edge case where...?"
-   - Style: "Use const instead of var" (already a linter check?)
-   - Logic: "Does this handle null correctly?"
-   - Deprecation: "This library is deprecated"
-
-2. Which categories **don't require human judgment**? Those are candidates for AI automation.
-   - Security analysis: usually yes (good candidate)
-   - Complexity warnings: maybe (depends on your culture)
-   - Testing gaps: usually yes
-   - Style: no (use linter)
-   - Logic issues: maybe (depends on complexity)
-   - Deprecation: usually yes
-
-3. Pick one category. Draft a prompt Claude Code could use to check for it:
-   ```
-   Review this code for [category].
-   Look for: [specific patterns, risk types].
-   Output: structured list of findings, each with severity and suggested fix.
-   ```
-
-4. Share with the group. Refine together.
-
-### Exercise 2: Set Up a GitHub Actions Workflow (20 min)
-
-**Goal:** Write a real YAML file that runs Claude Code in CI/CD.
-
-You don't need to commit this yet; just write it and understand each piece.
-
-```yaml
-name: AI Code Review
-
-on:
-  pull_request:
-    types: [opened, synchronize]
-
-jobs:
-  review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # full history, needed for diff
-
-      - name: Get changed files
-        id: files
-        run: |
-          git diff --name-only origin/main...HEAD > /tmp/changed_files.txt
-          cat /tmp/changed_files.txt
-
-      - name: Install Claude Code
-        run: npm install -g @anthropic/claude-code
-
-      - name: Run AI Review
-        env:
-          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
-        run: |
-          claude code -p "Review these files for security issues: $(cat /tmp/changed_files.txt). Output: structured list of findings."
-
-      - name: Comment on PR
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'AI Review: [output from claude code goes here]'
-            })
-```
-
-Walk through each step:
-- **checkout:** Download the code
-- **Get changed files:** Find what's new/modified
-- **Install Claude Code:** Make the tool available
-- **Run AI Review:** Execute Claude with a prompt
-- **Comment on PR:** Post results back to GitHub
-
-Discuss: Where would you adjust the prompt for your team? What else would you add?
-
-### Exercise 3: Batch Operations with xargs (15 min)
-
-**Goal:** See parallelization in action.
-
-Scenario: Your team has 200 JavaScript files. You want to check them for a security vulnerability (e.g., unsafe use of `eval`).
-
-```bash
-# Serial (slow):
-for file in *.js; do
-  claude code -p "Check for unsafe eval in $file"
-done
-
-# Parallel with xargs (fast):
-find . -name "*.js" | xargs -P 8 -I {} \
-  claude code -p "Check {} for unsafe eval. Output: JSON with findings."
-```
-
-The `-P 8` means "run 8 tasks in parallel." The `-I {}` means "substitute the filename as `{}`."
-
-**Your turn:** Write a parallel command for your use case:
-- Task: "Scan for deprecated library usage"
-- File type: "Python (.py)"
-- Parallelism: "4 tasks at a time"
-
-Answer:
-```bash
-find . -name "*.py" | xargs -P 4 -I {} \
-  claude code -p "Scan {} for deprecated library usage. Output: JSON."
-```
-
-## Hands-on Exercise: Build and Test a CI/CD Pipeline (30-45 min)
-
-### Part 1: Create a Test Repository (10 min)
-
-You'll create a minimal repo with sample code to practice CI/CD automation.
-
-1. Create a directory:
-   ```bash
-   mkdir test-ci-demo && cd test-ci-demo
-   git init
-   ```
-
-2. Create a few sample files (or use your real repo):
-   ```
-   main.js (some JavaScript code, intentionally with an issue)
-   util.py (some Python code)
-   config.json (config file)
-   ```
-
-   Example `main.js` with a security issue:
-   ```javascript
-   const express = require('express');
-   const app = express();
-
-   app.get('/eval', (req, res) => {
-     const code = req.query.code;
-     eval(code);  // SECURITY ISSUE: arbitrary code execution
-     res.send('OK');
-   });
-   ```
-
-3. Commit:
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   ```
-
-### Part 2: Run Claude Code in Plan Mode (15 min)
-
-**In plan mode (`-p`), Claude Code doesn't modify files; it just analyzes and reports.**
-
-1. Open Claude Code and run:
-   ```
-   claude code -p "Review main.js for security vulnerabilities. Focus on: eval usage, input validation, SQL injection potential. Output: JSON with findings."
-   ```
-
-2. Claude will:
-   - Analyze the file
-   - Find the `eval(code)` issue
-   - Report severity, risk, and suggested fix
-   - Output as JSON (structured, parseable by scripts)
-
-3. Examine the output. This is what you'd see in a CI/CD log or GitHub comment.
-
-### Part 3: Simulate Batch Processing (15 min)
-
-1. Create 3-5 files with different issues (SQL injection risk, missing validation, etc.)
-
-2. Run Claude Code in batch mode (or simulate with xargs):
-   ```bash
-   # If using /batch command:
-   claude code /batch "Analyze main.js, util.py, config.json for security issues. Output: JSON for each file."
-
-   # Or using xargs:
-   ls *.js *.py | xargs -I {} echo "Analyzing {}..." && \
-   find . -name "*.js" -o -name "*.py" | xargs -I {} \
-     claude code -p "Security review of {}. Output: JSON."
-   ```
-
-3. Collect results. Notice how each file is processed independently. This parallelization scales to hundreds of files.
-
-### Part 4: Set Up a Webhook or GitHub Actions (Optional, if you have repo access)
-
-If you have access to GitHub:
-
-1. Create `.github/workflows/ai-review.yml` with the YAML from Exercise 2
-2. Push to GitHub
-3. Open a PR with a new file
-4. Watch the workflow run in GitHub Actions
-5. See Claude Code results commented on the PR
 
 ## Takeaway: At Least One CI/CD Integration Running in Your Pipeline
 
@@ -406,5 +211,3 @@ By the end of this module, you should have:
 - "Automating Security Reviews" (security-focused blogs)
 - Your company's incident postmortems (see what review catches missing)
 
-### Next Module
-[M13: Team Adoption — Standards, Safety, and Scaling](../M13-Team-Adoption/README.md)

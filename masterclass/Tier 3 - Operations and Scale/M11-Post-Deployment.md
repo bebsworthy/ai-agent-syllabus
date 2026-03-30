@@ -1,5 +1,9 @@
 # M11: Post-Deployment — Monitoring AI-Generated Systems
 
+**Tier 3 — Operations and Scale | Duration: 90 min (pre-work + workshop)**
+
+---
+
 ## Module Overview
 
 Shipping code is only half the battle. The real complexity emerges at 3 AM when your system is failing and your on-call engineer has 10 minutes to diagnose a production incident. This module teaches you how AI fundamentally changes incident response and system observability.
@@ -7,6 +11,12 @@ Shipping code is only half the battle. The real complexity emerges at 3 AM when 
 In traditional incident workflows, an engineer sees an alert, opens dashboards, digs through logs, correlates events, forms hypotheses about root causes, and deploys fixes—all manually. It's slow and error-prone, especially on unfamiliar systems. AI changes this. With Claude Code and MCP tools, you can automate the investigation itself: ask an agent to "find what changed in the last hour," "correlate this error with recent deployments," or "trace this request through all services." The agent pulls from monitoring systems, version control, logs, and traces—simultaneously—and narrows the search space to actionable causes in minutes instead of hours.
 
 This module also covers the dual-agent model: local agents for interactive debugging (when you need human judgment) and cloud agents for automated monitoring and alerting (when you need scalability and speed). You'll learn how to preserve organizational knowledge as experienced engineers leave, and how to structure observability so that both humans and AI can reason about what went wrong.
+
+**Takeaway:** Incident investigation prompt templates, observability audit checklist, and judgment about when AI accelerates vs. replacing human diagnosis.
+
+> **Workshop:** [M11-Post-Deployment-workshop.md](M11-Post-Deployment-workshop.md)
+
+---
 
 ## Prerequisites
 
@@ -100,132 +110,7 @@ Every alert you ignore teaches you to ignore alerts. Alert fatigue kills inciden
 5. **"Your New Autonomous Teammate"** — Internal or community documentation on using Claude Code in production contexts.
    - ~10 min. Practical advice on trust, safety, and integration.
 
-## Workshop: Facilitated Exercises (45-60 min)
-
-### Exercise 1: Map Your Current Incident Workflow (10 min)
-
-**Goal:** Understand what you're starting from.
-
-1. On a whiteboard or document, sketch your current incident response process:
-   - How do alerts reach you?
-   - What tools do you open? In what order?
-   - Where do you typically spend the most time?
-   - Where do you most often get stuck?
-
-2. Identify bottlenecks. Usually: "I have three services and don't know which one failed" or "The logs are huge and I don't know what to search for."
-
-3. Share with the group. Look for common patterns.
-
-### Exercise 2: Observability Audit (15 min)
-
-**Goal:** Assess your current observability maturity.
-
-For your team's main service, ask:
-
-- **Metrics:** Can you answer "Is the system healthy right now?" with one dashboard?
-- **Logs:** Can you quickly find logs for a specific request or user?
-- **Traces:** Can you see a request's path through all services?
-- **Context:** If I see an error, can I understand why it happened?
-
-Rate each on a scale: "Strong" (yes, easily), "Partial" (sometimes, with effort), "Weak" (rarely, or need to dig hard).
-
-Weak areas are opportunities for AI to add the most value. You can't automate investigation if you can't observe the system.
-
-### Exercise 3: Build an AI Investigation Workflow (30 min)
-
-**Goal:** Design a prompt that pulls from multiple sources to investigate an incident.
-
-Scenario: Your API service suddenly has a 10x spike in error rate. What do you want to know?
-
-**Possible prompts to an agent:**
-1. "What changed in the last 2 hours?" (check Git, CI/CD logs, deployment records)
-2. "Which requests are failing?" (check logs, errors, trace patterns)
-3. "Did latency increase?" (check metrics, SLOs, percentiles)
-4. "Is this affecting all users or a specific subset?" (check logs, user IDs, geographic patterns)
-5. "What's the relationship between the change and the error?" (correlate)
-
-Divide into small groups. Each group picks one of these questions and designs a prompt for Claude Code that:
-- Specifies which MCP tools to use (or would use, if available)
-- Asks for specific output format (structured JSON, highlighted snippets, timeline)
-- Includes fallback logic if a tool isn't available
-
-Share designs. Discuss what would make each more effective.
-
-## Hands-on Exercise: Simulate an Incident and Use Claude Code to Investigate (30-45 min)
-
-### Scenario
-
-You deploy a new feature to your API. 15 minutes later, error rate spikes from 0.1% to 8%. Your monitoring system alerts you. What happened?
-
-### Setup
-
-You'll use Claude Code with a simulated set of tools (or real ones if you have access):
-
-- Git repository with recent commits
-- A mock log file (provided) with error logs, request traces, and timestamps
-- A metrics snapshot (JSON or CSV) with latency, error rate over time
-- A recent deployment manifest or changelog
-
-### Steps
-
-1. **Start Claude Code in your preferred IDE or use the web interface.**
-
-2. **Initial prompt:** "I just got an alert: error rate spiked from 0.1% to 8% at 2:45 PM. Please investigate. Use Git to find recent changes, check the logs, and find the most likely root cause. Tell me: what changed, what's failing, and what I should do."
-
-3. **Claude will:**
-   - Ask clarifying questions if needed
-   - Query Git history for recent commits
-   - Parse logs to find error patterns
-   - Correlate timing of changes with error spike
-   - Propose a root cause and remediation
-
-4. **You:**
-   - Watch the investigation unfold
-   - Note where Claude asks good questions vs. where you'd need to guide it
-   - Provide information as Claude requests (e.g., "Here are the logs, here's the deployment manifest")
-   - Decide whether the diagnosis is correct
-   - Plan your fix based on Claude's findings
-
-5. **Debrief:**
-   - How much faster was this than your typical investigation?
-   - What did Claude miss?
-   - What would you change about the prompts or tools?
-
-### Real-World Variant (If You Have Production Access)
-
-If your team has a staging or production system:
-- Use real logs and metrics
-- Point Claude to real dashboards and tools via MCP
-- Investigate an actual recent incident (post-mortem)
-- Compare Claude's diagnosis to the actual root cause discovered by your team
-
-## Takeaway: An Incident Response Workflow Using Claude Code + MCP
-
-By the end of this module, you should have:
-
-1. **A documented incident investigation prompt** that your team can reuse. Template:
-   ```
-   I'm investigating [service name] which [symptom].
-   The alert fired at [time].
-   Use [tool] to:
-   - Find recent deployments and changes
-   - Identify error patterns in logs
-   - Correlate with metrics (latency, resource usage)
-   - Propose root cause and next steps.
-   Focus on [known pain points, e.g., retry logic, caching issues].
-   ```
-
-2. **A checklist of observability gaps** to address. Example:
-   ```
-   [ ] Can query logs by request ID or user ID
-   [ ] Have distributed traces set up
-   [ ] Have key metrics dashboarded (latency, error rate, SLOs)
-   [ ] Have alerts configured (not too noisy, not too quiet)
-   [ ] Have a communication channel for incidents (Slack, PagerDuty)
-   [ ] Team knows how to ask Claude for help (trained on prompt template)
-   ```
-
-3. **An on-call runbook updated** to include: "If you're stuck, try asking Claude Code with this prompt."
+---
 
 ## Key Concepts
 
@@ -261,5 +146,6 @@ By the end of this module, you should have:
 - Anthropic: Case studies on AI in operations (when available)
 - Your company's incident postmortems (learn from real incidents)
 
-### Next Module
-[M12: CI/CD Integration and Headless Workflows](../M12-CICD-Integration/README.md)
+---
+
+*Next: [M12: CI/CD Integration and Headless Workflows](../M12-CICD-Integration/README.md)*
