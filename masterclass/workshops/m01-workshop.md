@@ -31,7 +31,26 @@ The theory explains the mechanism. This workshop makes it tangible. You will see
 
 ---
 
+## What Is Claude Code?
+
+Claude Code is a terminal-native agentic assistant — it reads your entire codebase, edits files directly, and runs commands on your machine. It's not a chatbot you copy-paste to; it operates on your actual project.
+
+As of early 2026, Claude Code contributes to roughly 4% of all public GitHub commits (~135k/day), and 90% of Anthropic's own code is written with AI assistance.
+
+| Aspect | Claude Code | Cursor/Copilot |
+|---|---|---|
+| Primary interface | Terminal / CLI | IDE-integrated |
+| Context window | Up to 1M tokens (full codebase) | Varies, typically smaller |
+| Autonomy | High — plans + executes multi-step tasks | Lower — mostly suggestions/completions |
+| Best at | Long-running autonomous tasks, complex refactoring | Day-to-day inline editing, small completions |
+
+Available as: terminal CLI, VS Code/Cursor extension, desktop app (Mac/Windows), and browser (claude.ai/code).
+
+---
+
 ## Part 1 — Installation and First Launch
+
+**Prerequisites:** macOS 13+, Windows 10+ (1809), or Ubuntu 20.04+. Minimum 4GB RAM, stable internet, and Git installed.
 
 ```bash
 # macOS
@@ -40,8 +59,9 @@ brew install claude-code
 # Linux
 curl -sSL install.claude.ai/linux | bash
 
-# Windows
-# Download installer from claude.ai, run as administrator
+# Windows (via winget)
+winget install Anthropic.ClaudeCode
+# Or download installer from claude.ai, run as administrator
 
 # Verify
 claude --version
@@ -116,7 +136,8 @@ Try each of these in your session as you read through them.
 | `Esc` | Stop Claude mid-generation (keeps context) |
 | `Esc` `Esc` | Rewind to a checkpoint |
 | `Shift+Tab` | Cycle: Normal → Plan Mode → Auto-Accept |
-| `Ctrl+B` / `Cmd+B` | Open file browser |
+| `!command` | Run a shell command directly (e.g., `!git status`) |
+| `Ctrl+B` / `Cmd+B` | Open file browser / send agent to background |
 | `Ctrl+L` / `Cmd+L` | Focus the input field |
 
 ### Slash commands

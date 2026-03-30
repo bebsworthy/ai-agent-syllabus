@@ -320,7 +320,25 @@ Feature ready for PR
 
 ---
 
-## Step 6: Commit to Repository
+## Step 6: End-to-End Workflow Recipe (Optional Capstone)
+
+If time allows, build a complete feature development workflow that chains all the building blocks together:
+
+```
+1. CLAUDE.md → contains implementation standards ("write tests first", "don't commit until approved")
+2. /feature-spec skill → creates user story, acceptance criteria, technical approach
+3. Subagent → researches the codebase for existing patterns and dependencies (separate context)
+4. Plan Mode → produces implementation plan with spec and research as input
+5. Hooks: PostToolUse on Write → auto-runs linter; PreToolUse on Bash(git commit) → validates tests pass
+6. GitHub MCP → creates a branch, commits, and opens a PR
+7. Second subagent → reviews the PR from a fresh context (Writer/Reviewer pattern)
+```
+
+This is the composition stack in action — each layer does one thing, and together they automate the full development lifecycle.
+
+---
+
+## Step 7: Commit to Repository
 
 ```bash
 cd /path/to/repo

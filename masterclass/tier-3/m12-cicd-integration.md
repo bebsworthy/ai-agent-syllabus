@@ -213,19 +213,33 @@ M12 teaches custom Claude Code automation. As of early 2026, vendor-native optio
 
 **Practical guidance:** Start with vendor-native agents for routine tasks—security scanning, basic test generation, dependency review. Build custom M12 scripts when you have org-specific logic, need flexibility, or want to avoid platform lock-in. The two approaches can coexist: vendor tools handle commodity tasks, custom scripts handle specialized analysis.
 
+### The /batch Command
+
+For parallel refactoring within a session, `/batch` handles worktree isolation automatically — each task runs in its own temporary git worktree, preventing conflicts. This is simpler than Agent Teams when tasks are independent and don't need communication:
+
+```
+/batch "Rename getUserById to fetchUserById" across src/services/*.ts
+```
+
+Use `/batch` for independent file-level changes; use Agent Teams when tasks need to coordinate.
+
 ### Plugin Packaging for Team Distribution
 
-Instead of copying and pasting prompts, package them as plugins. A plugin is:
+Instead of copying and pasting prompts, package them as plugins. A plugin bundles skills, agents, hooks, and MCP config into a single installable package:
+
 ```
 my-security-review/
-├── SKILL.md           # metadata
+├── manifest.json      # plugin manifest (name, version, description)
 ├── skills/            # reusable prompts
-│   └── security-check.md
-├── agents/            # agent definitions (if any)
-├── hooks.json         # CI/CD triggers
-├── mcp.json          # MCP tool definitions
-└── manifest.json     # plugin manifest
+│   ├── security-check/SKILL.md
+│   └── deploy-check/SKILL.md
+├── agents/            # agent definitions
+│   └── security-reviewer.md
+├── hooks.json         # lifecycle hooks
+└── mcp.json           # MCP tool configurations
 ```
+
+Install with `/plugin install` and all components activate automatically. Skills get namespaced to avoid collisions (e.g., `/my-security-review:security-check`).
 
 Teams install once: `claude code --plugin my-security-review`. Then any developer uses it without setup.
 

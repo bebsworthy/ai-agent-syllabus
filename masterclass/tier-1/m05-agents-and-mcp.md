@@ -209,6 +209,12 @@ MCP connections can be configured at three levels:
 
 **Management**: Use `/mcp connect` and `/mcp disconnect` to manage.
 
+### Tool Search: Managing MCP Context Cost
+
+Each MCP server's tool descriptions consume context tokens — with many servers active, this can become significant. **Tool Search** (automatic on Sonnet 4+ and Opus 4+) solves this by lazy-loading MCP tools only when needed, reducing context usage by up to 95%.
+
+How it works: Claude sees only tool names and brief descriptions initially. When a tool is relevant to the current task, the full schema is fetched on demand. This means you can connect many MCP servers without bloating your context window.
+
 ---
 
 ### Local vs. Remote MCP: Choosing Transport for Your Team
@@ -261,6 +267,29 @@ Too many tools = agent confusion. Here's a curated list by role:
 - **Project Management**: Linear or Jira MCP
 - **Collaboration**: Slack MCP (for team communication)
 - Total: 3 tools
+
+#### Quick-Start Install Commands
+
+The most universally useful MCP servers and their install commands:
+
+```bash
+# GitHub — PR reviews, issue management, code search
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+
+# PostgreSQL — natural language database queries
+claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
+
+# Playwright — browser automation and E2E testing
+claude mcp add playwright -- npx -y @anthropic-ai/mcp-server-playwright
+
+# Sentry — production error analysis and stack traces
+claude mcp add sentry -e SENTRY_AUTH_TOKEN=your-token -- npx -y @sentry/mcp-server
+
+# Notion — documentation and knowledge base access
+claude mcp add notion -e NOTION_API_TOKEN=your-token -- npx -y @makenotion/notion-mcp-server
+```
+
+After adding, verify with `/mcp` in a session. Start with 2–3 servers; add more only when you have a concrete use case.
 
 ---
 

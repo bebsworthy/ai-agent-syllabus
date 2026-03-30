@@ -173,6 +173,18 @@ This is not a weakness—it's a feature. You keep control. Claude handles the he
 - Use Opus for genuinely complex tasks (you'll know when).
 - Use Haiku only for fast questions where quality doesn't matter (search, counting, quick edits).
 
+### Model Configuration
+
+You can switch models at any point during a session or configure defaults:
+
+| Method | Example | Scope |
+|--------|---------|-------|
+| Mid-session | `/model sonnet` or `/model opus` | Current session only |
+| At startup | `claude --model opus` | Single session |
+| Persistent default | `"model": "sonnet"` in `~/.claude/settings.json` | All sessions |
+
+**OpusPlan mode** (`claude --model opusplan`): Uses Opus for planning phases, then automatically switches to Sonnet for execution. This gives you the best of both worlds — deep reasoning where it matters, cost-effective execution everywhere else.
+
 ---
 
 ### Effort Levels: Computation Trade-offs
@@ -291,6 +303,42 @@ Claude may treat embedded instructions as legitimate if not explicitly told othe
 4. **Validate outputs**: If Claude is processing external data, verify the output doesn't contain unexpected actions or modifications.
 
 For internal tooling and single-user workflows, the risk is lower. For any workflow where Claude touches content from outside your control (user submissions, third-party APIs, scraped data), build explicit defenses.
+
+---
+
+### Common Workflows Quick Reference
+
+These are the daily workflows you'll use most often. Each includes a ready-to-use prompt template:
+
+**Exploring an unfamiliar codebase:**
+> *"Explain the architecture of this project. What are the main modules, how do they connect, and where does data flow?"*
+
+**Debugging:**
+> *"I'm getting this error: [paste error]. Trace through the codebase, find the root cause, and fix it."*
+
+**Writing tests:**
+> *"Write comprehensive tests for `src/services/auth.ts`. Cover happy paths, edge cases, and error handling. Use our existing test patterns."*
+
+**Refactoring:**
+> *"Refactor `src/utils/` to eliminate code duplication. Flag functions with >70% similarity and propose shared utilities."*
+
+**Creating pull requests:**
+> *"Commit these changes with a descriptive message, push to a new branch called `feature/jwt-auth`, and create a PR."*
+
+**Code review:**
+> *"Review the changes in this branch for security vulnerabilities, performance issues, and adherence to our coding standards."*
+
+#### Session Management
+
+Claude Code sessions persist and can be resumed across terminal sessions:
+
+| Command | What It Does |
+|---------|-------------|
+| `/resume` | Pick up a previous session from a list |
+| `/rename` | Give sessions descriptive names (e.g., "payment-integration") |
+| `claude --continue` | Resume the most recent conversation in the current directory |
+
+Naming sessions with `/rename` makes `/resume` much more useful when juggling multiple features.
 
 ---
 

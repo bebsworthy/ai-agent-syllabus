@@ -28,6 +28,7 @@ Context discipline is what separates developers who get 2x productivity from Cla
 - [ ] CLAUDE.md deep dive — audit your conventions and draft your file
 - [ ] Context monitoring exercise — hands-on with `/context` and `/compact`
 - [ ] Three-phase workflow demo — research → plan → implement
+- [ ] Research grounding exercise — toolkit comparison, WebSearch/WebFetch, /research skill
 - [ ] End-to-end hands-on exercise on a real task
 
 ---
@@ -64,7 +65,17 @@ The lesson here is direct: smaller, curated context beats larger, noisy context.
 
 **Objective**: Create and refine a CLAUDE.md for your real project.
 
-**Step 1 — Audit Your Conventions** (5 min)
+**Step 1 — Generate a Starter CLAUDE.md** (2 min)
+
+Run `/init` in your project. This command analyzes your codebase — file structure, languages, frameworks, patterns — and generates a starter CLAUDE.md. It's a fast way to get a first draft that you then refine manually.
+
+```bash
+claude /init
+```
+
+Review the generated file. It won't be perfect, but it gives you a baseline to edit rather than starting from scratch.
+
+**Step 2 — Audit Your Conventions** (5 min)
 
 Think through the actual conventions in your codebase. Capture answers to:
 
@@ -80,7 +91,7 @@ Think through the actual conventions in your codebase. Capture answers to:
 If your conventions feel inconsistent or undocumented, that's normal — and exactly what CLAUDE.md is for. Write it as it *should* be, not as it currently is. It becomes a North Star. As you refactor, you align with CLAUDE.md instead of the old mess.
 :::
 
-**Step 2 — Draft Your CLAUDE.md** (5 min)
+**Step 3 — Draft Your CLAUDE.md** (5 min)
 
 Structure your conventions into CLAUDE.md format with these sections:
 
@@ -94,7 +105,7 @@ Structure your conventions into CLAUDE.md format with these sections:
 
 Review what you've written: Is it accurate? Is it complete?
 
-**Step 3 — Commit to Repo** (5 min)
+**Step 4 — Commit to Repo** (5 min)
 
 ```bash
 git add CLAUDE.md && git commit -m "Add CLAUDE.md with project conventions"
@@ -171,6 +182,53 @@ If `/compact` throws an error, try `/clear` instead (more direct, same effect). 
 :::note
 The key insight: research produces dead ends, stale questions, and exploratory noise. Carrying that into your planning phase pollutes Claude's reasoning. A clean slate before planning produces better plans and faster implementation.
 :::
+
+---
+
+## Part 5 — Research Grounding Exercise
+
+**Objective**: Practice the research toolkit and subagent delegation before coding.
+
+**Step 1 — Research Toolkit Comparison** (10 min)
+
+Pick a question about your codebase (e.g., "How does our authentication handle token refresh?"). Try answering it three ways:
+
+1. Ask Claude directly in your main session — run `/context` before and after to see the token cost
+2. Ask Claude to use an **Explore agent** for the same question — compare the token impact on your main context
+3. Ask Claude to use **Glob + Grep** to find relevant files first, then **Read** only the key ones
+
+Which approach consumed the least tokens in your main session? (Hint: subagents win.)
+
+**Step 2 — WebSearch + WebFetch** (5 min)
+
+Pick a library or API your project uses. Ask Claude:
+
+> *"Search for the latest best practices for [library] in [framework]. Then fetch the official docs page and summarize what's changed since [version]."*
+
+Observe the two-step flow: WebSearch returns URLs, WebFetch extracts specific answers.
+
+**Step 3 — Build a /research Skill** (5 min)
+
+Create `.claude/skills/research/SKILL.md` with this template and customize for your project:
+
+```yaml
+---
+name: research
+description: >
+  Research a problem using web search, documentation, and codebase
+  exploration before implementing.
+allowed-tools: Agent, WebSearch, WebFetch, Grep, Glob, Read
+---
+
+Launch parallel subagents to gather information:
+1. **Codebase Agent**: Search for existing implementations and patterns
+2. **Docs Agent**: Search official docs for the topic
+3. **Prior Art Agent**: Search for community solutions
+
+Synthesize into: what exists, best practices, and gaps to fill.
+```
+
+Test it by running `/research [your topic]`.
 
 ---
 
