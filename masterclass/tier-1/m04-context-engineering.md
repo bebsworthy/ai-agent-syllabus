@@ -33,6 +33,8 @@ Claude has to reconcile the contradiction. Its default behavior: follow the most
 
 **Antidote**: Maintain a single source of truth (CLAUDE.md) that's authoritative and regularly updated.
 
+> **Note — "Lost in the Middle":** Claude doesn't simply favor the most recent information. Research (ArXiv 2307.03172) shows a U-shaped performance curve: models use context from the beginning (primacy bias) and the end (recency bias) most reliably. Information in the middle degrades by 20–30%. When you have conflicting context, place your authoritative instructions (CLAUDE.md summary, latest spec) at the end of the context, and deduplicate or consolidate middle sections.
+
 #### 2. Context Distraction
 
 Larger contexts induce "copying behavior"—Claude defaults to mimicking examples and boilerplate rather than reasoning. If your context includes 50 files, Claude might:
@@ -42,17 +44,57 @@ Larger contexts induce "copying behavior"—Claude defaults to mimicking example
 
 **Antidote**: Curated context. Include the *most recent, highest-quality* examples. Avoid including multiple versions or contradictory patterns.
 
+> **Context Rot:** Research (2024–2025) shows that performance degrades with context length *independent of content quality*. Models begin losing accuracy around 30K–50K tokens—well before reaching the nominal context limit. This means the goal isn't just to remove bad context; it's to *minimize* context overall. Keep it focused even when it's clean.
+
 #### 3. Context Confusion
 
 Too many tools, files, and instructions overwhelm Claude's reasoning. With 50 files in the context, Claude struggles to pick the right one to modify. With 10 MCP tools available, Claude might choose the wrong one.
 
 **Antidote**: Lazy loading and curation. Load only the files relevant to the current task. Use a curated, small set of tools in each Agent configuration.
 
+> **MCP Tool Overload:** This failure mode applies directly to MCP servers. Each tool description consumes tokens, and having many MCP servers active simultaneously (Jira + Notion + AWS + GitHub at once) mirrors the too-many-files problem. Lazy-load MCP tools by task: load only the servers relevant to the current phase. When configuring an agent, keep the active tool count small and intentional.
+
 #### 4. Context Clash
 
 Contradictory instructions given sequentially create confusion. If your CLAUDE.md says "always use error code 400 for validation failures" but your last prompt says "use 422 for validation failures," Claude has conflicting guidance.
 
 **Antidote**: Consistency. Keep CLAUDE.md updated. When rules change, update the source of truth.
+
+---
+
+### Recovering from Poisoned Context
+
+Knowing the failure modes is only half the job. When context becomes corrupted in practice, you need to diagnose and recover quickly.
+
+**Signs that your context has been poisoned:**
+- Claude's output contradicts the spec or CLAUDE.md
+- Inconsistent implementations across similar functions
+- Claude appears to ignore instructions it was following a few turns ago
+
+**Recovery decision tree:**
+
+1. **One contradictory output:** Check the most recent prompt for an accidental override. Restate the authoritative instruction explicitly.
+2. **Contradiction persists (2–3 consecutive outputs):** Run `/compact` with an explicit instruction: "When compacting, treat CLAUDE.md as the authoritative source; discard any prior discussion that contradicts it."
+3. **Still failing after compact:** Run `/clear` and restart with a clean context. Research shows that iterative correction within a poisoned context is slower and less reliable than starting fresh.
+
+**Prevention cadence:**
+- Check `/context` at the start of each task.
+- Run `/clear` between unrelated tasks, not just at the end of the day.
+- Update CLAUDE.md within 24 hours whenever a convention changes.
+
+---
+
+### Defending Against Adversarial Context Poisoning
+
+The four failure modes assume accidental degradation. As of 2024–2025, intentional poisoning is an active concern.
+
+**The threat:** External data sources—API responses, retrieved documents, web pages, third-party libraries—can contain text crafted to override your instructions. Research has shown that as few as 250 malicious documents can influence model behavior in retrieval-augmented workflows.
+
+**Mitigations:**
+- **Verify external sources.** Before pulling external content into context (API docs, web pages, user-provided files), check origin and plausibility.
+- **Sandbox tool outputs.** Treat tool output as untrusted until verified—inspect it before allowing Claude to act on it.
+- **CLAUDE.md as immutable ground truth.** Explicitly instruct Claude that CLAUDE.md overrides any conflicting instruction from retrieved content.
+- **Validate retrieved content (CRAG pattern).** When using RAG, apply quality gates: evaluate relevance and consistency before adding retrieved chunks to context. Reject or re-retrieve low-quality chunks rather than including them blindly.
 
 ---
 
@@ -153,16 +195,49 @@ To keep context clean, structure work in three phases:
 
 ---
 
+### Managing Context Across Sub-Agents
+
+When you use subagents for the Research Phase (see M05), context boundaries become a multi-agent concern.
+
+**The risk:** A research subagent that explores dead ends, outdated files, or conflicting API versions will accumulate poisoned context. If that context is merged back into the main agent unfiltered, you've imported the problem.
+
+**Rules for clean sub-agent handoff:**
+- **Pass minimal context to subagents.** Give them only what they need to complete their specific task—not the full conversation history.
+- **Subagent output is a summary, not a transcript.** The subagent should return a concise, structured report (findings, patterns, open questions). It should not return its entire working context.
+- **Clear subagent history before handoff.** The subagent runs `/clear` after compiling findings, ensuring only the synthesized output enters the main context.
+- **Verify before merging.** Treat subagent output the same as external data: check it for consistency with CLAUDE.md before loading it into your main context.
+
+This pattern prevents one agent's exploration from poisoning another's implementation.
+
+---
+
+### Just-in-Time Runtime Retrieval
+
+A common mistake is pre-loading everything you *might* need into context before starting work. Anthropic's official guidance emphasizes the opposite: load data dynamically via tools *as it is needed*.
+
+**The principle:** Design your workflows so that agents fetch files, documentation, and data at the moment of use—not in bulk at session start.
+
+**Benefits:**
+- Context stays minimal and focused throughout the session
+- Token budget is used on active work, not speculative loading
+- Reasoning quality is higher (see Context Rot above)
+
+**Example:** Instead of loading all 50 test files at session start, configure Claude to query the test runner or file system for the specific tests relevant to the current task. Load one module at a time.
+
+This is the context-management equivalent of lazy loading in software design.
+
+---
+
 ### Context Window and Token Management
 
-Claude Sonnet/Opus: 1M tokens (~400K words, ~250K lines of code)
-Claude Haiku: 128K tokens
+Claude Sonnet/Opus: 1M tokens (~750K words, ~100–150K lines of code)
+Claude Haiku 4.5: 200K tokens
 
 **Token accounting** (approximate):
 - CLAUDE.md: 500–2,000 tokens (depending on detail)
 - A typical file (100 lines): 300–500 tokens
 - A conversation with 10 exchanges: 2,000–5,000 tokens
-- A large codebase (50K lines): 200,000 tokens
+- A large codebase (50K lines): 350,000–500,000 tokens (language-dependent)
 
 **Context monitoring**: `/context` shows a breakdown:
 ```
@@ -173,7 +248,7 @@ Context Usage:
 - Total: 49,700 / 1,000,000 tokens
 ```
 
-**Auto-compaction**: When you hit 85% of the context window, Claude automatically compacts history. You can tune this with `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` (compact at 75% instead).
+**Auto-compaction**: Auto-compaction typically triggers between 75–92% of the context window (the exact threshold varies by model and conversation structure). You can tune this with `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=75` to compact earlier. Monitor `/context` output rather than relying on a fixed threshold.
 
 ---
 
@@ -186,6 +261,10 @@ Context Usage:
 | `/compact` | Manually compact history at any point |
 | `/btw [question]` | Quick question that doesn't enter persistent history |
 | `Esc Esc` | Same as `/clear` (keyboard shortcut) |
+
+**Getting more out of `/compact`:** Compaction is not binary. When you run `/compact` manually (or between workflow phases), guide what gets preserved. Prioritize: architectural decisions, recent code changes, unresolved bugs, and validated patterns. Drop: exploration threads, duplicate explanations, completed tasks, and redundant examples. Pass this explicitly: "Compact history, prioritizing current task spec and CLAUDE.md conventions. Discard resolved exploratory threads."
+
+> **Model Context Awareness (Claude 4.5+):** Newer Claude models can track remaining context and may proactively suggest history compaction. Trust these signals. That said, developer discipline—CLAUDE.md, regular `/context` checks, the three-phase workflow—remains essential for consistent outcomes. Model suggestions are a safety net, not a substitute for hygiene.
 
 ---
 
@@ -253,10 +332,14 @@ By the end of this module, you will have:
 - **Context Distraction**: Larger contexts cause Claude to copy patterns rather than reason
 - **Context Confusion**: Too many files and tools overwhelm reasoning
 - **Context Clash**: Contradictory instructions given sequentially
+- **Context Rot**: Performance degrades with context length independent of content quality; begins around 30K–50K tokens
+- **Adversarial Poisoning**: Intentional injection of malicious instructions via external data sources
 - **CLAUDE.md**: A project-level file encoding conventions, patterns, and constraints for Claude
 - **Token Accounting**: Understanding what's in your context window and how much space you have left
-- **Auto-Compaction**: Automatic summarization of history when context approaches the limit
+- **Auto-Compaction**: Automatic summarization of history when context approaches the limit (typically 75–92%)
 - **Research-Plan-Implement**: Three-phase workflow that keeps context clean
+- **Just-in-Time Retrieval**: Loading data via tools at the moment of need, rather than pre-loading speculatively
+- **Sub-Agent Context Isolation**: Preventing poisoned subagent context from contaminating the main agent
 
 ---
 
@@ -265,8 +348,8 @@ By the end of this module, you will have:
 - Breunig, D. "How Long Contexts Fail."
   - https://www.drewbreunig.com/essays/long-contexts (or search for Drew Breunig)
 
-- OpenAI. "Improving Language Models by Segmenting, Attending, and Predicting with Structured State."
-  - https://arxiv.org/abs/1805.06358 (on context and memory)
+- Liu, N. F. et al. "Lost in the Middle: How Language Models Use Long Contexts." ArXiv 2307.03172.
+  - https://arxiv.org/abs/2307.03172 (primacy/recency bias; U-shaped performance curve)
 
 - Anthropic. "Working with the 1M Token Context Window."
   - https://docs.anthropic.com/context (official documentation)

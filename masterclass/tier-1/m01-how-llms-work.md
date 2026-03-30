@@ -32,7 +32,7 @@ The critical insight: **attention is learned from training data, not programmed*
 
 ### Autoregressive Generation — One Token at a Time
 
-Claude generates text one token at a time. A token is roughly 4 characters, so a 1,000-word response is about 1,500 tokens. At each step, the model predicts the most likely next token given everything that came before.
+Claude generates text one token at a time. A token is roughly 3–4 characters, so a 1,000-word response is approximately 1,300 tokens. At each step, the model predicts the most likely next token given everything that came before. (Note: token density varies by content type — code and structured data tokenize differently than prose. Use a tokenization tool for precision on your specific content.)
 
 This mechanism has three important consequences:
 
@@ -40,7 +40,7 @@ This mechanism has three important consequences:
 
 **Longer generations compound error.** By token 500, the model has made 500 sequential predictions. Small deviations early can send it down a wrong path. This is why working incrementally — asking for small, verifiable steps — consistently outperforms asking for large one-shot implementations.
 
-**"Thinking harder" actually works.** When you ask Claude to reason step-by-step, or use `/effort high`, you're allocating more reasoning tokens before the final output. More reasoning tokens = more opportunity for the pattern matcher to find the right path before committing.
+**"Thinking harder" actually works.** When you ask Claude to reason step-by-step (chain-of-thought prompting), or use `/effort high`, you're allocating more reasoning tokens before the final output. More reasoning tokens = more opportunity for the pattern matcher to find the right path before committing. This is now formalised as *test-time compute scaling*: models like Claude's extended thinking mode, OpenAI's o-series, and Gemini 2.0 allocate variable reasoning compute at inference time based on task difficulty. Research shows that reasoning tokens produce information peaks at key logical transitions, which is why multi-step problems benefit disproportionately. There are practical limits — returns plateau, and more reasoning tokens mean higher cost and latency — so reserve extended thinking for tasks that genuinely warrant it.
 
 ### Pretraining, Fine-tuning, and Inference
 
@@ -48,24 +48,30 @@ Understanding these three phases clarifies what Claude can and cannot do:
 
 **Pretraining** is where all learning happens. Claude was trained on a large corpus of publicly available text — code, documentation, research papers, forums — up to a knowledge cutoff. The model learned the statistical structure of language and code during this phase.
 
-**Fine-tuning** is Anthropic's refinement layer — additional training on curated examples to make Claude safer, more helpful, and better at following instructions.
+**Fine-tuning** is Anthropic's refinement layer. Modern Claude models undergo supervised fine-tuning on curated examples followed by Reinforcement Learning from Human Feedback (RLHF), guided by Anthropic's Constitutional AI principles. This shapes Claude's safety, helpfulness, and instruction-following behaviour. Fine-tuning is completed before release; it is not available to users in Claude Code.
 
 **Inference** is where you are when you use Claude Code. During inference, Claude's weights are frozen. It processes your input and generates output, but **it does not learn from your prompts, your corrections, or your codebase**. Every new conversation starts fresh. The context window is the only memory Claude has.
 
 This is the single most important thing to internalise: **Claude does not improve from using it.** The thousands of other developers who have used Claude Code today taught the model nothing about your project. Only the context you explicitly provide matters.
 
+A related implication: when context does improve Claude's output, it works through **statistical pattern matching, not semantic understanding**. Providing examples in your prompt (few-shot prompting) helps because the model matches structure and form — not because it "understands" your intent. This is why consistency and specificity in your context matter more than eloquent explanation. A well-structured CLAUDE.md with concrete, representative examples outperforms a paragraph describing what you want in abstract terms.
+
+**RAG (Retrieval-Augmented Generation)** applies the same principle at scale. When a task requires knowledge beyond the training cutoff — current API documentation, your project's internal conventions, a library version released after training — retrieving that information and including it directly in the context is the standard mitigation. For Claude Code users, this is already familiar: referencing actual files, pasting in real documentation, and keeping CLAUDE.md current are all forms of retrieval-augmented context. The knowledge cutoff is a hard boundary, but it is not a hard limit on what Claude can reason about — as long as you supply the knowledge explicitly.
+
 ### Why Hallucinations Happen (and What to Do About It)
 
 Hallucinations aren't a flaw to be patched — they're the natural consequence of statistical prediction. If your codebase uses a pattern that resembles something common in training data, Claude will predict the training-data version, not your version.
 
-The practical response is two-fold:
+The practical response has several layers:
 
 1. **Provide context proactively.** CLAUDE.md, file references, and explicit instruction about your project's structure give Claude real patterns to match against instead of generic ones.
-2. **Verify before executing.** Never blindly apply Claude's output. Ask it to show you its reasoning, check callers, or read the actual file before making changes.
+2. **Use RAG for knowledge-sensitive tasks.** When your task involves current library versions, recent API changes, or project-specific conventions not in training data, retrieve and include the actual documentation. Do not rely on Claude's training data for specifics.
+3. **Use reasoning for complex tasks.** Chain-of-thought prompting and `/effort high` reduce hallucination on multi-step problems by giving the model more reasoning tokens to self-correct before committing to an answer.
+4. **Verify before executing.** Never blindly apply Claude's output. Ask it to show you its reasoning, check callers, or read the actual file before making changes. For high-stakes decisions, use structured verification: ask Claude to identify assumptions, list what it cannot confirm, and flag where it is extrapolating from training data rather than your context.
 
 ### Context Window Limitations
 
-Sonnet 4.6 and Opus 4.6 both support a 1 million token context window. Haiku 4.5 supports 128K tokens. These numbers sound enormous, but:
+Sonnet 4.6 and Opus 4.6 both support a 1 million token context window. Haiku 4.5 supports 200K tokens. These numbers sound enormous, but:
 
 - A modest codebase of 50K lines is roughly 200K tokens
 - Conversation history accumulates across a session
@@ -100,19 +106,25 @@ Complete these before the workshop session. Total reading time: ~20 minutes.
 
 **Attention Mechanism** — How the transformer learns which parts of the input are relevant to predicting each output token. Multiple attention heads specialise in different relationship types.
 
-**Token** — The basic unit of text a language model processes. Approximately 4 characters in English. A 1,000-word prompt is roughly 750 tokens.
+**Token** — The basic unit of text a language model processes. Approximately 3–4 characters in English prose. A 1,000-word document is approximately 1,300 tokens (using the standard ~0.75 words-per-token ratio). Code and structured data typically tokenize at higher density — operators and special characters break up tokens differently than prose.
 
 **Autoregressive Generation** — Generating text one token at a time, where each new token is conditioned on all previous tokens. This is how Claude produces responses.
 
 **Hallucination** — A statistically plausible but factually incorrect output. Caused by pattern matching against training data when insufficient real context is available. Not a bug — a structural property of the approach.
 
-**Context Window** — The maximum amount of text (prompt + history + tool outputs) Claude can process in a single session. Sonnet/Opus: 1M tokens. Haiku: 128K tokens.
+**Context Window** — The maximum amount of text (prompt + history + tool outputs) Claude can process in a single session. Sonnet 4.6/Opus 4.6: 1M tokens. Haiku 4.5: 200K tokens.
 
 **Pretraining** — The large-scale training process on internet-scale text corpora. Where all of Claude's knowledge is acquired. Completed before release; you cannot influence it.
 
 **Inference** — The phase you are in when using Claude Code. Weights are frozen; Claude generates responses but does not learn. All session memory lives in the context window.
 
-**Fine-tuning** — Post-pretraining training on curated examples to shape behaviour (safety, helpfulness, instruction-following). Done by Anthropic. Not available to users in Claude Code.
+**Fine-tuning** — Post-pretraining training on curated examples to shape behaviour (safety, helpfulness, instruction-following). Modern Claude models combine supervised fine-tuning with RLHF guided by Constitutional AI principles. Done by Anthropic; not available to users in Claude Code.
+
+**Few-Shot Prompting** — Providing 2–3 concrete examples of desired behaviour before asking the model to perform a task. Works by giving the model high-quality patterns to match, not by teaching it. Example: showing Claude three examples of your preferred commit message format before asking it to write one.
+
+**Chain-of-Thought Prompting** — Asking the model to explain its reasoning step-by-step before providing a final answer. Improves performance on complex tasks because reasoning tokens allow the model to self-correct before committing to an output. Triggered explicitly ("think step by step") or via `/effort high`.
+
+**RAG (Retrieval-Augmented Generation)** — A pattern for supplementing model knowledge by retrieving current or project-specific information and including it in context before generation. The standard mitigation for knowledge cutoff limitations. In Claude Code workflows, referencing actual files and current documentation is RAG in practice.
 
 ---
 
@@ -133,9 +145,13 @@ After completing the pre-work and the workshop session, you will have:
 - Vaswani, A., et al. (2017). *Attention Is All You Need.* NeurIPS. https://arxiv.org/abs/1706.03762
 - OpenAI. *Language Models are Unsupervised Multitask Learners.* https://openai.com/research/language-models-are-unsupervised-multitask-learners
 - Anthropic. *Constitutional AI: Harmlessness from AI Feedback.* https://www.anthropic.com/research/constitutional-ai-harmless-helpful-honest
+- Anthropic. *Claude Models Overview.* https://docs.anthropic.com/en/docs/about-claude/models
 - OpenAI. *Prompt Engineering Guide.* https://platform.openai.com/docs/guides/prompt-engineering
+- OpenAI. *What are tokens and how to count them.* https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
 - Karpathy, A. (2019). *A Recipe for Training Neural Networks.* https://karpathy.github.io/2019/04/25/recipe/
 - Claude Code Documentation. https://claude.com/claude-code
+- Liao, J., et al. (2025). *Rethinking Thinking Tokens: LLMs as Improvement Operators.* https://arxiv.org/abs/2510.01123
+- Zhang, Y., et al. (2025). *Large Language Models Hallucination: A Comprehensive Survey.* https://arxiv.org/html/2510.06265v2
 
 ---
 

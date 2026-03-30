@@ -34,6 +34,8 @@ An agent is not a single function call. It's a loop:
 - **Long-term memory**: Files, CLAUDE.md, previous session notes (external storage)
 - **Tool-based memory**: State in external systems (database, Git history, Slack)
 
+**Context quality determines agent decision quality.** An agent is only as good as the information it reasons within. When an agent has a rich context — clear CLAUDE.md instructions, up-to-date architecture notes, relevant file contents — it makes better tool choices and produces more accurate results. When context is thin or ambiguous, agents fill the gap with guesses. This is why investing time in design documents, CLAUDE.md setup, and session context (covered in M04) directly improves agent performance. It's not optional housekeeping; it's the difference between an agent that makes correct decisions and one that confidently makes wrong ones.
+
 **Tool dispatch** is the tricky part. The agent must:
 - Know what tools are available (tool discovery)
 - Understand what each tool does (semantic meaning)
@@ -53,7 +55,7 @@ MCP is a protocol for AI systems to discover and use external tools. It's built 
 
 - **JSON-RPC 2.0**: A lightweight RPC protocol. Requests and responses are JSON.
 - **Client-Server**: Claude Code is the client. Your tools (database, GitHub, etc.) are the server.
-- **Transport**: Typically stdio (command-line tools), HTTP, or WebSockets
+- **Transport**: Official standards are stdio (for command-line tools) and Streamable HTTP (for remote servers). WebSocket support is under active discussion as a proposed future standard.
 
 **Example MCP interaction**:
 
@@ -94,7 +96,7 @@ MCP is a protocol for AI systems to discover and use external tools. It's built 
 
 ### MCP Registry and Tool Discovery
 
-The MCP Registry (https://registry.mcp.ai) is a curated list of available MCP tools. Categories include:
+The MCP Registry (https://registry.modelcontextprotocol.io) is a curated catalog of available MCP tools, maintained by the MCP project with 200+ community and officially maintained servers. For production use, prefer servers marked as official or actively maintained. Categories include:
 
 - **Developer Tools**: GitHub, GitLab, Jira, Linear
 - **Data**: PostgreSQL, MongoDB, Stripe, Shopify
@@ -104,17 +106,25 @@ The MCP Registry (https://registry.mcp.ai) is a curated list of available MCP to
 
 **Tool discovery in Claude Code**: `/mcp` shows connected servers and available tools.
 
+> **Token efficiency note:** Claude Code performs tool discovery upfront when you connect servers. With fewer than 5 tools this is efficient. For larger tool ecosystems, some MCP servers support dynamic (on-demand) discovery, which can reduce context token usage substantially. Keep connected tool counts low during development.
+
 ---
 
 ### OAuth 2.0 Authentication
 
-Many MCP servers require authentication. The standard is OAuth 2.0:
+Many MCP servers require authentication. The standard is OAuth 2.0.
 
-1. **Authorization**: You approve Claude Code to use the tool on your behalf
-2. **Token**: An access token is stored securely in Claude Code
-3. **Usage**: When Claude Code calls the tool, it includes the token
+**Why OAuth, not passwords**: OAuth never shares your password with Claude Code. Instead, you grant Claude Code a scoped access token — a credential that is limited to specific permissions (for example: read repositories, but not delete them). If you revoke the token, Claude Code loses access immediately. This is fundamentally more secure than sharing API keys or passwords directly.
 
-The flow is browser-based. You approve, the token is stored, and tools work automatically afterward.
+**The flow**:
+
+1. **Authorization**: Claude Code opens a browser window. You log in and approve the requested permissions.
+2. **Token**: An access token is issued and stored securely in Claude Code (not in your project files or source control).
+3. **Scopes**: The token is limited to the permissions you approved. A GitHub token for "read repos" cannot create or delete repos.
+4. **Usage**: When Claude Code calls the tool, it attaches the token automatically.
+5. **Revocation**: You can revoke tokens at any time from the provider's settings (GitHub → Settings → Applications). Do this if you rotate machines or suspect misuse.
+
+**Production note**: Never commit OAuth tokens to source control. If your team uses `.mcp.json` config files, treat any embedded credentials as secrets and use environment variable references instead. Token management in team settings belongs in a secrets vault, not a dotfile.
 
 ---
 
@@ -147,25 +157,80 @@ By contrast, a generic REST API exposed as an MCP tool might:
 
 These are operations Claude understands intuitively. An agent can reason about them.
 
+**Design tool outputs, not just tool inputs.** The same principle applies to what tools return. Tools that return freeform text force the agent to parse and interpret the response — introducing error and wasting tokens. Tools that return structured data (typed JSON with consistent schemas) let the agent extract values reliably and proceed without guessing. If you're building or wrapping an MCP tool, define both sides: what goes in and what comes back.
+
+---
+
+### When to Use Agents vs. Simpler Solutions
+
+Not every problem needs an agent. Agents add complexity — planning loops, tool calls, potential failure points. Before connecting MCP tools, ask whether a simpler solution would work.
+
+**Use a plain LLM (no tools)** when:
+- The task is self-contained within the conversation (Q&A, summarization, classification, drafting)
+- No external data is needed beyond what you provide in context
+- Actions don't need to be taken in external systems
+
+**Add tools (agent pattern)** when:
+- The task requires reading from or writing to external systems (database, GitHub, APIs)
+- The agent needs current data it can't have in context (live query results, recent file state)
+- The task involves sequential decisions that depend on real-world feedback
+
+**Add memory (long-term context)** when:
+- Reasoning spans multiple sessions and continuity matters
+- The agent needs to remember decisions, preferences, or state from prior interactions
+
+**Add orchestration (multi-agent)** when:
+- Different subtasks need specialized models or context windows
+- Tasks can run in parallel and be coordinated
+- This is Tier 2 content; don't default to it in Tier 1
+
+**The practical rule**: Start with the simplest approach that could work. Each layer of complexity (tools → memory → orchestration) adds capability and adds failure modes. Add a layer only when you've confirmed the simpler approach is insufficient.
+
 ---
 
 ### Configuration Scopes: Global, Project, Local
 
 MCP connections can be configured at three levels:
 
-1. **Global** (`~/.claude/mcp.json`)
-   - Available to all Claude Code projects
-   - Use for tools everyone needs (GitHub, databases)
+1. **User/Global** (user-level config, applies to all Claude Code projects)
+   - Available across all your projects on this machine
+   - Use for tools you personally need everywhere (GitHub, your primary database)
+   - Managed via Claude Code settings; exact file path varies by installation (check `claude mcp list` output or Claude Code docs for your version)
 
 2. **Project** (`.mcp.json` in project root, committed to Git)
-   - Available to the team working on this project
-   - Use for project-specific tools
+   - Available to all team members working on this project
+   - Use for project-specific tools the whole team needs
+   - Treat embedded credentials as secrets — use environment variable references, not literal tokens
 
-3. **Local** (`.mcp.json` in project root, git-ignored)
+3. **Local** (`.mcp.json` or local override, git-ignored)
    - Available only to you, on this machine
    - Use for personal tools or temporary connections
 
+> **Note on file paths**: Exact configuration file names and locations have evolved across Claude Code versions. When in doubt, use the `/mcp` command within Claude Code to manage connections, or refer to the current [Claude Code MCP documentation](https://docs.anthropic.com/en/docs/claude-code/mcp) for your installed version.
+
 **Management**: Use `/mcp connect` and `/mcp disconnect` to manage.
+
+---
+
+### Local vs. Remote MCP: Choosing Transport for Your Team
+
+Not all MCP servers run locally on your machine. Understanding the distinction matters when you move from individual development to team deployments.
+
+**Local (stdio) MCP servers**:
+- Run as a process on your machine, communicating over stdin/stdout
+- Best for: development and iteration, personal tools, tools that need local file access
+- Limitation: only you can use them; each team member configures independently
+
+**Remote (Streamable HTTP) MCP servers**:
+- Run as network services, accessed over HTTP
+- Best for: team-shared tools, production integrations, tools requiring central governance
+- Benefits: single configuration point, centralized audit logging, shared authentication management, no per-machine setup
+- Consideration: requires TLS (HTTPS) for any non-localhost connection; never connect to remote MCP servers over plain HTTP in production
+
+**Practical guidance for teams**:
+- Start with local stdio servers while you're learning and iterating
+- Move stable, team-wide tools to remote HTTP servers once you know what the team actually uses daily
+- Remote MCP is the emerging standard for production deployments; file-based local config is primarily a development pattern
 
 ---
 
@@ -214,15 +279,16 @@ Too many tools = agent confusion. Here's a curated list by role:
 
 3. **"APIs Don't Make Good MCP Tools" by Reilly Wood**
    - The critical insight on tool design. Required reading.
-   - Link: https://www.anthropic.com/research (or search the title)
+   - Link: https://www.reillywood.com/blog/apis-dont-make-good-mcp-tools/
+   - *Note: This is a third-party perspective aligned with Anthropic's MCP design philosophy, not official Anthropic documentation.*
 
 4. **MCP Registry**
    - Browse the available tools. Get a sense of what's available.
-   - Link: https://registry.mcp.ai
+   - Link: https://registry.modelcontextprotocol.io
 
-5. **"Prompt Engineering for Agent-Based Systems" (OpenAI)**
-   - How to structure prompts so agents reason better about tools.
-   - Link: https://openai.com/research (search for agent prompting)
+5. **OpenAI Prompt Engineering Guide**
+   - Covers structured prompting techniques relevant to agent reasoning and tool use.
+   - Link: https://platform.openai.com/docs/guides/prompt-engineering
 
 
 ## Takeaway
@@ -282,14 +348,14 @@ By the end of this module, you will have:
 - Stytch. "MCP: A Protocol for AI Tool Integration."
   - https://stytch.com/blog/mcp/ (or search)
 
-- Wood, R. "APIs Don't Make Good MCP Tools."
-  - https://www.anthropic.com/research (or search the title)
+- Wood, R. "APIs Don't Make Good MCP Tools." (Third-party perspective aligned with Anthropic's MCP design philosophy.)
+  - https://www.reillywood.com/blog/apis-dont-make-good-mcp-tools/
 
 - Anthropic. "MCP Registry."
-  - https://registry.mcp.ai
+  - https://registry.modelcontextprotocol.io
 
-- OpenAI. "Prompt Engineering for Agents and Tools."
-  - https://openai.com/research (search for agent prompting)
+- OpenAI. "Prompt Engineering Guide."
+  - https://platform.openai.com/docs/guides/prompt-engineering
 
 - Wei, J., et al. (2023). "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models."
   - https://arxiv.org/abs/2201.11903 (foundational for agent reasoning)

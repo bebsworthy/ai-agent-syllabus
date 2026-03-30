@@ -29,6 +29,8 @@ Andrew Ng (co-founder of Coursera, expert in AI and product) has observed that a
 - Clear spec → Claude implements → 1 round of review → 1 hour
 - The difference: **product clarity**.
 
+These numbers depend on three prerequisites: (1) the specification is clear and unambiguous, (2) relevant code context is available to Claude during implementation, and (3) teams conduct collaborative review cycles rather than treating the plan as a one-shot handoff. Vague specs or missing context increase revision cycles rather than reducing them.
+
 #### Sean Grove's Insight: Specs as the Durable Artifact
 
 Historically, source code was the artifact that lived in version control. But code is implementation—it's how you solved the problem *on that day with that technology*. In two years, you'll refactor it. Specifications, by contrast, encode intent. Why did we validate the email? Why does the API return a 400 vs. 404? Why does this endpoint exist?
@@ -78,6 +80,27 @@ A good specification answers these questions:
    - Link to relevant docs, prior art, similar features
    - Link to prototype or spike work
 
+Many teams now operationalize this template using ready-made tooling. GitHub Spec-Kit (open-source, released September 2025) provides CLI support, ready-to-use Markdown templates, and Claude Code integration. AWS Kiro and similar tools follow the same workflow. These are not required—a Markdown file in your repo works—but they reduce setup friction and enforce structure automatically. GitHub Spec-Kit follows a Constitution → Specification → Design → Tasks hierarchy, where a Constitution captures immutable team principles (e.g., "All APIs return standardized error codes") that individual specs reference for consistency.
+
+---
+
+### The Spec as a Living Document: Using CLAUDE.md
+
+A spec written before implementation is a starting point, not a finished artifact. During implementation, Claude will resolve ambiguities, discover edge cases, and validate assumptions. If those discoveries exist only in a chat window, they are lost.
+
+CLAUDE.md is a persistent memory file in Claude Code (available from Claude Sonnet 4.5 onward). It lives in your repository at `.claude/CLAUDE.md` and is read by Claude at the start of every session. This makes it the natural home for your working specification.
+
+**Workflow:**
+1. Write the initial spec and store it in `.claude/CLAUDE.md`
+2. Claude reads it at session start; no need to re-paste context
+3. As Claude implements, it updates CLAUDE.md with resolved questions, discovered edge cases, and validated assumptions
+4. A human reviews and approves those updates before Claude continues
+5. The final CLAUDE.md reflects what was actually built, not just what was planned
+
+This is especially valuable for multi-day or multi-turn projects where spec details accumulate across sessions. The spec committed to your team's Wiki is the human-readable reference; CLAUDE.md is the agent's working copy that evolves alongside the code.
+
+> **Note:** Treat CLAUDE.md updates as you would any code change—review them in your pull request. The spec should reflect decisions, not just intentions.
+
 ---
 
 ### Plan Mode: The Tool for Specs
@@ -90,7 +113,9 @@ Plan Mode is a Claude Code feature that stages implementation without executing:
 4. **You Review**: Ask questions, catch assumptions, refine requirements
 5. **Green Light**: "This plan looks good, execute it." Claude implements with confidence because the spec is locked in.
 
-The magic: By the time Claude starts typing code, you've already caught 80% of the problems and ambiguities. The implementation itself is straightforward.
+The magic: By the time Claude starts typing code, you've already caught most of the problems and ambiguities—provided the spec is clear and you've asked the right clarifying questions during review. The implementation itself is straightforward.
+
+**Claude Code v2.0 (January 2026)** introduced a dedicated planning subagent that operates in read-only mode during Plan Mode. This means Claude explores your codebase and reasons about architecture without being able to accidentally modify files. It also includes enhanced dependency mapping and breaking-change detection. You may notice Claude asking more clarifying questions during planning—this is intentional; the planning subagent is focused on understanding your architecture before committing to an approach.
 
 ---
 
@@ -114,6 +139,46 @@ The magic: By the time Claude starts typing code, you've already caught 80% of t
    - Say "Let's execute this plan" or Shift+Tab again to exit Plan Mode
    - Claude implements the plan you've both agreed on
    - Implementation almost always aligns with the spec because the spec was precise
+
+---
+
+### Turning Your Spec Into a Prompt: Four Principles
+
+A well-written spec is necessary but not sufficient. You still have to give it to Claude effectively. These four principles translate specification clarity into prompting discipline:
+
+1. **Specify the approach, not just the outcome.**
+   Vague: "Add email validation."
+   Clear: "Validate email format on submit; if invalid, surface an inline error below the field without clearing the field value; do not proceed to the API call."
+   Claude can confidently build the second. The first leaves critical behavior undefined.
+
+2. **Indicate starting points.**
+   Reference the relevant files, architecture docs, or CLAUDE.md directly. "The validation logic should follow the pattern in `src/forms/validatePhone.ts`. The error component is in `src/components/FieldError.tsx`." This gives Claude the right code context rather than requiring it to search or guess.
+
+3. **Practice defensive prompting.**
+   Anticipate the confusion points in your spec and address them proactively. "What if the email service is unavailable? Fail silently and queue for retry—do not show an error to the user." Confusion points not addressed in the prompt become assumptions in the implementation.
+
+4. **Provide feedback mechanisms.**
+   Point Claude to tests, linters, CI output, or error logs. "Run `npm test src/forms` after implementing. If any existing tests fail, stop and flag them before continuing." This gives Claude a way to self-validate rather than waiting for you to catch problems in review.
+
+Plan Mode guides you through these principles interactively—it's not just a planning tool, it's a prompting discipline enforced by structure.
+
+---
+
+### Context Engineering During Planning
+
+A clear spec is necessary but not sufficient when implementing complex features in a large codebase. Claude has a finite context window, and simply pasting an entire spec alongside an entire codebase will degrade output quality.
+
+**The core principle:** Keep implementation prompts to 40–60% of the context window, leaving room for code, error messages, and Claude's reasoning.
+
+**Practical guidance during Plan Mode:**
+- Surface what information Claude needs early in the planning conversation. If the spec references an existing module, paste the relevant file or a summary—don't assume Claude will find it.
+- Proactively offer file references and documentation paths: "The authentication flow is in `src/auth/`. Refer to `docs/api-contracts.md` for the response format spec."
+- Avoid front-loading everything. Just-in-time retrieval—providing information when Claude needs it, not all at once—is more effective than a large upfront dump.
+- Use CLAUDE.md for persistent context (architecture decisions, team conventions, spec summaries) rather than re-pasting it every session.
+
+**In complex or legacy codebases,** spec clarity alone may not be enough. Context engineering—knowing what to give Claude, when, and how much—becomes the execution-side counterpart to specification clarity.
+
+> This topic is covered in depth in **M04 (Context Management)**. Here we focus on the planning-phase implications: the moment you write your spec, also identify what context Claude will need to execute it.
 
 ---
 
@@ -155,7 +220,7 @@ By the end of this module, you will have:
 3. **A Habit: Spec-First, Not Code-First**
    - Default workflow: idea → spec → plan → implement
    - Not: idea → implement → revise
-   - Time savings: 50–70% for complex features
+   - Practitioner reports indicate 50–70% time savings for complex features when specs are clear, relevant code context is available, and teams conduct collaborative review cycles
 
 4. **Alignment Across Roles**
    - Product owner: Writes the spec (now you understand how)
@@ -163,6 +228,8 @@ By the end of this module, you will have:
    - Stakeholders: See the plan before implementation (alignment, fewer surprises)
 
 5. **A Concrete Example**: The spec and plan from this workshop
+
+> **Working in a large or legacy codebase?** A clear spec is necessary but not sufficient. Complex codebases require context engineering—knowing what code context to provide Claude, when, and in what form. Spec clarity drives what gets built; context engineering determines whether Claude can navigate the existing system to build it correctly. See **M04 (Context Management)** for techniques to make Claude effective in complex environments.
 
 ---
 
@@ -175,6 +242,8 @@ By the end of this module, you will have:
 - **Acceptance Criteria**: How you know the implementation is done (testable, measurable).
 - **Integration Points**: Where this feature touches other systems.
 - **Paradigm Shift**: From "developers write code" to "product owners write specs and AI writes code"—the bottleneck moves to clarity.
+- **CLAUDE.md**: A persistent memory file in Claude Code (`.claude/CLAUDE.md`) that stores specification details, architectural decisions, and team conventions across sessions. The agent reads it at session start and can update it during implementation; humans review updates before work continues.
+- **Context Engineering**: The practice of managing what information Claude has access to during implementation—what to include, when to include it, and how much. The execution-side counterpart to specification clarity.
 
 ---
 
@@ -194,6 +263,21 @@ By the end of this module, you will have:
 
 - Anthropic. "Claude Code Plan Mode Guide."
   - https://claude.com/claude-code
+
+- Anthropic. "Claude Memory (CLAUDE.md) Documentation."
+  - https://docs.anthropic.com/claude-code (search "CLAUDE.md")
+
+- Anthropic. "Context Engineering Guide." (September 2025)
+  - https://www.anthropic.com/engineering (search "context engineering")
+
+- GitHub. "Spec-Kit: Specification Templates and CLI for AI-Accelerated Development." (September 2025)
+  - https://github.com/github/spec-kit
+
+- Osmani, A. "Spec-Driven Development for AI Agents."
+  - https://addyosmani.com (search "spec-driven AI agents")
+
+- Willison, S. "Agentic Engineering Patterns."
+  - https://simonwillison.net (search "agentic engineering")
 
 ---
 

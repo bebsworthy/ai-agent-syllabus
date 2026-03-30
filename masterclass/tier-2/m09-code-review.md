@@ -43,21 +43,23 @@ This module teaches you that style is automatable (linters do that), but design 
 
 **AI-generated code review:**
 - Claude wrote it → intent is opaque → reviewer *must verify logic*
-- Code is correct by default → reviewers look for subtle logic errors, insecure patterns, architectural fit
-- Security issues can be hidden in clean-looking code (SQL injection in a parameterized query? No. But hardcoded secret in env setup? Yes.)
+- AI-generated code passes basic tests but frequently contains subtle defects in error handling, performance, security, and business logic—even when those tests pass. Research shows AI-generated PRs contain 1.7× more issues overall than human-written code, with particular vulnerability to security issues (2.74× more XSS vulnerabilities). "Passing tests" does not mean "passing code review."
+- Security issues can be hidden in clean-looking code—and AI-generated code is statistically more likely to contain them.
 
 **The principle:** You are responsible for all code you submit, regardless of whether AI generated it. If Claude's code has a bug and you didn't catch it in review, that's your responsibility.
 
 ### The Google AutoCommenter Study
 
-Google published research on automated code review (arxiv paper, "AutoCommenter: A Large Language Model for Programming Comments"). Key findings:
+Google published research on automated code review (arXiv 2405.13565, "AI-Assisted Assessment of Coding Practices in Modern Code Review," May 2024). Key findings:
 
 | What AutoCommenter Did Well | What It Missed |
 |---------------------------|-----------------|
 | Style: naming conventions, formatting | Design: architectural fit, performance implications |
 | Obvious bugs: unused variables, typos | Subtle logic: off-by-one errors, state management |
-| Security patterns: hardcoded secrets, weak crypto | Context-dependent security: where this data comes from, trust boundaries |
+| Security patterns: hardcoded secrets, weak crypto | Context-dependent security: where this data comes from, trust boundaries, injection vectors |
 | Trivial refactors: DRY violations, obvious optimizations | Non-trivial refactors: is this abstraction necessary? |
+
+> **Note on AI tool accuracy:** Top AI-assisted review tools achieve only 51–66% recall (they miss 34–49% of real issues) and 47–62% precision (38–53% of flagged items are false positives). Automated review is a filter, not a guarantee.
 
 **Insight:** Automated review is good for checkboxes (style, obvious bugs). Human review is essential for judgment (design, context, tradeoffs).
 
@@ -83,6 +85,30 @@ Google published research on automated code review (arxiv paper, "AutoCommenter:
 
 **Tools:** Code reviewers (you)
 
+### Security Review and AI-Generated Code
+
+Security review is not a subset of design review—it requires its own dedicated pass. This is especially true for AI-generated code, which empirical research shows contains 2.74× more XSS vulnerabilities than human-written code.
+
+**Why AI code is a higher security risk:**
+- AI models generate syntactically correct code that passes linters and basic tests while still containing subtle injection vulnerabilities, insecure cryptographic patterns, or improper trust-boundary assumptions.
+- AI code is optimized for function, not threat modeling. The model doesn't know your deployment context, data sensitivity, or attacker surface.
+
+**Security review checklist for AI-generated code:**
+
+| Category | What to Check |
+|----------|---------------|
+| Injection | SQL, shell, HTML injection; prompt injection if AI is in the call path |
+| Authentication | Token handling, session expiry, privilege escalation paths |
+| Secrets | Hardcoded credentials, keys in logs, overly broad permissions |
+| Cryptography | Weak algorithms, insecure key storage, improper random number use |
+| Trust boundaries | Does code trust input from an untrusted source? Is user-controlled data validated? |
+| Error handling | Do error messages leak internal paths, stack traces, or data? |
+
+**The 70/30 rule for security:**
+Automated tools (linters, SAST scanners like CodeQL) catch roughly 70% of low-hanging security smells. Human review must catch the remaining 30%—the context-dependent vulnerabilities that require understanding your architecture, data flows, and threat model.
+
+**Integration with M08:** Security review for AI-generated code builds on the patterns introduced in M08 (security review patterns). Apply the same defense-in-depth mindset: treat AI-generated code as untrusted input until verified. For deeper coverage of SAST/DAST fundamentals and agentic threat models, see CS146S Week 6.
+
 ### The Writer/Reviewer Pattern
 
 **Problem:** If the person who wrote the code also reviews it, bias is unavoidable. "I wrote this, so it must be good."
@@ -104,6 +130,13 @@ Session 2 (Reviewer): @code-reviewer review src/auth.ts
 → Catches things writer missed because writer was "in the flow"
 ```
 
+**Important limitations:**
+The Writer/Reviewer pattern prevents *writer bias*, but introduces its own risks. Human reviewers evaluating AI suggestions tend toward one of two failure modes: over-trusting high-confidence AI feedback without scrutiny, or dismissing it reflexively. Additionally, if a supervising agent aggregates reviewer findings, it may filter or downweight negative findings.
+
+Mitigations:
+1. Use truly independent reviewer agents—no shared context, no hierarchical filtering between writer and reviewer.
+2. Anchor review to a checklist tied to design principles; this reduces reviewer bias toward AI-generated content.
+3. Have a human verify all high-severity findings before acting on them, whether the finding came from an AI reviewer or a human one.
 
 ## Takeaway
 
@@ -119,6 +152,9 @@ After completing the pre-work and the workshop session, you will have:
 ---
 
 ## Key Concepts
+
+**Why Code Review Works:**
+Code review detects roughly 60% of defects—significantly higher than testing alone (25–45%). Real-world deployments of structured review programs report 80% error reduction and 14% productivity gains. These gains depend on review being rigorous, not perfunctory.
 
 **Automated vs. Human Review:**
 Automated tools (linters, SAST) check style and obvious bugs. Humans check design and judgment.
@@ -139,7 +175,7 @@ You are responsible for all code you submit, AI-generated or not. If it has a bu
 
 ## References
 
-- **Google AutoCommenter Research:** https://arxiv.org/abs/2210.02968 ("AutoCommenter: A Large Language Model for Programming Comments")
+- **Google AutoCommenter Research:** https://arxiv.org/abs/2405.13565 ("AI-Assisted Assessment of Coding Practices in Modern Code Review," May 2024)
 - **Google Code Review Best Practices:** https://google.github.io/eng-practices/review/
 - **Trunk Engineering Playbook:** https://www.trunkbaseddevelopment.com/code-review/
 - **Code Review Culture:** https://engineering.squarespace.com/blog/2020/code-review-best-practices

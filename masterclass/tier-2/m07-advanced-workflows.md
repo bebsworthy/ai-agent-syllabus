@@ -43,7 +43,13 @@ When should you use each layer?
 | **Hooks** | Deterministic scripts that run before/after tool use | Auto-formatting, pre-commit validation, notifications | Triggered by lifecycle events |
 | **MCP** | External integrations (databases, APIs, internal tools) | Access to systems outside Claude Code | Tool-level |
 | **Plugins** | Bundled skills + MCPs + custom commands | Packaged workflows for distribution across teams | Whole environment |
-| **Agent Teams** | Coordinated parallel sessions | Large refactors, multi-component features, parallel reviews | Team-level orchestration |
+| **Agent Teams** | Coordinated parallel sessions *(experimental — disabled by default)* | Large refactors, multi-component features, parallel reviews | Team-level orchestration |
+
+> **Agent Teams — Experimental:** Agent Teams are disabled by default. To enable them, set the following environment variable before starting your session:
+> ```bash
+> export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+> ```
+> Known limitations: no session resumption with in-process teammates, task status may lag, slow shutdown with 5+ agents, one team per session, no nested team-in-team architectures. Report issues at [github.com/anthropics/claude-code/issues](https://github.com/anthropics/claude-code/issues).
 
 ### Three Skill Patterns
 
@@ -135,6 +141,16 @@ disabled: false                    # Optional: disable the skill
 Instructions, templates, examples
 ```
 
+### Choosing the Right Abstraction
+
+| Question | Use |
+|----------|-----|
+| Is this a reusable instruction set you run repeatedly? | **Skill** (Pattern A or B) |
+| Does it need isolated reasoning or specialized domain knowledge without influencing your main context? | **Subagent** |
+| Do multiple agents need to work in parallel, with coordinated output? | **Agent Team** *(experimental)* |
+
+Quick cost note: subagents each open an independent context window; agent teams multiply that cost by the number of agents (roughly 4–15× token usage vs. a single session). Use parallelism when the tasks are genuinely independent and the speed or quality gain justifies it.
+
 ### Skill Locations and Scope
 
 | Location | Scope | Who Sees It |
@@ -185,7 +201,7 @@ Summon a subagent in Claude Code with `@security-reviewer review this PR`.
 
 ### Hooks: Deterministic Lifecycle Scripts
 
-Hooks run at specific points:
+Hooks run at specific lifecycle points. The four most commonly used events (out of 22+ documented) are:
 
 | Hook | When It Fires | Use Case |
 |------|---------------|----------|
@@ -194,29 +210,41 @@ Hooks run at specific points:
 | **Notification** | Before displaying result to user | Custom notifications |
 | **Stop** | When session ends | Cleanup, metrics, final checks |
 
-Hooks live in `.claude/hooks/` as shell scripts:
+PreToolUse and PostToolUse cover the majority of practical automation needs. For the full list of hook events (including `SessionStart`, `SubagentStart`, `ConfigChange`, and others), see the [Claude Code Hooks documentation](https://code.claude.com/docs/en/hooks-guide).
+
+Hooks live in `.claude/hooks/` as shell scripts. They receive a JSON payload on **stdin** (not environment variables) and signal outcomes via exit codes:
 
 ```bash
 # .claude/hooks/post_tool_use.sh
 #!/bin/bash
 
-# Auto-lint any code written to src/
-if [[ "$TOOL_OUTPUT" =~ "src/" ]]; then
-  npx eslint --fix "$TOOL_OUTPUT"
-  echo "✓ Auto-linted"
+# Read JSON payload from stdin
+TOOL_INFO=$(cat)
+TOOL_NAME=$(echo "$TOOL_INFO" | jq -r '.tool_name')
+TOOL_INPUT=$(echo "$TOOL_INFO" | jq -r '.tool_input')
+TOOL_OUTPUT=$(echo "$TOOL_INFO" | jq -r '.tool_output // empty')
+
+# Auto-lint any TypeScript written to src/
+if [[ "$TOOL_NAME" == "write_file" ]] && echo "$TOOL_INPUT" | jq -r '.path' | grep -q "^src/"; then
+  FILE_PATH=$(echo "$TOOL_INPUT" | jq -r '.path')
+  npx eslint --fix "$FILE_PATH"
+  echo "✓ Auto-linted $FILE_PATH"
 fi
 
 # Notify Slack if a deployment was triggered
 if [[ "$TOOL_NAME" == "trigger_deployment" ]]; then
-  curl -X POST $SLACK_WEBHOOK \
-    -d '{"text": "Deployment triggered: '$TOOL_OUTPUT'"}'
+  curl -X POST "$SLACK_WEBHOOK" \
+    -d "{\"text\": \"Deployment triggered\"}"
 fi
 ```
 
-Hooks receive environment variables:
-- `$TOOL_NAME` — which tool ran
-- `$TOOL_OUTPUT` — the tool's result
-- `$TOOL_INPUT` — what was passed to the tool
+Hooks receive a JSON object on stdin. Common fields:
+- `tool_name` — which tool ran
+- `tool_input` — the arguments passed to the tool (object)
+- `tool_output` — the tool's result (PostToolUse only)
+- `session_id` — the current session identifier
+
+Exit code `0` = success; non-zero = signal an error condition to Claude.
 
 ---
 
@@ -247,8 +275,8 @@ An independent session with its own configuration, tools, and context window. Us
 **Hook:**
 A deterministic script running at lifecycle points (PreToolUse, PostToolUse, Notification, Stop). Enables automation: auto-linting, validation, notifications.
 
-**Consolidation Stack:**
-CLAUDE.md → Skills → Subagents → Hooks → MCP → Plugins → Agent Teams. Each layer has a specific purpose; use the right layer for the job.
+**Composition Stack:**
+CLAUDE.md → Skills → Subagents → Hooks → MCP → Plugins → Agent Teams. Each layer has a specific purpose; use the right layer for the job. Agent Teams are experimental and require `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` to enable.
 
 **Pattern A/B/C:**
 - A: Pure markdown (instructional)
@@ -259,8 +287,10 @@ CLAUDE.md → Skills → Subagents → Hooks → MCP → Plugins → Agent Teams
 
 ## References
 
-- **Claude Code Skills Documentation:** https://claude.com/docs/skills
-- **Subagents Guide:** https://claude.com/docs/subagents
-- **Hooks Documentation:** https://claude.com/docs/hooks
+- **Claude Code Skills Documentation:** https://code.claude.com/docs/en/skills
+- **Subagents Guide:** https://code.claude.com/docs/en/sub-agents
+- **Hooks Documentation:** https://code.claude.com/docs/en/hooks-guide
+- **Agent Teams Documentation:** https://code.claude.com/docs/en/agent-teams
+- **Building Effective AI Agents (Anthropic Research):** https://www.anthropic.com/research/building-effective-agents
 - **YAML Syntax:** https://yaml.org/
 - **Team Workflow Best Practices:** (Anthropic internal; shared in workshop)
