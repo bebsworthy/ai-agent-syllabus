@@ -1,0 +1,24 @@
+/* Custom brand colours — swap these to match your palette */
+:root {
+  --sl-color-accent-low: #1e1b4b;
+  --sl-color-accent: #4f46e5;
+  --sl-color-accent-high: #a5b4fc;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e0e7ff;
+  --sl-color-accent: #4338ca;
+  --sl-color-accent-high: #1e1b4b;
+}
+
+/* Slightly wider content area for code-heavy modules */
+.sl-markdown-content {
+  --sl-content-width: 52rem;
+}
+
+/* Make admonitions render — standard callout blocks from the source markdown */
+.sl-markdown-content blockquote {
+  border-inline-start: 4px solid var(--sl-color-accent);
+  padding-inline-start: 1rem;
+  color: var(--sl-color-gray-2);
+}

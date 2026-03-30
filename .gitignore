@@ -12,3 +12,12 @@ docs/tier-3-operations/
 __pycache__/
 *.pyc
 .venv/
+
+# Starlight / Node
+starlight/node_modules/
+starlight/dist/
+
+# Generated Starlight docs (built by scripts/build_starlight.py)
+starlight/src/content/docs/tier-1/
+starlight/src/content/docs/tier-2/
+starlight/src/content/docs/tier-3/

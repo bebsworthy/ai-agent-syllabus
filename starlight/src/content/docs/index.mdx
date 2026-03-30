@@ -1,0 +1,73 @@
+---
+title: AI-Augmented Development Masterclass
+description: Operationalizing Claude Code for professional teams — 14 modules across three tiers.
+template: splash
+hero:
+  tagline: Operationalizing Claude Code for Professional Teams
+  actions:
+    - text: Start Tier 1
+      link: /tier-1/m01-how-llms-work/
+      icon: right-arrow
+      variant: primary
+    - text: View curriculum
+      link: /tier-1/
+      icon: open-book
+      variant: secondary
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Three tiers, one goal
+
+<CardGrid>
+  <Card title="Tier 1: Foundations" icon="document">
+    For **everyone** — developers, DevOps, and product owners. 5 modules, ~7 hours. No prerequisites.
+
+    [Start with M01 →](/tier-1/m01-how-llms-work/)
+  </Card>
+  <Card title="Tier 2: Mastery" icon="rocket">
+    For **developers and DevOps** engineers. 5 modules, ~7 hours. Requires Tier 1 + 1–2 weeks practice.
+
+    [Start with M06 →](/tier-2/m06-tool-design/)
+  </Card>
+  <Card title="Tier 3: Operations" icon="setting">
+    For **DevOps engineers and tech leads** owning production systems. 4 modules, ~5 hours. Requires Tiers 1 & 2.
+
+    [Start with M11 →](/tier-3/m11-post-deployment/)
+  </Card>
+</CardGrid>
+
+## How each module works
+
+Every module follows the same pattern:
+
+1. **Pre-work** (15–20 min) — Self-paced theory reading that builds a mental model
+2. **Workshop** (45–60 min) — Facilitated hands-on session applying the theory
+3. **Takeaway** — A concrete artifact, habit, or workflow you use from that day forward
+
+## Audience guide
+
+| Role | Recommended path |
+|------|-----------------|
+| Product Owner | Tier 1 · M06 · M08 |
+| Developer | Tiers 1 and 2 |
+| DevOps / Tech Lead / Senior Developer | All three tiers |
+
+## Curriculum at a glance
+
+<CardGrid>
+  <LinkCard title="M01 — How LLMs Actually Work" href="/tier-1/m01-how-llms-work/" description="Transformer architecture, autoregression, hallucinations, and context windows." />
+  <LinkCard title="M02 — Prompt Engineering" href="/tier-1/m02-prompt-engineering/" description="Zero-shot, few-shot, chain-of-thought, meta prompting, and model selection." />
+  <LinkCard title="M03 — Specs Are Source Code" href="/tier-1/m03-specs-are-source-code/" description="Plan Mode, spec templates, and the spec-first paradigm shift." />
+  <LinkCard title="M04 — Context Engineering" href="/tier-1/m04-context-engineering/" description="The four failure modes of large contexts and how CLAUDE.md prevents them." />
+  <LinkCard title="M05 — Agents and MCP" href="/tier-1/m05-agents-and-mcp/" description="Agent architecture, MCP protocol, and why APIs don't make good tools." />
+  <LinkCard title="M06 — Tool Design" href="/tier-2/m06-tool-design/" description="How to design purpose-built MCP tools agents can actually use." />
+  <LinkCard title="M07 — Advanced Workflows" href="/tier-2/m07-advanced-workflows/" description="Skills, subagents, and hooks — the workflow composition stack." />
+  <LinkCard title="M08 — Security" href="/tier-2/m08-security/" description="Prompt injection, OWASP Top Ten for LLMs, and context rot." />
+  <LinkCard title="M09 — Code Review" href="/tier-2/m09-code-review/" description="Why review matters more with AI and the Writer/Reviewer pattern." />
+  <LinkCard title="M10 — Agent Teams" href="/tier-2/m10-agent-teams/" description="When parallel orchestration pays off and when it doesn't." />
+  <LinkCard title="M11 — Post-Deployment" href="/tier-3/m11-post-deployment/" description="SRE fundamentals and AI-augmented incident response." />
+  <LinkCard title="M12 — CI/CD Integration" href="/tier-3/m12-cicd-integration/" description="Headless mode, pipeline patterns, and batch operations." />
+  <LinkCard title="M13 — Team Adoption" href="/tier-3/m13-team-adoption/" description="Permission modes, cost management, and the developer ownership principle." />
+  <LinkCard title="M14 — What's Next" href="/tier-3/m14-whats-next/" description="A transferable framework for evaluating the evolving AI tool landscape." />
+</CardGrid>
