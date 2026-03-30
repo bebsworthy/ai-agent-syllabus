@@ -35,6 +35,8 @@ The theory explains the mechanism. This workshop makes it tangible. You will see
 
 Claude Code is a terminal-native agentic assistant — it reads your entire codebase, edits files directly, and runs commands on your machine. It's not a chatbot you copy-paste to; it operates on your actual project.
 
+As of early 2026, Claude Code contributes to roughly 4% of all public GitHub commits (~135k/day), and 90% of Anthropic's own code is written with AI assistance.
+
 | Aspect | Claude Code | Cursor/Copilot |
 |---|---|---|
 | Primary interface | Terminal / CLI | IDE-integrated |

@@ -117,6 +117,20 @@ One developer using Claude Code might cost $50/month. A team of 20 developers co
 [ ] Decision: continue, expand, pause, or pivot?
 ```
 
+### Golden Rules for Team Claude Code Usage
+
+Keep these posted where the team can see them:
+
+1. **Always work on a branch.** Git is your safety net. Claude can create commits, but you should always be able to roll back.
+2. **Review diffs before approving.** Don't blindly accept. Read what Claude is changing and why.
+3. **Use `/rewind` liberally.** If Claude goes down a wrong path, rewind to a checkpoint. It's cheap and fast.
+4. **CLAUDE.md is a team asset.** Commit it to the repo. Iterate on it like you would any documentation.
+5. **Plan before executing** for anything non-trivial. The few extra minutes upfront prevent hours of debugging.
+6. **Don't share sensitive data.** Be mindful of API keys, secrets, and proprietary information in prompts.
+7. **Cost awareness.** Default to Sonnet. Switch to Opus deliberately, not by default.
+
+---
+
 ### The Principle: Developer Owns All Code
 
 This is the bedrock. AI generates code faster, but:

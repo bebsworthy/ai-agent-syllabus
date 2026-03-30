@@ -268,6 +268,29 @@ Too many tools = agent confusion. Here's a curated list by role:
 - **Collaboration**: Slack MCP (for team communication)
 - Total: 3 tools
 
+#### Quick-Start Install Commands
+
+The most universally useful MCP servers and their install commands:
+
+```bash
+# GitHub — PR reviews, issue management, code search
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+
+# PostgreSQL — natural language database queries
+claude mcp add postgres -- npx -y @modelcontextprotocol/server-postgres
+
+# Playwright — browser automation and E2E testing
+claude mcp add playwright -- npx -y @anthropic-ai/mcp-server-playwright
+
+# Sentry — production error analysis and stack traces
+claude mcp add sentry -e SENTRY_AUTH_TOKEN=your-token -- npx -y @sentry/mcp-server
+
+# Notion — documentation and knowledge base access
+claude mcp add notion -e NOTION_API_TOKEN=your-token -- npx -y @makenotion/notion-mcp-server
+```
+
+After adding, verify with `/mcp` in a session. Start with 2–3 servers; add more only when you have a concrete use case.
+
 ---
 
 ## Pre-work: Readings

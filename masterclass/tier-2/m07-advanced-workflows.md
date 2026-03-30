@@ -268,6 +268,30 @@ PreToolUse and PostToolUse cover the majority of practical automation needs. The
 
 See the [Claude Code Hooks documentation](https://code.claude.com/docs/en/hooks-guide) for payload details and examples.
 
+#### Alternative: Inline Hook Configuration via settings.json
+
+Instead of shell scripts, you can configure hooks directly in `settings.json` (or via `/hooks`). This is simpler for straightforward automation:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "Write",
+      "hooks": [{ "type": "command", "command": "npm run lint --fix" }]
+    }],
+    "PreToolUse": [{
+      "matcher": "Bash(git commit*)",
+      "hooks": [{ "type": "command", "command": "npm test" }]
+    }],
+    "Stop": [{
+      "hooks": [{ "type": "command", "command": "osascript -e 'display notification \"Claude is done\" with title \"Claude Code\"'" }]
+    }]
+  }
+}
+```
+
+The `matcher` field supports glob patterns to target specific tool calls. Use shell scripts (`.claude/hooks/`) for complex logic; use `settings.json` for simple one-liners.
+
 Hooks live in `.claude/hooks/` as shell scripts. They receive a JSON payload on **stdin** (not environment variables) and signal outcomes via exit codes:
 
 ```bash

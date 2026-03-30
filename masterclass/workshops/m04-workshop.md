@@ -65,7 +65,17 @@ The lesson here is direct: smaller, curated context beats larger, noisy context.
 
 **Objective**: Create and refine a CLAUDE.md for your real project.
 
-**Step 1 — Audit Your Conventions** (5 min)
+**Step 1 — Generate a Starter CLAUDE.md** (2 min)
+
+Run `/init` in your project. This command analyzes your codebase — file structure, languages, frameworks, patterns — and generates a starter CLAUDE.md. It's a fast way to get a first draft that you then refine manually.
+
+```bash
+claude /init
+```
+
+Review the generated file. It won't be perfect, but it gives you a baseline to edit rather than starting from scratch.
+
+**Step 2 — Audit Your Conventions** (5 min)
 
 Think through the actual conventions in your codebase. Capture answers to:
 
@@ -81,7 +91,7 @@ Think through the actual conventions in your codebase. Capture answers to:
 If your conventions feel inconsistent or undocumented, that's normal — and exactly what CLAUDE.md is for. Write it as it *should* be, not as it currently is. It becomes a North Star. As you refactor, you align with CLAUDE.md instead of the old mess.
 :::
 
-**Step 2 — Draft Your CLAUDE.md** (5 min)
+**Step 3 — Draft Your CLAUDE.md** (5 min)
 
 Structure your conventions into CLAUDE.md format with these sections:
 
@@ -95,7 +105,7 @@ Structure your conventions into CLAUDE.md format with these sections:
 
 Review what you've written: Is it accurate? Is it complete?
 
-**Step 3 — Commit to Repo** (5 min)
+**Step 4 — Commit to Repo** (5 min)
 
 ```bash
 git add CLAUDE.md && git commit -m "Add CLAUDE.md with project conventions"

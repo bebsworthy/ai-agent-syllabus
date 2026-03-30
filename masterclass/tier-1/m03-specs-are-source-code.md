@@ -131,6 +131,7 @@ The magic: By the time Claude starts typing code, you've already caught most of 
 
 3. **Review and Refine**
    - Once the plan is complete, challenge assumptions
+   - Use `Ctrl+G` to open the plan in your text editor for direct editing before Claude proceeds
    - "Does this handle race conditions?" "What if the database is down?" "Is this consistent with our error handling pattern?"
    - Request clarifications: "For the 401 Unauthorized case, what exactly goes in the response body?"
 

@@ -423,6 +423,7 @@ Three parallel sessions give you an effective 600k+ tokens of total context with
 | `/clear` | Clear all history. Start fresh. (Use between tasks) |
 | `/compact` | Manually compact history at any point |
 | `/btw [question]` | Quick question that doesn't enter persistent history |
+| `/rewind` | Rewind to a previous checkpoint. Use liberally when Claude goes down a wrong path |
 | `Esc Esc` | Same as `/clear` (keyboard shortcut) |
 
 **Getting more out of `/compact`:** Compaction is not binary. When you run `/compact` manually (or between workflow phases), guide what gets preserved. Prioritize: architectural decisions, recent code changes, unresolved bugs, and validated patterns. Drop: exploration threads, duplicate explanations, completed tasks, and redundant examples. Pass this explicitly: "Compact history, prioritizing current task spec and CLAUDE.md conventions. Discard resolved exploratory threads."
