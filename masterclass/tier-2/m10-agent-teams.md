@@ -176,7 +176,7 @@ Example:
 
 ## Workshop
 
-The hands-on session for this module: [**M10 Workshop: Agent Teams and Parallel Orchestration**](../workshops/m10-workshop.md)
+The hands-on session for this module: [**M10 Workshop: Agent Teams and Parallel Orchestration**](/workshops/m10-workshop/)
 
 ## Takeaway
 

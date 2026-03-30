@@ -249,7 +249,7 @@ Exit code `0` = success; non-zero = signal an error condition to Claude.
 
 ## Workshop
 
-The hands-on session for this module: [**M07: Advanced Workflows — Workshop Guide**](../workshops/m07-workshop.md)
+The hands-on session for this module: [**M07: Advanced Workflows — Workshop Guide**](/workshops/m07-workshop/)
 
 ## Takeaway
 

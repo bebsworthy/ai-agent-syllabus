@@ -124,7 +124,7 @@ Always required. AI is a tool, not a replacement.
 
 ## Workshop
 
-The hands-on session for this module: [**M08: Security in the Age of AI-Generated Code — Workshop Guide**](../workshops/m08-workshop.md)
+The hands-on session for this module: [**M08: Security in the Age of AI-Generated Code — Workshop Guide**](/workshops/m08-workshop/)
 
 ## Takeaway
 

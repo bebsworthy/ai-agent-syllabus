@@ -361,7 +361,7 @@ For regulated teams, designate an AI governance owner, schedule monthly syncs wi
 
 ## Workshop
 
-The hands-on session for this module: [**M13: Team Adoption — Standards, Safety, and Scaling — Workshop Guide**](../workshops/m13-workshop.md)
+The hands-on session for this module: [**M13: Team Adoption — Standards, Safety, and Scaling — Workshop Guide**](/workshops/m13-workshop/)
 
 ## Takeaway: A Team Adoption Playbook
 

@@ -125,7 +125,7 @@ Add annotations to your tool definition alongside the `name`, `description`, and
 
 ## Workshop
 
-The hands-on session for this module: [**M06: Tool Design — Workshop Guide**](../workshops/m06-workshop.md)
+The hands-on session for this module: [**M06: Tool Design — Workshop Guide**](/workshops/m06-workshop/)
 
 ## Takeaway
 

@@ -237,7 +237,7 @@ When evaluating tools for long-term adoption, check whether the tool's architect
 
 ## Workshop
 
-The hands-on session for this module: [**M14: What's Next — Evaluating the Evolving Landscape — Workshop Guide**](../workshops/m14-workshop.md)
+The hands-on session for this module: [**M14: What's Next — Evaluating the Evolving Landscape — Workshop Guide**](/workshops/m14-workshop/)
 
 ## Takeaway: A Transferable Evaluation Framework
 

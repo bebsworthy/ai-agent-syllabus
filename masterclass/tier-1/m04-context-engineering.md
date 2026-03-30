@@ -290,7 +290,7 @@ Context Usage:
 
 ## Workshop
 
-The hands-on session for this module: [**M04: Context Engineering — Workshop Guide**](../workshops/m04-workshop.md)
+The hands-on session for this module: [**M04: Context Engineering — Workshop Guide**](/workshops/m04-workshop/)
 
 ## Takeaway
 

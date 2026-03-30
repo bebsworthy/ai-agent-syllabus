@@ -249,7 +249,7 @@ Teams install once: `claude code --plugin my-security-review`. Then any develope
 
 ## Workshop
 
-The hands-on session for this module: [**M12: CI/CD Integration and Headless Workflows — Workshop Guide**](../workshops/m12-workshop.md)
+The hands-on session for this module: [**M12: CI/CD Integration and Headless Workflows — Workshop Guide**](/workshops/m12-workshop/)
 
 ## Takeaway: At Least One CI/CD Integration Running in Your Pipeline
 

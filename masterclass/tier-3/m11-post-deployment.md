@@ -370,7 +370,7 @@ If you have gaps in the foundation tier, address those before investing in AI-au
 
 ## Workshop
 
-The hands-on session for this module: [**M11 Workshop: Post-Deployment — Monitoring AI-Generated Systems**](../workshops/m11-workshop.md)
+The hands-on session for this module: [**M11 Workshop: Post-Deployment — Monitoring AI-Generated Systems**](/workshops/m11-workshop/)
 
 ## Takeaway
 

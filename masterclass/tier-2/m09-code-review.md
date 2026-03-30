@@ -139,7 +139,7 @@ Mitigations:
 
 ## Workshop
 
-The hands-on session for this module: [**M09: AI-Assisted Code Review — Workshop Guide**](../workshops/m09-workshop.md)
+The hands-on session for this module: [**M09: AI-Assisted Code Review — Workshop Guide**](/workshops/m09-workshop/)
 
 ## Takeaway
 

@@ -322,7 +322,7 @@ For internal tooling and single-user workflows, the risk is lower. For any workf
 
 ## Workshop
 
-The hands-on session for this module: [**M02: Prompt Engineering — Workshop Guide**](../workshops/m02-workshop.md)
+The hands-on session for this module: [**M02: Prompt Engineering — Workshop Guide**](/workshops/m02-workshop/)
 
 ## Takeaway
 

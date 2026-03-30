@@ -292,7 +292,7 @@ Too many tools = agent confusion. Here's a curated list by role:
 
 ## Workshop
 
-The hands-on session for this module: [**M05: Agents and MCP — Workshop Guide**](../workshops/m05-workshop.md)
+The hands-on session for this module: [**M05: Agents and MCP — Workshop Guide**](/workshops/m05-workshop/)
 
 ## Takeaway
 

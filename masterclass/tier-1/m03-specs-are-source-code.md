@@ -205,7 +205,7 @@ A clear spec is necessary but not sufficient when implementing complex features 
 
 ## Workshop
 
-The hands-on session for this module: [**M03: Specifications Are the New Source Code — Workshop Guide**](../workshops/m03-workshop.md)
+The hands-on session for this module: [**M03: Specifications Are the New Source Code — Workshop Guide**](/workshops/m03-workshop/)
 
 ## Takeaway
 
