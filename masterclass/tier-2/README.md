@@ -12,7 +12,7 @@ Tier 2 deepens your Claude Code fluency from foundational usage to professional 
 This tier is structured for professional developers and DevOps engineers who completed Tier 1. Product owners can optionally join **M06 (Tool Design)** and **M08 (Security)**.
 
 **Duration:** ~7 hours total (5 modules × 90 minutes each)
-**Format:** Pre-work reading → Facilitated workshop → Concrete takeaway
+**Format:** Pre-work reading → Self-directed workshop → Concrete takeaway
 **Prerequisites:** Tier 1 completion + 1-2 weeks active Claude Code usage
 
 ---
