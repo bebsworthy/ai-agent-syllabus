@@ -1,1 +1,14 @@
 .DS_Store
+
+# MkDocs generated output
+site/
+
+# Generated docs (built by scripts/build_docs.py)
+docs/tier-1-foundations/
+docs/tier-2-mastery/
+docs/tier-3-operations/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

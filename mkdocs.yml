@@ -1,0 +1,108 @@
+site_name: AI-Augmented Development Masterclass
+site_url: https://claude.mnbv.dev
+site_description: Operationalizing Claude Code for professional teams — 14 modules across three tiers.
+site_author: Boyd
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.footer
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - "Tier 1: Foundations":
+    - Overview: tier-1-foundations/index.md
+    - "M01 — How LLMs Work":
+      - Study Guide: tier-1-foundations/m01-how-llms-work.md
+      - Workshop: tier-1-foundations/m01-workshop.md
+    - "M02 — Prompt Engineering":
+      - Study Guide: tier-1-foundations/m02-prompt-engineering.md
+      - Workshop: tier-1-foundations/m02-workshop.md
+    - "M03 — Specs Are Source Code":
+      - Study Guide: tier-1-foundations/m03-specs-are-source-code.md
+      - Workshop: tier-1-foundations/m03-workshop.md
+    - "M04 — Context Engineering":
+      - Study Guide: tier-1-foundations/m04-context-engineering.md
+      - Workshop: tier-1-foundations/m04-workshop.md
+    - "M05 — Agents and MCP":
+      - Study Guide: tier-1-foundations/m05-agents-and-mcp.md
+      - Workshop: tier-1-foundations/m05-workshop.md
+  - "Tier 2: Mastery":
+    - Overview: tier-2-mastery/index.md
+    - "M06 — Tool Design":
+      - Study Guide: tier-2-mastery/m06-tool-design.md
+      - Workshop: tier-2-mastery/m06-workshop.md
+    - "M07 — Advanced Workflows":
+      - Study Guide: tier-2-mastery/m07-advanced-workflows.md
+      - Workshop: tier-2-mastery/m07-workshop.md
+    - "M08 — Security":
+      - Study Guide: tier-2-mastery/m08-security.md
+      - Workshop: tier-2-mastery/m08-workshop.md
+    - "M09 — Code Review":
+      - Study Guide: tier-2-mastery/m09-code-review.md
+      - Workshop: tier-2-mastery/m09-workshop.md
+    - "M10 — Agent Teams":
+      - Study Guide: tier-2-mastery/m10-agent-teams.md
+      - Workshop: tier-2-mastery/m10-workshop.md
+  - "Tier 3: Operations":
+    - Overview: tier-3-operations/index.md
+    - "M11 — Post-Deployment":
+      - Study Guide: tier-3-operations/m11-post-deployment.md
+      - Workshop: tier-3-operations/m11-workshop.md
+    - "M12 — CI/CD Integration":
+      - Study Guide: tier-3-operations/m12-cicd-integration.md
+      - Workshop: tier-3-operations/m12-workshop.md
+    - "M13 — Team Adoption":
+      - Study Guide: tier-3-operations/m13-team-adoption.md
+      - Workshop: tier-3-operations/m13-workshop.md
+    - "M14 — What's Next":
+      - Study Guide: tier-3-operations/m14-whats-next.md
+      - Workshop: tier-3-operations/m14-workshop.md
