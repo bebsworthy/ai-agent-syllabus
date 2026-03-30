@@ -1,4 +1,4 @@
-# AI-Augmented Development Masterclass
+# AI-Augmented Development Playbook
 
 ## Operationalizing Claude Code for Professional Teams
 

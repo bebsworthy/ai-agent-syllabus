@@ -1,4 +1,4 @@
-site_name: AI-Augmented Development Masterclass
+site_name: AI-Augmented Development Playbook
 site_url: https://agents.mnbv.dev
 site_description: Operationalizing Claude Code for professional teams — 14 modules across three tiers.
 site_author: Boyd
@@ -7,7 +7,7 @@ repo_url: https://github.com/bebsworthy/ai-agent-syllabus
 repo_name: bebsworthy/ai-agent-syllabus
 edit_uri: ""
 
-copyright: "&copy; 2026 Boyd &mdash; AI-Augmented Development Masterclass"
+copyright: "&copy; 2026 Boyd &mdash; AI-Augmented Development Playbook"
 
 theme:
   name: material

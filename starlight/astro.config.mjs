@@ -6,7 +6,7 @@ export default defineConfig({
 
   integrations: [
     starlight({
-      title: 'AI-Augmented Development Masterclass',
+      title: 'AI-Augmented Development Playbook',
       description: 'Operationalizing Claude Code for professional teams — 14 modules across three tiers.',
       tagline: 'Operationalizing Claude Code for Professional Teams',
 

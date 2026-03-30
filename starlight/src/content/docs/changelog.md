@@ -1,15 +1,15 @@
 ---
 title: Changelog
-description: "What's new and updated in the AI-Augmented Development Masterclass."
+description: "What's new and updated in the AI-Augmented Development Playbook."
 ---
 
-All notable changes to the masterclass curriculum are documented here.
+All notable changes to the playbook curriculum are documented here.
 
 ---
 
 ## 2026-03-30 — Syllabus Coverage Review
 
-Reviewed the draft Claude Code training plan (17 modules across 2 phases) against all 14 masterclass modules. Closed 14 structural gaps and 8 enrichment items to ensure comprehensive coverage of practical Claude Code usage.
+Reviewed the draft Claude Code training plan (17 modules across 2 phases) against all 14 playbook modules. Closed 14 structural gaps and 8 enrichment items to ensure comprehensive coverage of practical Claude Code usage.
 
 ### New Content
 
