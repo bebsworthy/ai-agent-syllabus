@@ -3,6 +3,12 @@ site_url: https://agents.mnbv.dev
 site_description: Operationalizing Claude Code for professional teams — 14 modules across three tiers.
 site_author: Boyd
 
+repo_url: https://github.com/bebsworthy/ai-agent-syllabus
+repo_name: bebsworthy/ai-agent-syllabus
+edit_uri: ""
+
+copyright: "&copy; 2026 Boyd &mdash; AI-Augmented Development Masterclass"
+
 theme:
   name: material
   palette:
@@ -23,41 +29,75 @@ theme:
   font:
     text: Inter
     code: JetBrains Mono
+  icon:
+    admonition:
+      abstract: material/lightbulb-on-outline
+      note: material/pencil-circle
+      tip: material/fire
+      warning: material/alert
+      info: material/information-outline
+      example: material/flask-outline
+      question: material/help-circle-outline
+      success: material/check-circle-outline
   features:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
     - navigation.expand
+    - navigation.path
     - navigation.footer
     - navigation.top
+    - navigation.instant
+    - navigation.instant.prefetch
+    - header.autohide
     - toc.follow
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.annotate
     - content.tabs.link
 
 plugins:
-  - search
+  - search:
+      lang: en
+  - tags
   - minify:
       minify_html: true
 
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - tables
   - attr_list
   - md_in_html
   - toc:
       permalink: true
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bebsworthy/ai-agent-syllabus
+      name: View source on GitHub
+
 nav:
   - Home: index.md
+  - Tags: tags.md
   - "Tier 1: Foundations":
     - Overview: tier-1-foundations/index.md
     - "M01 — How LLMs Work":

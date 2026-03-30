@@ -2,7 +2,8 @@
 """Generate docs/tier-*/ from masterclass/ source files.
 
 Run this before `mkdocs serve` or `mkdocs build`.
-The docs/index.md and docs/CNAME are manually maintained; everything else is generated.
+The docs/index.md, docs/tags.md and docs/CNAME are manually maintained;
+everything else is generated.
 """
 import re
 import sys
@@ -16,6 +17,39 @@ TIER_DIRS = {
     "Tier 1 - Foundations": "tier-1-foundations",
     "Tier 2 - Mastery": "tier-2-mastery",
     "Tier 3 - Operations and Scale": "tier-3-operations",
+}
+
+# Tags per destination filename
+MODULE_TAGS: dict[str, list[str]] = {
+    "index.md": [],  # tier overview pages — no extra tags
+    "m01-how-llms-work.md":       ["tier-1", "everyone", "theory"],
+    "m01-workshop.md":             ["tier-1", "everyone", "workshop"],
+    "m02-prompt-engineering.md":   ["tier-1", "everyone", "theory"],
+    "m02-workshop.md":             ["tier-1", "everyone", "workshop"],
+    "m03-specs-are-source-code.md":["tier-1", "everyone", "theory"],
+    "m03-workshop.md":             ["tier-1", "everyone", "workshop"],
+    "m04-context-engineering.md":  ["tier-1", "everyone", "theory"],
+    "m04-workshop.md":             ["tier-1", "everyone", "workshop"],
+    "m05-agents-and-mcp.md":       ["tier-1", "everyone", "theory"],
+    "m05-workshop.md":             ["tier-1", "everyone", "workshop"],
+    "m06-tool-design.md":          ["tier-2", "developers", "devops", "theory"],
+    "m06-workshop.md":             ["tier-2", "developers", "devops", "workshop"],
+    "m07-advanced-workflows.md":   ["tier-2", "developers", "devops", "theory"],
+    "m07-workshop.md":             ["tier-2", "developers", "devops", "workshop"],
+    "m08-security.md":             ["tier-2", "developers", "devops", "theory"],
+    "m08-workshop.md":             ["tier-2", "developers", "devops", "workshop"],
+    "m09-code-review.md":          ["tier-2", "developers", "devops", "theory"],
+    "m09-workshop.md":             ["tier-2", "developers", "devops", "workshop"],
+    "m10-agent-teams.md":          ["tier-2", "developers", "devops", "theory"],
+    "m10-workshop.md":             ["tier-2", "developers", "devops", "workshop"],
+    "m11-post-deployment.md":      ["tier-3", "devops", "tech-leads", "theory"],
+    "m11-workshop.md":             ["tier-3", "devops", "tech-leads", "workshop"],
+    "m12-cicd-integration.md":     ["tier-3", "devops", "tech-leads", "theory"],
+    "m12-workshop.md":             ["tier-3", "devops", "tech-leads", "workshop"],
+    "m13-team-adoption.md":        ["tier-3", "devops", "tech-leads", "theory"],
+    "m13-workshop.md":             ["tier-3", "devops", "tech-leads", "workshop"],
+    "m14-whats-next.md":           ["tier-3", "everyone", "theory"],
+    "m14-workshop.md":             ["tier-3", "everyone", "workshop"],
 }
 
 MODULE_DESC = {
@@ -73,7 +107,6 @@ def fix_links(content: str) -> str:
     """Rewrite internal .md links to use the new docs filenames."""
     def replace_link(m):
         text, url = m.group(1), m.group(2)
-        # Leave external links and anchor-only links alone
         if url.startswith("http") or url.startswith("#"):
             return m.group(0)
         path = Path(url)
@@ -89,12 +122,9 @@ def fix_links(content: str) -> str:
             return f"[{text}]({new_url})"
 
         new_name = source_to_dest(path.name)
-        # Replace the filename part in the url
         parent = path.parent
         new_url = str(parent / new_name) if str(parent) != "." else new_name
-        # Normalise Windows-style separators on macOS (shouldn't happen, but safe)
         new_url = new_url.replace("\\", "/")
-        # If link text was the old filename, make it nicer
         if text == path.name:
             text = new_name
         return f"[{text}]({new_url})"
@@ -110,13 +140,26 @@ def remove_manual_nav(content: str) -> str:
 
 def fix_broken_links(content: str) -> str:
     """Replace links that cannot be resolved on the web with plain text."""
-    # Local PDF files (e.g. ../../../CS146S .../file.pdf)
-    content = re.sub(
-        r'\[([^\]]+)\]\([^)]*\.pdf\)',
-        r'\1',
-        content,
-    )
+    content = re.sub(r'\[([^\]]+)\]\([^)]*\.pdf\)', r'\1', content)
     return content
+
+
+def convert_why_section(content: str) -> str:
+    """Convert ## Why This Module Matters sections into admonition callouts."""
+    def replace_section(m: re.Match) -> str:
+        body = m.group(1).rstrip()
+        indented = "\n".join(
+            "    " + line if line.strip() else ""
+            for line in body.splitlines()
+        )
+        return f'!!! abstract "Why This Module Matters"\n\n{indented}\n\n'
+
+    return re.sub(
+        r'^## Why This Module Matters\s*\n\n(.*?)(?=\n^## |\n^---)',
+        replace_section,
+        content,
+        flags=re.MULTILINE | re.DOTALL,
+    )
 
 
 def extract_title(content: str, fallback: str) -> str:
@@ -125,13 +168,16 @@ def extract_title(content: str, fallback: str) -> str:
     return m.group(1).strip() if m else fallback
 
 
-def add_frontmatter(content: str, title: str, description: str) -> str:
-    """Prepend YAML frontmatter."""
+def add_frontmatter(content: str, title: str, description: str, tags: list[str]) -> str:
+    """Prepend YAML frontmatter with title, description, and tags."""
     title_safe = title.replace('"', '\\"')
     desc_safe = description.replace('"', '\\"')
     fm = f'---\ntitle: "{title_safe}"\n'
     if description:
         fm += f'description: "{desc_safe}"\n'
+    if tags:
+        tag_list = "\n".join(f"  - {t}" for t in tags)
+        fm += f"tags:\n{tag_list}\n"
     fm += '---\n\n'
     return fm + content
 
@@ -139,15 +185,16 @@ def add_frontmatter(content: str, title: str, description: str) -> str:
 def process_file(src: Path, dest: Path) -> None:
     content = src.read_text(encoding="utf-8")
 
-    # Order matters: fix PDF links before general link rewriting
     content = fix_broken_links(content)
     content = fix_tier_prefixes(content)
     content = fix_links(content)
     content = remove_manual_nav(content)
+    content = convert_why_section(content)
 
     title = extract_title(content, dest.stem)
     description = MODULE_DESC.get(dest.name, "")
-    content = add_frontmatter(content, title, description)
+    tags = MODULE_TAGS.get(dest.name, [])
+    content = add_frontmatter(content, title, description, tags)
 
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(content, encoding="utf-8")
@@ -177,7 +224,7 @@ def main() -> None:
                 errors.append(f"{src_file}: {exc}")
 
     if errors:
-        print("\nErrors:")
+        print("\nErrors:", file=sys.stderr)
         for e in errors:
             print(f"  {e}", file=sys.stderr)
         sys.exit(1)
