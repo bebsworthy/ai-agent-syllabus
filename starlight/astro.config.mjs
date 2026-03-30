@@ -31,116 +31,32 @@ export default defineConfig({
           label: 'Tier 1: Foundations',
           items: [
             { label: 'Overview', slug: 'tier-1' },
-            {
-              label: 'M01 — How LLMs Work',
-              items: [
-                { label: 'Study Guide', slug: 'tier-1/m01-how-llms-work' },
-                { label: 'Workshop', slug: 'workshops/m01-workshop' },
-              ],
-            },
-            {
-              label: 'M02 — Prompt Engineering',
-              items: [
-                { label: 'Study Guide', slug: 'tier-1/m02-prompt-engineering' },
-                { label: 'Workshop', slug: 'workshops/m02-workshop' },
-              ],
-            },
-            {
-              label: 'M03 — Specs Are Source Code',
-              items: [
-                { label: 'Study Guide', slug: 'tier-1/m03-specs-are-source-code' },
-                { label: 'Workshop', slug: 'workshops/m03-workshop' },
-              ],
-            },
-            {
-              label: 'M04 — Context Engineering',
-              items: [
-                { label: 'Study Guide', slug: 'tier-1/m04-context-engineering' },
-                { label: 'Workshop', slug: 'workshops/m04-workshop' },
-              ],
-            },
-            {
-              label: 'M05 — Agents and MCP',
-              items: [
-                { label: 'Study Guide', slug: 'tier-1/m05-agents-and-mcp' },
-                { label: 'Workshop', slug: 'workshops/m05-workshop' },
-              ],
-            },
+            { label: 'M01 — How LLMs Work', slug: 'tier-1/m01-how-llms-work' },
+            { label: 'M02 — Prompt Engineering', slug: 'tier-1/m02-prompt-engineering' },
+            { label: 'M03 — Specs Are Source Code', slug: 'tier-1/m03-specs-are-source-code' },
+            { label: 'M04 — Context Engineering', slug: 'tier-1/m04-context-engineering' },
+            { label: 'M05 — Agents and MCP', slug: 'tier-1/m05-agents-and-mcp' },
           ],
         },
         {
           label: 'Tier 2: Mastery',
           items: [
             { label: 'Overview', slug: 'tier-2' },
-            {
-              label: 'M06 — Tool Design',
-              items: [
-                { label: 'Study Guide', slug: 'tier-2/m06-tool-design' },
-                { label: 'Workshop', slug: 'workshops/m06-workshop' },
-              ],
-            },
-            {
-              label: 'M07 — Advanced Workflows',
-              items: [
-                { label: 'Study Guide', slug: 'tier-2/m07-advanced-workflows' },
-                { label: 'Workshop', slug: 'workshops/m07-workshop' },
-              ],
-            },
-            {
-              label: 'M08 — Security',
-              items: [
-                { label: 'Study Guide', slug: 'tier-2/m08-security' },
-                { label: 'Workshop', slug: 'workshops/m08-workshop' },
-              ],
-            },
-            {
-              label: 'M09 — Code Review',
-              items: [
-                { label: 'Study Guide', slug: 'tier-2/m09-code-review' },
-                { label: 'Workshop', slug: 'workshops/m09-workshop' },
-              ],
-            },
-            {
-              label: 'M10 — Agent Teams',
-              items: [
-                { label: 'Study Guide', slug: 'tier-2/m10-agent-teams' },
-                { label: 'Workshop', slug: 'workshops/m10-workshop' },
-              ],
-            },
+            { label: 'M06 — Tool Design', slug: 'tier-2/m06-tool-design' },
+            { label: 'M07 — Advanced Workflows', slug: 'tier-2/m07-advanced-workflows' },
+            { label: 'M08 — Security', slug: 'tier-2/m08-security' },
+            { label: 'M09 — Code Review', slug: 'tier-2/m09-code-review' },
+            { label: 'M10 — Agent Teams', slug: 'tier-2/m10-agent-teams' },
           ],
         },
         {
           label: 'Tier 3: Operations',
           items: [
             { label: 'Overview', slug: 'tier-3' },
-            {
-              label: 'M11 — Post-Deployment',
-              items: [
-                { label: 'Study Guide', slug: 'tier-3/m11-post-deployment' },
-                { label: 'Workshop', slug: 'workshops/m11-workshop' },
-              ],
-            },
-            {
-              label: 'M12 — CI/CD Integration',
-              items: [
-                { label: 'Study Guide', slug: 'tier-3/m12-cicd-integration' },
-                { label: 'Workshop', slug: 'workshops/m12-workshop' },
-              ],
-            },
-            {
-              label: 'M13 — Team Adoption',
-              items: [
-                { label: 'Study Guide', slug: 'tier-3/m13-team-adoption' },
-                { label: 'Workshop', slug: 'workshops/m13-workshop' },
-              ],
-            },
-            {
-              label: "M14 — What's Next",
-              items: [
-                { label: 'Study Guide', slug: 'tier-3/m14-whats-next' },
-                { label: 'Workshop', slug: 'workshops/m14-workshop' },
-              ],
-            },
+            { label: 'M11 — Post-Deployment', slug: 'tier-3/m11-post-deployment' },
+            { label: 'M12 — CI/CD Integration', slug: 'tier-3/m12-cicd-integration' },
+            { label: 'M13 — Team Adoption', slug: 'tier-3/m13-team-adoption' },
+            { label: "M14 — What's Next", slug: 'tier-3/m14-whats-next' },
           ],
         },
       ],
