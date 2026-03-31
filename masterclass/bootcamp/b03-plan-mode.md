@@ -81,7 +81,7 @@ Claude has adjustable reasoning depth — use it:
 | `/effort low` | Less reasoning, faster responses | Simple edits, formatting, quick questions |
 | `/effort medium` | Default reasoning level | Most coding tasks |
 | `/effort high` | More reasoning per turn | Hard problems, subtle bugs |
-| "think hard" or "ultrathink" in prompt | Max reasoning for one turn | Genuinely hard problems |
+| `ultrathink` in prompt | High effort for one turn, then reverts | One-off hard problems without changing session effort |
 
 **Default to medium effort** (`/effort medium` is the default). Only dial up for problems where Claude's first attempt isn't good enough. Thinking costs tokens and time.
 
