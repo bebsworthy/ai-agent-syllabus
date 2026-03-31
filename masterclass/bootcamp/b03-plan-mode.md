@@ -79,12 +79,10 @@ Claude has adjustable reasoning depth — use it:
 |---------|-------------|-------------|
 | `Alt+T` | Toggle extended thinking on/off (run `/terminal-setup` first) | Complex debugging, architecture decisions |
 | `/effort low` | Less reasoning, faster responses | Simple edits, formatting, quick questions |
-| `/effort medium` | Default reasoning level | Most coding tasks |
 | `/effort high` | More reasoning per turn | Hard problems, subtle bugs |
-| `/effort max` | Maximum reasoning (Opus 4.6 only) | Hardest problems |
 | "think hard" or "ultrathink" in prompt | Max reasoning for one turn | Genuinely hard problems |
 
-**Default to medium effort** (`/effort medium` is the default). Only dial up for problems where Claude's first attempt isn't good enough. Thinking costs tokens and time.
+**Default effort is normal.** Only dial up for problems where Claude's first attempt isn't good enough. Thinking costs tokens and time.
 
 ### 6. Know when to skip Plan Mode
 
