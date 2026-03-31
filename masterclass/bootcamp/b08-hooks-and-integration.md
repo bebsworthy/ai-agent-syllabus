@@ -65,14 +65,16 @@ Hooks aren't limited to shell scripts:
 
 **MCP tool hooks** — trigger an MCP tool as a hook action.
 
-**The full event lifecycle:**
+**Common hook events** (Claude Code has 20+ events total — see the docs for the full list):
 
 | Event | When | Best for |
 |-------|------|----------|
 | `PreToolUse` | Before a tool executes | Block dangerous ops, validate inputs, run tests before commits |
 | `PostToolUse` | After a tool completes | Auto-lint, auto-format, post-edit validation |
+| `PostToolUseFailure` | After a tool fails | Error logging, rollback logic |
 | `Stop` | Session ends | Cleanup, notifications, summary logging |
 | `SessionStart` | Session begins | Load project setup, check environment |
+| `UserPromptSubmit` | When user submits a prompt | Logging, audit trails |
 
 ### 4. End-to-end: everything together (15 min)
 
@@ -115,16 +117,13 @@ Orchestrate multiple Claude instances working on the same codebase — one on fr
 Run prompts on a recurring schedule. `/loop 5m "check the deploy status"` polls every 5 minutes. `/schedule` creates cloud-based cron jobs that run without your terminal open.
 
 ### Headless mode & CI/CD
-Run Claude in your CI pipeline: `claude --headless --print "Review this PR for security issues"`. No interactive terminal needed. Works in GitHub Actions, GitLab CI, and any pipeline that can run a command.
+Run Claude in your CI pipeline: `claude -p "Review this PR for security issues"`. No interactive terminal needed. Works in GitHub Actions, GitLab CI, and any pipeline that can run a command.
 
 ### Channels
 Push events into a running Claude session from external systems — CI results, monitoring alerts, chat messages. Claude reacts while you're away.
 
 ### Computer use & Chrome
 Claude can control your screen (macOS), open apps, click buttons, fill forms. The Chrome integration lets Claude test web apps, debug UI issues, and extract data from web pages.
-
-### Remote control
-Start a session in your terminal, continue it from your phone via claude.ai/code. Or dispatch new sessions from mobile to your machine.
 
 ### Plugins
 Package skills, agents, hooks, and MCP servers into distributable plugins. Create and share plugin marketplaces within your organization.
@@ -141,4 +140,4 @@ Two working hooks (auto-lint + pre-commit tests). A completed end-to-end workflo
 
 [Playbook M07 — Advanced Workflows](/tier-2/m07-advanced-workflows/) for the full hook lifecycle, plugins, and agent teams. [Playbook M08 — Security](/tier-2/m08-security/) for security-reviewer subagents and prompt injection defense. [Playbook M12 — CI/CD](/tier-3/m12-cicd-integration/) for headless mode and pipeline integration.
 
-*You've completed the bootcamp. You have: a CLAUDE.md, Plan Mode + thinking controls, context management habits, daily workflow patterns, a custom skill, MCP connections, and automated quality hooks. For the full picture — theory, security, team adoption, CI/CD — see the [AI-Augmented Development Playbook](/tier-1/).*
+*Modules 1-8 are complete. You have: a CLAUDE.md, Plan Mode + thinking controls, context management habits, daily workflow patterns, a custom skill, MCP connections, and automated quality hooks. Modules 9-12 cover research patterns, verification, multi-agent orchestration, and adversarial review — don't skip them. For the full picture — theory, security, team adoption, CI/CD — see the [AI-Augmented Development Playbook](/tier-1/).*

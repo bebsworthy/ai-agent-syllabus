@@ -77,8 +77,9 @@ Claude merges CLAUDE.md files from multiple locations:
 |----------|-------|---------|
 | `~/.claude/CLAUDE.md` | Global — all your projects | No (personal) |
 | `project-root/CLAUDE.md` | Project-wide — team conventions | Yes, commit to git |
-| `project-root/.claude/CLAUDE.md` | Project-specific, personal | No (gitignored) |
+| `project-root/.claude/CLAUDE.md` | Project-specific — team conventions | Yes, commit to git |
 | Any subdirectory `CLAUDE.md` | Active when working in that directory | Yes |
+| `project-root/.claude/settings.local.json` | Local settings and hooks | No (gitignored by default) |
 
 ### 5. Path-specific rules
 
@@ -87,14 +88,15 @@ For conventions that only apply to certain files, use `.claude/rules/` with glob
 ```text
 # .claude/rules/api-routes.md
 ---
-globs: src/api/**/*.ts
+paths:
+  - "src/api/**/*.ts"
 ---
 All API routes must validate input with zod schemas.
 Return standardized error responses: { error: string, code: number }.
 Never throw raw exceptions — always catch and wrap.
 ```
 
-This only loads when Claude is working on files matching the glob — zero context cost otherwise.
+This only loads when Claude is working on files matching the path pattern — zero context cost otherwise.
 
 ### 6. Commit it
 

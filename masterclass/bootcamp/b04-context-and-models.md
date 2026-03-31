@@ -10,14 +10,15 @@ sidebar:
 
 ## How Context Works
 
-Everything Claude knows during a session lives in one place: the **context window**. It's a fixed-size buffer (up to 1M tokens on paid plans) that holds everything:
+Everything Claude knows during a session lives in one place: the **context window**. It's a fixed-size buffer (**200K tokens by default**; 1M tokens on Max, Team, and Enterprise plans via opt-in) that holds everything:
 
 ```text
 ┌─────────────────────────────────────────────┐
 │ System prompt           (~2K tokens, fixed)  │
 │ CLAUDE.md               (always loaded)      │
 │ Tool descriptions       (MCP + built-in)     │
-│ Memory files            (~/.claude/memory/)   │
+│ Memory index            (~/.claude/MEMORY.md) │
+│ Memory topic files      (loaded on demand)    │
 │ ─────────────────────────────────────────── │
 │ Conversation history    (grows with usage)    │
 │ Tool outputs            (file reads, search   │
@@ -141,7 +142,7 @@ Run `/context` before and after. Your context barely grew, but you have a comple
 :::
 
 Different subagent types exist:
-- **Explore agents** — fast, read-only, use Haiku model (cheap). Good for "find X" tasks
+- **Explore agents** — fast, read-only, typically use Haiku by default (configurable via `CLAUDE_CODE_SUBAGENT_MODEL`). Good for "find X" tasks
 - **General agents** — full tool access, same model as you. Good for complex research
 - **Plan agents** — read-only research for planning
 
@@ -151,8 +152,8 @@ Models are a cost/quality/speed tradeoff:
 
 | Command | Cost | When to use |
 |---------|------|-------------|
-| `/model sonnet` | ~$3/1M tokens | 80% of daily work — fast, good enough |
-| `/model opus` | ~$15/1M tokens | Complex debugging, architecture, subtle bugs |
+| `/model sonnet` | See [anthropic.com/pricing](https://anthropic.com/pricing) | 80% of daily work — fast, good enough |
+| `/model opus` | Higher than Sonnet | Complex debugging, architecture, subtle bugs |
 | `/effort low` | Less reasoning | Simple edits, formatting, quick answers |
 | `/effort high` | More reasoning | Hard problems, multi-step logic |
 
@@ -166,7 +167,7 @@ Sonnet handles most tasks. Switch to Opus when Claude's first attempt isn't good
 |---------|-------------|
 | `/btw [question]` | Ask a side question with **no context cost** — doesn't pollute your session |
 | `/cost` | See real-time token spend for this session |
-| `--max-budget-usd 5` | Set a cost cap for the session (CLI flag) |
+| `--max-budget-usd 5` | Set a cost cap **(print mode only)** — use as `claude -p --max-budget-usd 5 "query"` |
 | `/fork` | Branch the conversation — try two approaches without losing either |
 
 :::note[Why this matters]{icon="magnifier"}

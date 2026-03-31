@@ -38,7 +38,7 @@ Write comprehensive tests for src/services/auth.ts. Cover happy paths, edge case
 
 **The key phrase is "Run the tests and fix any failures"** — this creates a feedback loop. Claude writes tests, runs them, sees failures, fixes them. Without this, you get tests that look right but don't pass.
 
-**For TDD-style iteration:** Use `/loop` to watch tests continuously:
+**For TDD-style iteration:** Use `/loop` (a bundled skill) to watch tests continuously:
 ```text
 /loop 30s Run the tests for auth.ts and fix any failures
 ```
@@ -51,7 +51,7 @@ Use Plan Mode (`Shift+Tab`) for this one:
 Refactor src/utils/ to eliminate code duplication. Flag functions with >70% similarity and propose shared utilities. Don't change any public APIs.
 ```
 
-Review the plan before execution. For large refactors across many files, use `/batch`:
+Review the plan before execution. For large refactors across many files, use `/batch` (a bundled skill):
 
 ```text
 /batch Rename all instances of userId to accountId across the codebase, updating types, tests, and imports.
@@ -136,7 +136,7 @@ Review the changes in the last 3 commits. Look for: missing error handling, pote
 | `/remote-control` | Continue this session from your phone via claude.ai/code |
 
 :::note[Why this matters]{icon="star"}
-These six workflows cover 90%+ of daily Claude Code usage. The difference between a beginner and a power user isn't the prompts — it's knowing when to delegate, when to rewind, when to escalate reasoning, and when to use parallel execution.
+These seven workflows cover 90%+ of daily Claude Code usage. The difference between a beginner and a power user isn't the prompts — it's knowing when to delegate, when to rewind, when to escalate reasoning, and when to use parallel execution.
 :::
 
 ## Artifact
@@ -147,4 +147,4 @@ At least 3 completed workflow runs on your real codebase. A sense of which patte
 
 [Playbook M02 — Prompt Engineering](/tier-1/m02-prompt-engineering/) for named techniques (zero-shot, few-shot, chain-of-thought) and the research behind them. [Playbook M09 — Code Review](/tier-2/m09-code-review/) for the Writer/Reviewer pattern.
 
-*You're productive now. Modules 6-8 add power-user capabilities — skills, MCP connections, and hooks. Do them when you're ready to level up.*
+*Modules 6-8 add power-user capabilities — skills, MCP connections, and hooks. Modules 9-12 cover research patterns, verification, multi-agent orchestration, and adversarial review — essential for production use.*

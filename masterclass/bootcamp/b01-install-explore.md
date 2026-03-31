@@ -72,14 +72,13 @@ Try each of these now:
 
 | Command | What it does |
 |---|---|
-| `Shift+Tab` | Cycle permission modes: Normal → Plan Mode → Auto-Accept |
+| `Shift+Tab` | Cycle permission modes: Normal → Auto-Accept Edits → Plan Mode |
 | `Ctrl+O` | Toggle verbose/transcript output |
 | `Ctrl+R` | Reverse search conversation history |
 | `Ctrl+G` | Open prompt in external editor |
 | `\` + `Enter` or `Ctrl+J` | Insert a newline |
 | `Esc` | Stop Claude mid-generation (keeps context) |
 | `Esc` `Esc` | Rewind to a previous checkpoint (undo changes) |
-| `#` | Create a memory (persistent context across sessions) |
 | `!command` | Run a shell command inline — output goes into context so Claude can see it |
 | `@file` | Add a file or folder to context with autocomplete |
 | `/command` | Slash commands (e.g. `/vibe`, `/context`, `/help`) |
@@ -89,8 +88,10 @@ Try each of these now:
 `Shift+Tab` cycles through three modes that control how much autonomy Claude has:
 
 - **Normal** — Claude asks permission for edits and commands (start here)
-- **Plan Mode** — Claude can only read and plan, not edit (Module 3)
-- **Auto-Accept** — Claude executes without asking (use once you trust the plan)
+- **Auto-Accept Edits** (`acceptEdits`) — Claude edits files without asking, but still asks before running shell commands
+- **Plan Mode** — Claude can only read and plan, not write files or run shell commands (Module 3)
+
+Full auto-accept (`bypassPermissions`) requires `--allow-dangerously-skip-permissions` or `--enable-auto-mode` and is not in the default Shift+Tab cycle.
 
 ### Power moves
 

@@ -6,7 +6,7 @@ sidebar:
   order: 11
 ---
 
-**40 minutes | You need: modules 1-9 completed, familiarity with skills and subagents**
+**40 minutes | You need: modules 1-10 completed, familiarity with skills and subagents**
 
 ## The Shift
 

@@ -10,7 +10,7 @@ sidebar:
 
 ## How Planning Works
 
-Most AI coding failures aren't bad code — they're solving the wrong problem. Plan Mode forces Claude into read-only: it can explore your codebase and reason about approach, but it **cannot edit files or run commands**. This means you review the strategy before any code is written.
+Most AI coding failures aren't bad code — they're solving the wrong problem. Plan Mode forces Claude into read-only: it can explore your codebase and reason about approach, but it **cannot write files or run shell commands**. This means you review the strategy before any code is written.
 
 The workflow: **Plan → Review → Execute**. Mistakes caught at the spec level cost minutes. Mistakes caught in code cost hours.
 
@@ -69,7 +69,7 @@ Once satisfied, exit Plan Mode (`Shift+Tab`) and:
 This plan looks good. Execute it.
 ```
 
-Or go straight to Auto-Accept mode (`Shift+Tab` again) if you trust the plan fully. The pipeline: **Plan Mode → Normal → Auto-Accept** — increasing autonomy as your confidence grows.
+Or switch to Auto-Accept Edits mode (`Shift+Tab` again) if you trust the plan fully. The pipeline: **Plan Mode → Normal → Auto-Accept Edits** — increasing autonomy as your confidence grows.
 
 ### 5. Thinking controls
 
@@ -77,12 +77,14 @@ Claude has adjustable reasoning depth — use it:
 
 | Control | What it does | When to use |
 |---------|-------------|-------------|
-| `Alt+T` | Toggle extended thinking on/off | Complex debugging, architecture decisions |
-| `/effort high` | More reasoning per turn | Hard problems, subtle bugs |
+| `Alt+T` | Toggle extended thinking on/off (run `/terminal-setup` first) | Complex debugging, architecture decisions |
 | `/effort low` | Less reasoning, faster responses | Simple edits, formatting, quick questions |
+| `/effort medium` | Default reasoning level | Most coding tasks |
+| `/effort high` | More reasoning per turn | Hard problems, subtle bugs |
+| `/effort max` | Maximum reasoning (Opus 4.6 only) | Hardest problems |
 | "think hard" or "ultrathink" in prompt | Max reasoning for one turn | Genuinely hard problems |
 
-**Default to normal effort.** Only dial up for problems where Claude's first attempt isn't good enough. Thinking costs tokens and time.
+**Default to medium effort** (`/effort medium` is the default). Only dial up for problems where Claude's first attempt isn't good enough. Thinking costs tokens and time.
 
 ### 6. Know when to skip Plan Mode
 

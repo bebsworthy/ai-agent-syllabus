@@ -49,7 +49,7 @@ Claude queries Context7, gets the current docs for that specific feature and ver
 
 **To install:**
 ```bash
-claude mcp add context7 -- npx -y @anthropic-ai/context7-mcp@latest
+claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
 ```
 
 :::tip[Context7 vs local docs — when to use which]
