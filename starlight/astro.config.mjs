@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightClientMermaid from '@pasqal-io/starlight-client-mermaid';
 
 export default defineConfig({
   site: 'https://agents.mnbv.dev',
 
   integrations: [
     starlight({
+      plugins: [starlightClientMermaid()],
       title: 'AI-Augmented Development Playbook',
       description: 'Operationalizing Claude Code for professional teams — 14 modules across three tiers.',
       tagline: 'Operationalizing Claude Code for Professional Teams',
@@ -36,11 +38,11 @@ export default defineConfig({
             { label: '03 — Plan Before You Build', slug: 'bootcamp/b03-plan-mode' },
             { label: '04 — Context is Everything', slug: 'bootcamp/b04-context-and-models' },
             { label: '05 — Daily Workflows', slug: 'bootcamp/b05-daily-workflows' },
-            { label: '06 — Build Your First Skill', slug: 'bootcamp/b06-first-skill' },
-            { label: '07 — Connect Your Tools', slug: 'bootcamp/b07-mcp-connections' },
-            { label: '08 — Hooks and Integration', slug: 'bootcamp/b08-hooks-and-integration' },
-            { label: '09 — Research and Docs', slug: 'bootcamp/b09-research-and-docs' },
-            { label: '10 — Don\'t Trust, Verify', slug: 'bootcamp/b10-dont-trust-verify' },
+            { label: '06 — Research and Docs', slug: 'bootcamp/b06-research-and-docs' },
+            { label: '07 — Don\'t Trust, Verify', slug: 'bootcamp/b07-dont-trust-verify' },
+            { label: '08 — Build Your First Skill', slug: 'bootcamp/b08-first-skill' },
+            { label: '09 — Connect Your Tools', slug: 'bootcamp/b09-mcp-connections' },
+            { label: '10 — Hooks and Integration', slug: 'bootcamp/b10-hooks-and-integration' },
             { label: '11 — Everything Everywhere', slug: 'bootcamp/b11-everything-everywhere' },
             { label: '12 — Adversarial Agents', slug: 'bootcamp/b12-adversarial-agents' },
           ],
