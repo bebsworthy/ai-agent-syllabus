@@ -81,7 +81,7 @@ Try each of these now:
 | `Esc` `Esc` | Rewind to a previous checkpoint (undo changes) |
 | `!command` | Run a shell command inline — output goes into context so Claude can see it |
 | `@file` | Add a file or folder to context with autocomplete |
-| `/command` | Slash commands (e.g. `/vibe`, `/context`, `/help`) |
+| `/command` | Slash commands (e.g. `/clear`, `/context`, `/help`) |
 
 ### Permission modes matter
 
@@ -91,7 +91,7 @@ Try each of these now:
 - **Auto-Accept Edits** (`acceptEdits`) — Claude edits files without asking, but still asks before running shell commands
 - **Plan Mode** — Claude can only read and plan, not write files or run shell commands (Module 3)
 
-Full auto-accept (`bypassPermissions`) requires `--allow-dangerously-skip-permissions` or `--enable-auto-mode` and is not in the default Shift+Tab cycle.
+Full auto-accept (`bypassPermissions`) requires `--dangerously-skip-permissions` (or `--allow-dangerously-skip-permissions` to enable it as an option) and is not in the default Shift+Tab cycle.
 
 ### Power moves
 
