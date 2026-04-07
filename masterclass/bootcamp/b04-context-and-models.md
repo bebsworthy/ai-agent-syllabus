@@ -69,7 +69,7 @@ The tokens consumed before you've typed anything is your **baseline cost**. Ever
 
 ### 2. Understand the context tax of tools
 
-Every MCP server you connect adds tool descriptions to your context. A typical MCP server adds 10-50 tools, each with a description. Ten MCP servers can consume **thousands of tokens** of your window before you've asked a single question.
+Every MCP server you connect adds tool descriptions to your context. A typical MCP server adds 10-50 tools, each with a description. Ten MCP servers can consume **tens of thousands of tokens** of your window before you've asked a single question.
 
 **Tool Search** (automatic on Sonnet 4+ and Opus 4+) helps by lazy-loading tool descriptions only when they seem relevant. But each search query still costs tokens — it's not free, just deferred.
 

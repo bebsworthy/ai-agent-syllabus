@@ -49,11 +49,7 @@ If there's a command that can verify the output, include it in your prompt. Ever
 
 When Claude finishes a task, it summarizes what it did. That summary is Claude's understanding of what it did — which may differ from what it actually did. Always read the actual changes:
 
-```text
-Show me the diff of everything you changed.
-```
-
-Or better — review in your editor where you have syntax highlighting, blame context, and the ability to spot patterns Claude can't describe.
+Review in your editor where you have syntax highlighting, blame context, and the ability to spot patterns Claude can't describe.
 
 **What to look for in diffs:**
 - Files changed that shouldn't have been (scope creep)
@@ -126,6 +122,13 @@ Write a coverage matrix to docs/auth-verification.md.
 
 :::note[Why independent context matters]
 If the checking agent sees the same conversation that produced the code, it inherits the same assumptions and blind spots. A fresh agent with only the spec and the code provides genuinely independent verification — it's the difference between proofreading your own writing and having someone else read it.
+:::
+
+
+:::tip[Pro tip]
+Use another LLM model to cross-check. Each model has different internal bias and can provide a different perspective.
+
+Gemini or GPT will often find issues that Claude is unable to find and vice versa.
 :::
 
 ### 6. Incremental verification

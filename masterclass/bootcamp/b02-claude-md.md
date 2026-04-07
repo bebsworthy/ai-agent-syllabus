@@ -57,7 +57,7 @@ With this in CLAUDE.md:
 - Run: `pnpm test`
 ```
 
-Now Claude gets it right the first time, every time.
+Now Claude gets it right the first time, every time (mostly).
 
 ### 3. Test it
 
@@ -79,7 +79,7 @@ Claude merges CLAUDE.md files from multiple locations:
 | `project-root/CLAUDE.md` | Project-wide — team conventions | Yes, commit to git |
 | `project-root/.claude/CLAUDE.md` | Project-specific — team conventions | Yes, commit to git |
 | Any subdirectory `CLAUDE.md` | Active when working in that directory | Yes |
-| `project-root/.claude/settings.local.json` | Local settings and hooks | No (gitignored by default) |
+| `project-root/.claude/settings.local.json` | Local settings and hooks | No (add to .gitignore) |
 
 ### 5. Path-specific rules
 
@@ -89,7 +89,7 @@ For conventions that only apply to certain files, use `.claude/rules/` with glob
 # .claude/rules/api-routes.md
 ---
 paths:
-  - "src/api/**/*.ts"
+  - "src/api/**/*.{ts,py}"
 ---
 All API routes must validate input with zod schemas.
 Return standardized error responses: { error: string, code: number }.

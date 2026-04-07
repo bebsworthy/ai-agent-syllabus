@@ -12,7 +12,7 @@ sidebar:
 
 Up to now you've been using Claude as a conversation partner — ask a question, get an answer, ask a follow-up. That works for daily tasks. But there's a fundamentally different way to use Claude: **treat natural language as a programming language for agents.**
 
-Instead of chatting, you write structured instructions — sequential steps, conditional logic, input/output contracts, parallel fan-outs, convergence points. The agent doesn't improvise; it executes a program you wrote in English. The skill file becomes your source code. The agents become your runtime.
+Instead of chatting, you write structured instructions — sequential steps, conditional logic, input/output contracts, parallel fan-outs, convergence points. The agent doesn't improvise (too much); it executes a program you wrote in English. The skill file becomes your source code. The agents become your runtime.
 
 This is how production-grade multi-agent systems work. We'll use a real one as our case study: a **technical grooming skill** that takes a vague issue tracker ticket and produces a complete technical analysis — architecture impact, blockers, estimation, test plan — by orchestrating 12 specialized agents across 8 phases.
 

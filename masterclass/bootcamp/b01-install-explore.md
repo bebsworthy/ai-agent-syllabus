@@ -12,10 +12,12 @@ sidebar:
 
 Before you type anything, understand the engine. Claude Code is an **agentic loop**: you give a prompt, Claude decides which tools to use (read files, search code, run commands, edit files), executes them, reads the results, and decides next steps. It repeats until the task is done or it needs your input.
 
+:::note[Claude has no memory]{icon="information"}
 There is no pre-indexing, no background embedding, no project database. Claude reads your codebase on-demand using filesystem tools (Glob for finding files, Grep for searching content, Read for reading them). This means:
 - First prompt in a new session is slower (Claude is mapping your project)
 - Claude only knows what it has read — it can miss things in files it hasn't opened
 - Your first exploratory question builds context that improves everything after
+:::
 
 This matters because **context is finite**. Every file Claude reads, every tool output, every message — it all consumes tokens from a shared window. You'll learn to manage this in Module 4. For now, just know: Claude is not omniscient, it's an agent that reads and acts.
 
