@@ -1,9 +1,9 @@
 ---
-title: "07: MCP & External Tools"
+title: "09: MCP & External Tools"
 description: "Connect Claude to GitHub, databases, and other systems — with full awareness of the context cost tradeoff."
 sidebar:
-  label: "07: MCP & Tools"
-  order: 7
+  label: "09: MCP & Tools"
+  order: 9
 ---
 
 **35 minutes | You need: GitHub access (or another external tool)**

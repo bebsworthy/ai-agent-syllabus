@@ -1,9 +1,9 @@
 ---
-title: "06: Skills & the Marketplace"
+title: "08: Skills & the Marketplace"
 description: "Discover existing skills, understand skill anatomy, and build your own — with full awareness of context cost and security."
 sidebar:
-  label: "06: Skills & Marketplace"
-  order: 6
+  label: "08: Skills & Marketplace"
+  order: 8
 ---
 
 **35 minutes | You need: a task you repeat at least weekly**

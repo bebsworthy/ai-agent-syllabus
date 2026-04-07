@@ -27,11 +27,11 @@ Each module starts with a brief **"how it works"** mental model, then goes deep 
 | 4 | [Context Engineering](/bootcamp/b04-context-and-models/) | 30 min | Context management practice + model selection |
 | 5 | [Daily Workflows](/bootcamp/b05-daily-workflows/) | 30 min | 7 workflow patterns on your real codebase |
 | | *You're productive now. Take a break or keep going.* | | |
-| 6 | [Skills & Marketplace](/bootcamp/b06-first-skill/) | 35 min | Custom skill + marketplace awareness |
-| 7 | [MCP & External Tools](/bootcamp/b07-mcp-connections/) | 35 min | 2 MCP connections + CLI-vs-MCP judgment |
-| 8 | [Hooks & Beyond](/bootcamp/b08-hooks-and-integration/) | 35 min | 2 hooks + end-to-end workflow + what's next |
-| 9 | [Research & Docs](/bootcamp/b09-research-and-docs/) | 35 min | Local reference docs + diamond research pattern |
-| 10 | [Don't Trust, Verify](/bootcamp/b10-dont-trust-verify/) | 30 min | Verification patterns that catch mistakes before they ship |
+| 6 | [Research & Docs](/bootcamp/b06-research-and-docs/) | 35 min | Local reference docs + diamond research pattern |
+| 7 | [Don't Trust, Verify](/bootcamp/b07-dont-trust-verify/) | 30 min | Verification patterns that catch mistakes before they ship |
+| 8 | [Skills & Marketplace](/bootcamp/b08-first-skill/) | 35 min | Custom skill + marketplace awareness |
+| 9 | [MCP & External Tools](/bootcamp/b09-mcp-connections/) | 35 min | 2 MCP connections + CLI-vs-MCP judgment |
+| 10 | [Hooks & Beyond](/bootcamp/b10-hooks-and-integration/) | 35 min | 2 hooks + end-to-end workflow + what's next |
 | 11 | [Everything Everywhere All at Once](/bootcamp/b11-everything-everywhere/) | 40 min | Multi-agent workflow design using 8 production patterns |
 | 12 | [Fun with Adversarial Agents](/bootcamp/b12-adversarial-agents/) | 30 min | GAN-style adversarial code review with competing agents |
 

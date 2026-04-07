@@ -25,8 +25,12 @@ I'm getting this error: [paste error]. Trace through the codebase, find the root
 **Claude-specific techniques:**
 - Start in Plan Mode (`/plan`) for non-obvious bugs. Claude will investigate and reason before touching code — you review the diagnosis before any edit happens.
 - If the fix is wrong, press `Esc Esc` to rewind to the checkpoint before the edit. Try a different approach without losing your conversation.
-- For subtle bugs, add "think hard" to your prompt — it allocates more reasoning depth for that turn.
+- For subtle bugs, add **ultrathink** to your prompt — it allocates more reasoning depth for that turn.
 - If Claude is going in circles, try `/effort high` to bump reasoning for subsequent turns.
+
+:::tip[When all else fail /clear]
+Long debugging session will pollute the context. Instead of running in circle ask claude to summarize the issue, what was done and what failed and to save it to tmp/DEBUG.md, then `/clear` the session and restart fresh with `@tmp/DEBUG.md`
+:::
 
 ### Scenario 2: Write tests (5 min)
 
@@ -67,7 +71,7 @@ After any of the above:
 Commit these changes with a descriptive message, push to a new branch, and create a PR with a summary of what changed and why.
 ```
 
-Claude handles staging, committing, branching, and PR creation in one go. If you have GitHub MCP connected (Module 7), it uses that. If not, it falls back to the `gh` CLI — both work.
+Claude handles staging, committing, branching, and PR creation in one go. If you have GitHub MCP connected (Module 9), it uses that. If not, it falls back to the `gh` CLI — both work.
 
 ### Scenario 5: Parallel work with worktrees (5 min)
 
@@ -122,7 +126,7 @@ Review the changes in the last 3 commits. Look for: missing error handling, pote
 | **Feedback loop** | "Run tests and fix failures" | Claude self-corrects instead of guessing |
 | **Constraint** | "Don't change any public APIs" | Prevents scope creep |
 | **Delegation** | "Use a subagent to research X" | Saves your context for the actual work |
-| **Escalation** | "think hard about this" | More reasoning depth for one turn |
+| **Escalation** | "ultrathink about this" | More reasoning depth for one turn |
 | **Checkpoint** | `Esc Esc` after a bad edit | Undo without losing conversation |
 
 ## Session management

@@ -1,12 +1,12 @@
 ---
-title: "08: Hooks, Automation & What's Next"
+title: "10: Hooks, Automation & What's Next"
 description: "Add automatic quality gates, run an end-to-end workflow, and see the features waiting beyond this bootcamp."
 sidebar:
-  label: "08: Hooks & Beyond"
-  order: 8
+  label: "10: Hooks & Beyond"
+  order: 10
 ---
 
-**35 minutes | You need: everything from modules 1-7**
+**35 minutes | You need: everything from modules 1-9**
 
 ## How Hooks Work
 
@@ -90,9 +90,9 @@ Your context stays clean (Module 4).
 
 **3. Execute** — Exit Plan Mode. Let Claude implement with your CLAUDE.md guiding conventions (Module 2). Hooks auto-lint on every write.
 
-**4. Review with a skill** — Run `/simplify` or your custom review skill (Module 6). It runs in a subagent — your context stays clean.
+**4. Review with a skill** — Run `/simplify` or your custom review skill (Module 8). It runs in a subagent — your context stays clean.
 
-**5. Ship** — Claude creates the PR via GitHub MCP or `gh` CLI (Module 7). Tests run before commit (your safety hook).
+**5. Ship** — Claude creates the PR via GitHub MCP or `gh` CLI (Module 9). Tests run before commit (your safety hook).
 
 **6. Read the diff** — Before merging, review what changed and why.
 

@@ -1,12 +1,12 @@
 ---
-title: "10: Don't Trust, Verify"
+title: "07: Don't Trust, Verify"
 description: "Claude is confident, articulate, and wrong more often than you'd like. Learn the verification patterns that catch mistakes before they ship."
 sidebar:
-  label: "10: Don't Trust & Verify"
-  order: 10
+  label: "07: Don't Trust & Verify"
+  order: 7
 ---
 
-**30 minutes | You need: a codebase with tests, modules 1-9 completed**
+**30 minutes | You need: a codebase with tests, modules 1-6 completed**
 
 ## The Problem
 
@@ -39,7 +39,7 @@ The "run them and fix any failures" part is the verification. Without it, Claude
 | Refactoring | "Run the full test suite to confirm nothing broke" |
 | Build changes | "Build the project and fix any errors" |
 | Type changes | "Run the type checker" |
-| Linting | "Run the linter" (or use a hook — Module 8) |
+| Linting | "Run the linter" (or use a hook — Module 10) |
 
 :::tip[The golden rule]
 If there's a command that can verify the output, include it in your prompt. Every time. Claude's self-assessment of its own code is unreliable. `npm test` is not.
@@ -70,7 +70,7 @@ Show me where in the code that parameter is defined.
 :::note[Hallucination hot spots]
 Claude is most likely to hallucinate about:
 - **Function signatures** it hasn't read in this session (relying on training data)
-- **Library APIs** that changed after the knowledge cutoff (Module 9)
+- **Library APIs** that changed after the knowledge cutoff (Module 6)
 - **Configuration options** that sound plausible but don't exist
 - **Database schemas** it inferred from code patterns but didn't verify against the actual schema
 - **Environment variables** it assumes exist based on naming conventions
@@ -166,7 +166,7 @@ This isn't about distrust — it's about using Claude's tools to verify Claude's
 The patterns above aren't one-off techniques — they should be baked into your daily practice:
 
 1. **CLAUDE.md** — add verification commands for common tasks (test command, build command, type checker)
-2. **Hooks** (Module 8) — auto-run linter on every write, tests before every commit
+2. **Hooks** (Module 10) — auto-run linter on every write, tests before every commit
 3. **Skills** — build review skills that cross-check with `context: fork` for independent context
 4. **Prompts** — always include "run the tests" / "show me the diff" in multi-step tasks
 

@@ -30,11 +30,11 @@ Each module starts with a **"how it works"** mental model (2-3 paragraphs, not a
 | 4 | [Context Engineering](b04-context-and-models.md) | 30 min | Context management practice + model selection |
 | 5 | [Daily Workflows](b05-daily-workflows.md) | 30 min | 7 workflow patterns on your real codebase |
 | | *You're productive now. Take a break or keep going.* | | |
-| 6 | [Skills & Marketplace](b06-first-skill.md) | 35 min | Custom skill + marketplace awareness |
-| 7 | [MCP & External Tools](b07-mcp-connections.md) | 35 min | 2 MCP connections + CLI-vs-MCP judgment |
-| 8 | [Hooks & Beyond](b08-hooks-and-integration.md) | 35 min | 2 hooks + end-to-end workflow + what's next |
-| 9 | [Research & Docs](b09-research-and-docs.md) | 35 min | Local reference docs + diamond research pattern |
-| 10 | [Don't Trust, Verify](b10-dont-trust-verify.md) | 30 min | Verification patterns that catch mistakes before they ship |
+| 6 | [Research & Docs](b06-research-and-docs.md) | 35 min | Local reference docs + diamond research pattern |
+| 7 | [Don't Trust, Verify](b07-dont-trust-verify.md) | 30 min | Verification patterns that catch mistakes before they ship |
+| 8 | [Skills & Marketplace](b08-first-skill.md) | 35 min | Custom skill + marketplace awareness |
+| 9 | [MCP & External Tools](b09-mcp-connections.md) | 35 min | 2 MCP connections + CLI-vs-MCP judgment |
+| 10 | [Hooks & Beyond](b10-hooks-and-integration.md) | 35 min | 2 hooks + end-to-end workflow + what's next |
 | 11 | [Everything Everywhere All at Once](b11-everything-everywhere.md) | 40 min | Multi-agent workflow design using 8 production patterns |
 | 12 | [Fun with Adversarial Agents](b12-adversarial-agents.md) | 30 min | GAN-style adversarial code review with competing agents |
 

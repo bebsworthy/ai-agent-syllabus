@@ -40,16 +40,6 @@ The symptoms:
 2. Claude **mixes up files** from different parts of the conversation
 3. Claude **applies conventions from a previous task** that don't apply now
 
-:::caution[Test output is the worst offender]
-A single test suite run can dump hundreds of lines into your context — passing test names, progress bars, coverage tables, stack traces for unrelated failures. Most of it is noise. Configure a test reporter that only outputs failures, or pipe through a filter: `npm test 2>&1 | grep -A 5 FAIL`. Claude will often try to do this itself, but baking it into your CLAUDE.md test command guarantees it:
-
-```text
-## Testing
-- Run: `pnpm test -- --reporter=dot 2>&1 | grep -A 10 FAIL`
-```
-
-This one line in your CLAUDE.md can save thousands of tokens per test cycle.
-:::
 
 Context engineering is the art of the tradeoff: Claude needs enough context to do the job right (relevant code, conventions, tool access) but every token you add leaves less room for reasoning. Too little context and Claude guesses wrong. Too much and Claude drowns in noise, forgets instructions, and loses coherence. The goal is **the minimum context that produces the maximum quality output**.
 
@@ -82,7 +72,7 @@ A skill that wraps a CLI tool is almost always better than an MCP server for the
 | Skill wrapping CLI (`gh`, `aws`, `docker`) | ~100 tokens (name + description only) | Tool has a good CLI |
 | MCP server | Hundreds to thousands of tokens | No CLI exists, needs persistent connection, or needs structured I/O |
 
-You'll build skills in Module 6. For now, remember: fewer MCP servers = more room for actual work.
+You'll build skills in Module 8. For now, remember: fewer MCP servers = more room for actual work.
 
 ### 3. Compact with intent
 
@@ -177,6 +167,17 @@ Context is the single biggest lever on output quality. A Claude with 50% free co
 ## Artifact
 
 A context management practice: check `/context` regularly, compact with focus at breakpoints, delegate research to subagents, and match model to task difficulty.
+
+:::tip[Pro tip]
+A single test suite run can dump hundreds of lines into your context — passing test names, progress bars, coverage tables, stack traces for unrelated failures. Most of it is noise. Configure a test reporter that only outputs failures, or pipe through a filter: `npm test 2>&1 | grep -A 5 FAIL`. Claude will often try to do this itself, but baking it into your CLAUDE.md test command guarantees it:
+
+```text
+## Testing
+- Run: `pnpm test -- --reporter=dot 2>&1 | grep -A 10 FAIL`
+```
+
+This one line in your CLAUDE.md can save thousands of tokens per test cycle.
+:::
 
 ## Go Deeper
 

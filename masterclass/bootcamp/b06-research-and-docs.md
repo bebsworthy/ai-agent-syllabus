@@ -1,9 +1,9 @@
 ---
-title: "09: Beating the Knowledge Cutoff"
+title: "06: Beating the Knowledge Cutoff"
 description: "Build local documentation from live sources, architect codebases with diamond research, and access sites that block AI agents."
 sidebar:
-  label: "09: Research & Docs"
-  order: 9
+  label: "06: Research & Docs"
+  order: 6
 ---
 
 **35 minutes | You need: a library or API you work with that has changed recently**

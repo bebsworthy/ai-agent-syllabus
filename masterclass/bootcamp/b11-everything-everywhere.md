@@ -205,7 +205,7 @@ Don't assume MCP. Don't assume CLI. Design a fallback chain that reaches "ask th
 
 ### 5. Diamond research with convergence
 
-Module 9 introduced the diamond pattern for research. In production workflows, the pattern gets richer:
+Module 6 introduced the diamond pattern for research. In production workflows, the pattern gets richer:
 
 ```text
          ┌── Code Analyst ──────┐
